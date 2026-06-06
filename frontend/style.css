@@ -32,7 +32,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;d
 
 /* ── SECTIONS ── */
 section{display:none;min-height:100vh;padding-top:64px}
-section.active{display:block}
+section.active {
+  display: block;
+  animation: sectionFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes sectionFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(15px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
 
 /* ── GRID OVERLAY ── */
 .grid-bg{position:absolute;inset:0;pointer-events:none;
