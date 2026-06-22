@@ -1,590 +1,799 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FORGE — Performance Computing</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FORGE Performance Computing — Workstations e PCs gamer montados com precisão técnica em Belo Horizonte. Performance garantida por benchmark, não por promessa.">
+  <title>FORGE — Performance Computing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="#" onclick="showSection('hero');return false">
-    <div class="nav-logo-icon">
-      <svg width="28" height="33" viewBox="0 0 56 66" fill="none">
-        <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
-        <rect x="17" y="14" width="8" height="31" fill="#0B0907"/>
-        <rect x="25" y="14" width="14" height="9" fill="#0B0907"/>
-        <rect x="25" y="30" width="10" height="8" fill="#0B0907"/>
+<div class="global-grid-bg" aria-hidden="true"></div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header>
+  <nav class="site-nav" aria-label="Navegação principal">
+
+    <!-- Logotipo -->
+    <a class="nav-logo" href="#" onclick="showSection('hero');return false" aria-label="FORGE — Página inicial">
+      <div class="nav-logo__icon" aria-hidden="true">
+        <svg width="28" height="33" viewBox="0 0 56 66" fill="none" focusable="false">
+          <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
+          <rect x="17" y="14" width="8"  height="31" fill="#0B0907"/>
+          <rect x="25" y="14" width="14" height="9"  fill="#0B0907"/>
+          <rect x="25" y="30" width="10" height="8"  fill="#0B0907"/>
+        </svg>
+      </div>
+      <span class="nav-logo__text">FORGE</span>
+    </a>
+
+    <!-- Links de navegação -->
+    <ul class="nav-links" role="list">
+      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('vendas')">Builds</a></li>
+      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('configurador')">Configurador</a></li>
+      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('benchmark')">Benchmark</a></li>
+      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('consultoria')">Consultoria</a></li>
+    </ul>
+
+    <!-- Ação principal + avatar de usuário -->
+    <div class="nav-user nav-user--visible" aria-label="Controles de conta">
+      <button class="nav-cta" onclick="showSection('cadastro')" aria-label="Acessar minha conta">Minha Conta</button>
+    </div>
+
+  </nav>
+</header>
+
+
+<!-- ============================================================
+     CONTEÚDO PRINCIPAL
+     ============================================================ -->
+<main id="main-content">
+
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section id="hero" class="active" aria-labelledby="hero-heading">
+
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-grid"></div>
+      <div class="hero-accent"></div>
+      <svg class="hex-pattern" viewBox="0 0 500 800" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <g id="hex-bg"></g>
       </svg>
     </div>
-    <span class="nav-logo-text">FORGE</span>
-  </a>
-  <div class="nav-links">
-    <a href="#" onclick="showSection('vendas');return false" id="nav-vendas">Builds</a>
-    <a href="#" onclick="showSection('configurador');return false" id="nav-configurador">Configurador</a>
-    <a href="#" onclick="showSection('benchmark');return false" id="nav-benchmark">Benchmark</a>
-    <a href="#" onclick="showSection('consultoria');return false" id="nav-consultoria">Consultoria</a>
-  </div>
-  <div style="display:flex;gap:12px;align-items:center">
-    <div class="nav-user" id="nav-user-area">
-      <div class="user-avatar" onclick="showSection('cliente')" id="user-avatar-btn">RA</div>
-      <button class="logout-btn" onclick="doLogout()">Sair</button>
-    </div>
-    <button class="nav-cta" id="nav-cta-btn" onclick="showSection('cadastro')">Montar minha Forge</button>
-  </div>
-</nav>
 
-<section id="hero">
-  <div class="hero-bg">
-    <div class="hero-grid"></div>
-    <div class="hero-accent"></div>
-    <svg class="hex-pattern" viewBox="0 0 500 800" preserveAspectRatio="xMidYMid slice">
-      <g id="hex-bg"></g>
-    </svg>
-  </div>
-  <div class="hero-content">
-    <div class="hero-eyebrow fade-up">Performance Computing ·</div>
-    <h1 class="hero-h1 fade-up a1">Construído<br>para o<br><span>máximo.</span></h1>
-    <p class="hero-sub fade-up a2">Workstations e PCs gamer montados com <strong>precisão técnica</strong>. Performance garantida por benchmark<strong> e não por promessa</strong>.</p>
-    <div class="hero-actions fade-up a3">
-      <button class="btn-primary" onclick="showSection('configurador')">Montar minha Forge</button>
-      <a class="btn-ghost" onclick="showSection('vendas');return false" href="#">Ver builds prontos</a>
-    </div>
-    <div class="hero-stats fade-up a4">
-      <div class="stat-item"><div class="stat-val">500<span>+</span></div><div class="stat-lbl">Builds entregues</div></div>
-      <div class="stat-item"><div class="stat-val">24<span>K</span></div><div class="stat-lbl">Score Cinebench R23</div></div>
-      <div class="stat-item"><div class="stat-val">98<span>%</span></div><div class="stat-lbl">Satisfação geral</div></div>
-      <div class="stat-item"><div class="stat-val">90<span>d</span></div><div class="stat-lbl">Garantia de performance</div></div>
-    </div>
-  </div>
-</section>
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up" aria-hidden="true">Performance Computing ·</p>
 
-<section id="vendas">
-  <div style="padding:80px 60px">
-    <div class="sec-header">
-      <div class="sec-eyebrow">Catálogo de Builds</div>
-      <h2 class="sec-title">Builds <span style="color:var(--blue)">prontas</span></h2>
-      <p class="sec-sub">Configurações testadas e aprovadas. Cada build vem com laudo de benchmark incluso.</p>
-    </div>
+      <h1 id="hero-heading" class="hero-h1 fade-up a1">
+        Construído<br>para o<br><span>máximo.</span>
+      </h1>
 
-    <div class="builds-grid" id="builds-grid">
+      <p class="hero-sub fade-up a2">
+        Workstations e PCs gamer montados com <strong>precisão técnica</strong>.
+        Performance garantida por benchmark<strong> e não por promessa</strong>.
+      </p>
 
-      <div class="build-card" onclick="openBuildModal('Workstation IA','R$ 18.900','Ryzen 9 7950X','RTX 4090 24GB','128GB DDR5','2TB NVMe Gen5','24.850 pts','95%','82%','280fps')">
-        <div class="build-card-img">
-          <svg width="80" height="90" viewBox="0 0 56 66" fill="none">
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0" opacity=".2"/>
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="none" stroke="#2a84d0" stroke-width="1"/>
-            <rect x="17" y="14" width="8" height="31" fill="#2a84d0"/>
-            <rect x="25" y="14" width="14" height="9" fill="#2a84d0"/>
-            <rect x="25" y="30" width="10" height="8" fill="#2a84d0"/>
-          </svg>
-          <span class="build-badge">IA / ML</span>
+      <div class="hero-actions fade-up a3">
+        <button class="btn-primary" onclick="showSection('configurador')">Montar minha Forge</button>
+        <a class="btn-ghost" onclick="showSection('vendas');return false" href="#">Ver builds prontos</a>
+      </div>
+
+      <!-- Estatísticas: dl (lista de definição) é semanticamente correto para pares rótulo/valor -->
+      <dl class="hero-stats fade-up a4">
+        <div class="stat-item">
+          <dt class="stat-val">500<span>+</span></dt>
+          <dd class="stat-lbl">Builds entregues</dd>
         </div>
-        <div class="build-card-body">
-          <div class="build-name">Workstation IA</div>
-          <div class="build-tagline">Treinamento de modelos, inferência, data science</div>
-          <div class="build-specs">
-            <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Ryzen 9 7950X</span></div>
-            <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val hi">RTX 4090 24GB</span></div>
-            <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">128GB DDR5</span></div>
-            <div class="spec-row"><span class="spec-key">Storage</span><span class="spec-val">2TB NVMe Gen5</span></div>
-          </div>
-          <div class="benchmark-bar">
-            <div class="bench-label">Cinebench R23</div>
-            <div class="bench-track"><div class="bench-fill" style="width:95%"></div></div>
-          </div>
-          <div class="build-price-row">
-            <div class="build-price">R$ 18.900<small> montagem</small></div>
-            <button class="build-cta">Solicitar</button>
-          </div>
+        <div class="stat-item">
+          <dt class="stat-val">24<span>K</span></dt>
+          <dd class="stat-lbl">Score Cinebench R23</dd>
         </div>
-      </div>
-
-      <div class="build-card featured" onclick="openBuildModal('Workstation Pro 3D','R$ 12.500','Intel i9-14900K','RTX 4080 16GB','64GB DDR5','1TB NVMe Gen4','19.200 pts','88%','72%','200fps')">
-        <div class="build-card-img">
-          <svg width="80" height="90" viewBox="0 0 56 66" fill="none">
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0" opacity=".35"/>
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="none" stroke="#2a84d0" stroke-width="1.5"/>
-            <rect x="17" y="14" width="8" height="31" fill="#2a84d0"/>
-            <rect x="25" y="14" width="14" height="9" fill="#2a84d0"/>
-            <rect x="25" y="30" width="10" height="8" fill="#2a84d0"/>
-          </svg>
-          <span class="build-badge">Mais popular</span>
+        <div class="stat-item">
+          <dt class="stat-val">98<span>%</span></dt>
+          <dd class="stat-lbl">Satisfação geral</dd>
         </div>
-        <div class="build-card-body">
-          <div class="build-name">Workstation Pro 3D</div>
-          <div class="build-tagline">Blender, Unreal, Cinema 4D, DaVinci Resolve</div>
-          <div class="build-specs">
-            <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Intel i9-14900K</span></div>
-            <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val hi">RTX 4080 16GB</span></div>
-            <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">64GB DDR5</span></div>
-            <div class="spec-row"><span class="spec-key">Storage</span><span class="spec-val">1TB NVMe Gen4</span></div>
-          </div>
-          <div class="benchmark-bar">
-            <div class="bench-label">Cinebench R23</div>
-            <div class="bench-track"><div class="bench-fill" style="width:78%"></div></div>
-          </div>
-          <div class="build-price-row">
-            <div class="build-price">R$ 12.500<small> montagem</small></div>
-            <button class="build-cta">Solicitar</button>
-          </div>
+        <div class="stat-item">
+          <dt class="stat-val">90<span>d</span></dt>
+          <dd class="stat-lbl">Garantia de performance</dd>
         </div>
-      </div>
-
-      <div class="build-card" onclick="openBuildModal('PC Gamer Ultra','R$ 8.900','Ryzen 7 7800X3D','RTX 4070 Ti 12GB','32GB DDR5','1TB NVMe Gen4','14.100 pts','70%','58%','240fps')">
-        <div class="build-card-img">
-          <svg width="80" height="90" viewBox="0 0 56 66" fill="none">
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0" opacity=".15"/>
-            <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="none" stroke="#2a84d0" stroke-width="1"/>
-            <rect x="17" y="14" width="8" height="31" fill="#2a84d0"/>
-            <rect x="25" y="14" width="14" height="9" fill="#2a84d0"/>
-            <rect x="25" y="30" width="10" height="8" fill="#2a84d0"/>
-          </svg>
-          <span class="build-badge">Gaming</span>
-        </div>
-        <div class="build-card-body">
-          <div class="build-name">PC Gamer Ultra</div>
-          <div class="build-tagline">240fps garantido, 1440p, streaming simultâneo</div>
-          <div class="build-specs">
-            <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Ryzen 7 7800X3D</span></div>
-            <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val hi">RTX 4070 Ti 12GB</span></div>
-            <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">32GB DDR5</span></div>
-            <div class="spec-row"><span class="spec-key">Storage</span><span class="spec-val">1TB NVMe Gen4</span></div>
-          </div>
-          <div class="benchmark-bar">
-            <div class="bench-label">3DMark Score</div>
-            <div class="bench-track"><div class="bench-fill" style="width:65%"></div></div>
-          </div>
-          <div class="build-price-row">
-            <div class="build-price">R$ 8.900<small> montagem</small></div>
-            <button class="build-cta">Solicitar</button>
-          </div>
-        </div>
-      </div>
-
+      </dl>
     </div>
 
-    <div style="background:var(--iron);border:0.5px solid rgba(42,132,208,.15);border-radius:4px;padding:32px;text-align:center">
-      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;opacity:.8">Build personalizado</div>
-      <h3 style="font-family:var(--font-display);font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Não encontrou o que precisa?</h3>
-      <p style="color:var(--gray);font-size:14px;margin-bottom:24px;max-width:440px;margin-left:auto;margin-right:auto">Usamos o configurador inteligente para montar a build exata para a sua carga de trabalho real.</p>
-      <button class="btn-primary" onclick="showSection('configurador')">Usar o Configurador</button>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section id="configurador">
-  <div style="padding:80px 60px;position:relative">
-    <div class="grid-bg"></div>
-    <div class="sec-header" style="position:relative;z-index:1">
-      <div class="sec-eyebrow">Configurador Inteligente</div>
-      <h2 class="sec-title">Qual é a sua <span style="color:var(--blue)">Forge?</span></h2>
-      <p class="sec-sub">Responda 4 perguntas e receba sua recomendação personalizada com estimativa de performance.</p>
-    </div>
-    <div class="quiz-wrap" style="position:relative;z-index:1">
-      <div class="quiz-progress">
-        <div class="quiz-dot done" id="qd0"></div>
-        <div class="quiz-dot" id="qd1"></div>
-        <div class="quiz-dot" id="qd2"></div>
-        <div class="quiz-dot" id="qd3"></div>
-      </div>
 
-      <div class="quiz-step active" id="qstep0">
-        <h3 class="quiz-question">Para o que você vai usar a máquina?</h3>
-        <p class="quiz-hint">Selecione o uso principal. Você pode refinar depois.</p>
-        <div class="quiz-options">
-          <div class="quiz-option" onclick="selectOption(0,0,'ia')">
-            <div class="qo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-            <div class="qo-title">IA & Data Science</div>
-            <div class="qo-desc">Treinamento de modelos, PyTorch, TensorFlow, inferência local</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(0,1,'3d')">
-            <div class="qo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M3 9h18M9 21V9" stroke="#2a84d0" stroke-width="1.5"/></svg></div>
-            <div class="qo-title">3D & Motion</div>
-            <div class="qo-desc">Blender, Cinema 4D, After Effects, renderização</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(0,2,'dev')">
-            <div class="qo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-            <div class="qo-title">Desenvolvimento</div>
-            <div class="qo-desc">IDE, Docker, VMs, compilação, múltiplas telas</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(0,3,'game')">
-            <div class="qo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 6H3a2 2 0 00-2 2v8a2 2 0 002 2h18a2 2 0 002-2V8a2 2 0 00-2-2z" stroke="#2a84d0" stroke-width="1.5"/><path d="M7 12h4M9 10v4M15 11h2M15 13h2" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-            <div class="qo-title">Gaming</div>
-            <div class="qo-desc">Alta performance, streaming, competitivo ou imersivo</div>
-          </div>
-        </div>
-        <div class="quiz-nav"><span></span><button class="btn-primary" onclick="nextStep(1)" id="qnext0" style="opacity:.3;pointer-events:none">Próximo →</button></div>
-      </div>
+  <!-- ── VENDAS / CATÁLOGO ────────────────────────────────────── -->
+  <section id="vendas" aria-labelledby="vendas-heading">
 
-      <div class="quiz-step" id="qstep1">
-        <h3 class="quiz-question">Qual é sua faixa de investimento?</h3>
-        <p class="quiz-hint">Inclui componentes + serviço de montagem e benchmark.</p>
-        <div class="quiz-options">
-          <div class="quiz-option" onclick="selectOption(1,0,'low')">
-            <div class="qo-title">Até R$ 8.000</div>
-            <div class="qo-desc">Entrada no alto desempenho. Ótimo custo-benefício para gaming e dev.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(1,1,'mid')">
-            <div class="qo-title">R$ 8.000 – R$ 15.000</div>
-            <div class="qo-desc">Sweet spot profissional. Cobre 95% dos workloads com folga.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(1,2,'high')">
-            <div class="qo-title">R$ 15.000 – R$ 25.000</div>
-            <div class="qo-desc">Workstation completa. Render, IA, 3D pesado sem limitação.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(1,3,'ultra')">
-            <div class="qo-title">Acima de R$ 25.000</div>
-            <div class="qo-desc">Ultra performance. Multi-GPU, workload crítico, sem compromisso.</div>
-          </div>
-        </div>
-        <div class="quiz-nav"><span class="quiz-back" onclick="prevStep(0)">← Voltar</span><button class="btn-primary" onclick="nextStep(2)" id="qnext1" style="opacity:.3;pointer-events:none">Próximo →</button></div>
-      </div>
+    <header class="sec-header">
+      <p class="sec-header__eyebrow">Loja Forge</p>
+      <h2 id="vendas-heading" class="sec-header__title">Catálogo de <span>Builds</span></h2>
+      <p class="sec-header__sub">
+        Clique em qualquer build para abrir as especificações técnicas,
+        peças e benchmarks reais em uma nova aba dedicada.
+      </p>
+    </header>
 
-      <div class="quiz-step" id="qstep2">
-        <h3 class="quiz-question">Qual é a prioridade de performance?</h3>
-        <p class="quiz-hint">Isso define o equilíbrio entre CPU e GPU na build.</p>
-        <div class="quiz-options">
-          <div class="quiz-option" onclick="selectOption(2,0,'gpu')">
-            <div class="qo-title">Máxima GPU</div>
-            <div class="qo-desc">Render em tempo real, CUDA, gaming ultra. A GPU é a estrela.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(2,1,'cpu')">
-            <div class="qo-title">Máxima CPU</div>
-            <div class="qo-desc">Compilação, simulação, múltiplos cores. CPU lidera.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(2,2,'balanced')">
-            <div class="qo-title">Equilibrado</div>
-            <div class="qo-desc">Mix de tarefas. Nenhum componente é gargalo.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(2,3,'ram')">
-            <div class="qo-title">Alta RAM + Storage</div>
-            <div class="qo-desc">Muitos processos abertos, arquivos grandes, edição RAW.</div>
-          </div>
-        </div>
-        <div class="quiz-nav"><span class="quiz-back" onclick="prevStep(1)">← Voltar</span><button class="btn-primary" onclick="nextStep(3)" id="qnext2" style="opacity:.3;pointer-events:none">Próximo →</button></div>
-      </div>
+    <!-- <search> é o elemento semântico correto para barras de filtro/busca (HTML5.3) -->
+    <search class="filter-bar" aria-label="Filtrar builds por perfil">
 
-      <div class="quiz-step" id="qstep3">
-        <h3 class="quiz-question">Quando você precisa da sua Forge?</h3>
-        <p class="quiz-hint">Isso define o prazo e a prioridade de entrega.</p>
-        <div class="quiz-options">
-          <div class="quiz-option" onclick="selectOption(3,0,'urgent')">
-            <div class="qo-title">Urgente (até 7 dias)</div>
-            <div class="qo-desc">Prazo apertado. Priorizamos componentes em estoque local.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(3,1,'normal')">
-            <div class="qo-title">Normal (2–3 semanas)</div>
-            <div class="qo-desc">Tempo ideal para sourcing completo e melhor custo-benefício.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(3,2,'flex')">
-            <div class="qo-title">Flexível (+30 dias)</div>
-            <div class="qo-desc">Sem pressa. Podemos aguardar promoções e estoque ideal.</div>
-          </div>
-          <div class="quiz-option" onclick="selectOption(3,3,'consult')">
-            <div class="qo-title">Quero consultar primeiro</div>
-            <div class="qo-desc">Prefiro falar com um especialista antes de decidir.</div>
-          </div>
-        </div>
-        <div class="quiz-nav"><span class="quiz-back" onclick="prevStep(2)">← Voltar</span><button class="btn-primary" onclick="showQuizResult()" id="qnext3" style="opacity:.3;pointer-events:none">Ver minha build →</button></div>
-      </div>
-
-      <div class="quiz-step" id="qresult">
-        <div class="quiz-result">
-          <div class="result-badge">Recomendação personalizada</div>
-          <h3 class="result-title" id="result-name">Workstation Pro 3D</h3>
-          <p class="result-subtitle" id="result-sub">A build ideal para o seu perfil de uso e investimento.</p>
-          <div class="result-build-card">
-            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--blue);margin-bottom:10px;opacity:.8;text-transform:uppercase">Especificações recomendadas</div>
-            <div class="result-specs" id="result-specs"></div>
-            <div class="result-score" id="result-scores"></div>
-          </div>
-          <div class="result-actions">
-            <button class="btn-primary" onclick="openBuildModal(quizResult.name,quizResult.price,quizResult.cpu,quizResult.gpu,quizResult.ram,quizResult.storage,quizResult.cinebench,quizResult.render,quizResult.ai,quizResult.fps)">Solicitar esta build</button>
-            <button class="btn-ghost" onclick="showSection('consultoria')">Falar com especialista</button>
-            <button class="btn-ghost" onclick="resetQuiz()">Refazer quiz</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="benchmark">
-  <div style="padding:80px 60px">
-    <div class="sec-header">
-      <div class="sec-eyebrow">Transparência total</div>
-      <h2 class="sec-title">Laudos de <span style="color:var(--blue)">benchmark</span></h2>
-      <p class="sec-sub">Scores reais de builds entregues. Nada de promessas — só números.</p>
-    </div>
-
-    <div class="bench-table">
-      <div class="bench-thead">
-        <div class="bench-th">Teste</div>
-        <div class="bench-th">Workstation IA</div>
-        <div class="bench-th">Workstation 3D</div>
-        <div class="bench-th">PC Gamer Ultra</div>
-        <div class="bench-th">Média mercado</div>
-      </div>
-      <div class="bench-row">
-        <div class="bench-test">Cinebench R23<small>Multi-core</small></div>
-        <div class="bench-cell"><span class="bench-num top">24.850</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:100%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">19.200</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:77%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">14.100</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:57%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num dim">9.800</span><div class="bench-mini-bar"><div class="bench-mini-fill dim" style="width:39%"></div></div></div>
-      </div>
-      <div class="bench-row">
-        <div class="bench-test">3DMark TimeSpy<small>DirectX 12</small></div>
-        <div class="bench-cell"><span class="bench-num top">23.100</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:100%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">18.400</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:80%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">14.200</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:61%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num dim">7.200</span><div class="bench-mini-bar"><div class="bench-mini-fill dim" style="width:31%"></div></div></div>
-      </div>
-      <div class="bench-row">
-        <div class="bench-test">Blender BMW<small>Tempo de render (s)</small></div>
-        <div class="bench-cell"><span class="bench-num top">28s</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:100%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">41s</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:68%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">58s</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:48%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num dim">120s</span><div class="bench-mini-bar"><div class="bench-mini-fill dim" style="width:23%"></div></div></div>
-      </div>
-      <div class="bench-row">
-        <div class="bench-test">CS2 @ 1440p<small>FPS médio</small></div>
-        <div class="bench-cell"><span class="bench-num">280fps</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:100%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">200fps</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:71%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num top">240fps</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:86%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num dim">90fps</span><div class="bench-mini-bar"><div class="bench-mini-fill dim" style="width:32%"></div></div></div>
-      </div>
-      <div class="bench-row">
-        <div class="bench-test">Temperatura máx. CPU<small>Stress test 30min</small></div>
-        <div class="bench-cell"><span class="bench-num top">68°C</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:68%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">72°C</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:72%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num">65°C</span><div class="bench-mini-bar"><div class="bench-mini-fill" style="width:65%"></div></div></div>
-        <div class="bench-cell"><span class="bench-num dim">90°C+</span><div class="bench-mini-bar"><div class="bench-mini-fill dim" style="width:90%"></div></div></div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-      <div style="background:var(--iron);border:0.5px solid rgba(42,132,208,.12);border-radius:4px;padding:24px">
-        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;opacity:.8">Score de Eficiência</div>
-        <div style="font-family:var(--font-display);font-size:42px;font-weight:900;color:var(--ash);line-height:1">9.2<span style="font-size:18px;color:var(--blue)">/10</span></div>
-        <div style="font-size:12px;color:var(--gray);margin-top:8px">Performance por real investido. Medimos o quanto cada componente entrega em relação ao custo.</div>
-      </div>
-      <div style="background:var(--iron);border:0.5px solid rgba(42,132,208,.12);border-radius:4px;padding:24px">
-        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;opacity:.8">Estabilidade térmica</div>
-        <div style="font-family:var(--font-display);font-size:42px;font-weight:900;color:var(--ash);line-height:1">100<span style="font-size:18px;color:var(--blue)">%</span></div>
-        <div style="font-size:12px;color:var(--gray);margin-top:8px">Todos os builds aprovados no stress test de 30 minutos sem throttling térmico.</div>
-      </div>
-      <div style="background:var(--iron);border:0.5px solid rgba(42,132,208,.12);border-radius:4px;padding:24px">
-        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;opacity:.8">Builds documentados</div>
-        <div style="font-family:var(--font-display);font-size:42px;font-weight:900;color:var(--ash);line-height:1">500<span style="font-size:18px;color:var(--blue)">+</span></div>
-        <div style="font-size:12px;color:var(--gray);margin-top:8px">Cada build tem laudo PDF com fotos, specs e scores. Disponível para download na área do cliente.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="cadastro" class="active">
-  <div class="grid-bg" style="position:fixed;inset:0;pointer-events:none;z-index:0"></div>
-  <div class="auth-wrap" style="position:relative;z-index:1">
-    <div style="text-align:center;margin-bottom:28px">
-      <svg width="38" height="44" viewBox="0 0 56 66" fill="none">
-        <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
-        <rect x="17" y="14" width="8" height="31" fill="#0B0907"/>
-        <rect x="25" y="14" width="14" height="9" fill="#0B0907"/>
-        <rect x="25" y="30" width="10" height="8" fill="#0B0907"/>
-      </svg>
-    </div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
-      <button class="auth-tab" onclick="switchTab('register')">Criar conta</button>
-    </div>
-
-    <div class="auth-form active" id="form-login">
-      <h2 class="auth-title">Bem-vindo de volta</h2>
-      <p class="auth-sub">Acesse sua área do cliente para acompanhar seu build, baixar laudos e abrir chamados.</p>
-      <div class="field"><label>E-mail</label><input type="email" placeholder="seu@email.com" id="login-email"></div>
-      <div class="field"><label>Senha</label><input type="password" placeholder="••••••••" id="login-pass"></div>
-      <button class="auth-submit" onclick="doLogin()">Entrar na minha conta</button>
-      <div class="auth-divider">ou</div>
-      <button class="social-btn" onclick="doLogin()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.3 12.2c0-.7-.1-1.3-.2-2H12v3.8h4.7c-.2 1-1 3-4.7 3a5.5 5.5 0 010-11c1.6 0 2.6.7 3.2 1.2l2.2-2.1C15.9 3.5 14.1 2.8 12 2.8a9.2 9.2 0 000 18.4c5.3 0 8.8-3.7 8.8-8.9-.1-.4-.1-.7-.5-1.1z" fill="#4285F4"/></svg>
-        Continuar com Google
-      </button>
-      <p class="terms">Ao entrar você concorda com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></p>
-      <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--gray)">Não tem conta? <a href="#" onclick="switchTab('register');return false" style="color:var(--blue);text-decoration:none">Criar agora</a></p>
-    </div>
-
-    <div class="auth-form" id="form-register">
-      <h2 class="auth-title">Criar conta</h2>
-      <p class="auth-sub">Cadastre-se para solicitar orçamentos, acompanhar seu build e acessar laudos de benchmark.</p>
-      <div class="field-row">
-        <div class="field"><label>Nome</label><input type="text" placeholder="Seu nome"></div>
-        <div class="field"><label>Sobrenome</label><input type="text" placeholder="Seu sobrenome"></div>
-      </div>
-      <div class="field"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
-      <div class="field"><label>WhatsApp</label><input type="tel" placeholder="(31) 9 9999-9999"></div>
-      <div class="field">
-        <label>Perfil de uso</label>
-        <select>
-          <option value="">Selecione...</option>
-          <option>Designer / Artista 3D</option>
-          <option>Desenvolvedor de Software</option>
-          <option>Cientista de Dados / IA</option>
-          <option>Editor de Vídeo / Motion</option>
-          <option>Gamer</option>
-          <option>Engenheiro / Arquiteto</option>
-          <option>Outro</option>
+      <div class="filter-group">
+        <label for="filter-usage">Uso</label>
+        <select id="filter-usage" onchange="filtrarBuilds()">
+          <option value="all">Todos os Workloads</option>
+          <option value="gaming">Gaming / Streaming</option>
+          <option value="office">Administrativo / Office</option>
+          <option value="workstation">Edição / 3D / IA</option>
         </select>
       </div>
-      <div class="field"><label>Senha</label><input type="password" placeholder="Mínimo 8 caracteres"></div>
-      <div class="field-hint" style="margin-bottom:16px;padding:12px;background:var(--iron);border-radius:3px;border-left:2px solid var(--blue)">
-        Ao criar sua conta você terá acesso ao histórico de builds, downloads de laudos e suporte técnico direto.
-      </div>
-      <button class="auth-submit" onclick="doRegister()">Criar minha conta Forge</button>
-      <p class="terms">Ao criar uma conta você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></p>
-    </div>
-  </div>
-</section>
 
-<section id="cliente">
-  <div class="client-header">
-    <div>
-      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;opacity:.8">Área do cliente</div>
-      <div class="client-welcome">Olá, <span id="client-name-display">Renan</span></div>
-    </div>
-    <button class="logout-btn" onclick="doLogout()">Sair da conta</button>
-  </div>
-
-  <div class="client-grid">
-    <div class="client-sidebar">
-
-      <div class="client-card">
-        <div class="client-card-title">Minha build</div>
-        <div class="build-summary">
-          <div class="build-icon">
-            <svg width="28" height="32" viewBox="0 0 56 66" fill="none">
-              <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
-              <rect x="17" y="14" width="8" height="31" fill="#0B0907"/>
-              <rect x="25" y="14" width="14" height="9" fill="#0B0907"/>
-              <rect x="25" y="30" width="10" height="8" fill="#0B0907"/>
-            </svg>
-          </div>
-          <div>
-            <div class="build-info-name">Workstation Pro 3D</div>
-            <div class="build-info-id">FRG-2025-0094</div>
-            <div class="build-status"><span class="status-dot"></span>Performance garantida</div>
-          </div>
-        </div>
-        <div class="mini-stat-grid" style="margin-top:16px">
-          <div class="mini-stat"><div class="mini-stat-val">19.2K</div><div class="mini-stat-lbl">Cinebench</div></div>
-          <div class="mini-stat"><div class="mini-stat-val">68°C</div><div class="mini-stat-lbl">Temp. máx.</div></div>
-          <div class="mini-stat"><div class="mini-stat-val">9.1</div><div class="mini-stat-lbl">Eficiência</div></div>
-          <div class="mini-stat"><div class="mini-stat-val">87d</div><div class="mini-stat-lbl">Garantia</div></div>
-        </div>
+      <div class="filter-group">
+        <label for="filter-color">Cor</label>
+        <select id="filter-color" onchange="filtrarBuilds()">
+          <option value="all">Qualquer Cor</option>
+          <option value="black">Black Edition</option>
+          <option value="white">White Edition</option>
+        </select>
       </div>
 
-      <div class="client-card">
-        <div class="client-card-title">Downloads</div>
-        <div class="dl-list">
-          <div class="dl-item">
-            <div class="dl-info">
-              <div class="dl-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="#2a84d0" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-              <div><div class="dl-name">Laudo de Benchmark</div><div class="dl-size">FRG-0094 · PDF · 2.4MB</div></div>
+      <div class="filter-group">
+        <label for="filter-price">Preço</label>
+        <select id="filter-price" onchange="filtrarBuilds()">
+          <option value="all">Qualquer Investimento</option>
+          <option value="low">Até R$ 5.000</option>
+          <option value="mid">R$ 5.000 - R$ 12.000</option>
+          <option value="high">Acima de R$ 12.000</option>
+        </select>
+      </div>
+
+    </search>
+
+    <!-- Grade de produtos -->
+    <div class="builds-grid" id="builds-container" role="list" aria-label="Catálogo de builds disponíveis">
+
+      <!-- Card: Frost G-1 -->
+      <article class="build-card" role="listitem"
+               data-id="Frost G-1" data-usage="gaming" data-color="white" data-price="mid"
+               onclick="abrirProdutoEmNovaAba('Frost G-1')"
+               aria-label="FORGE G-1: Frost — R$ 8.900">
+
+        <figure class="build-card-img white-pc" aria-hidden="true">
+          <span class="build-badge">Gaming</span>
+          <div class="blueprint-lines"></div>
+          <div class="chassis-silhouette white"></div>
+        </figure>
+
+        <div class="build-card-body">
+          <p class="build-meta-specs">RTX 4070 • i5-14600KF</p>
+          <h3 class="build-name">FORGE G-1: Frost</h3>
+          <p class="build-tagline">Setup All-White para alta taxa de quadros e streaming estável.</p>
+          <div class="build-price-row">
+            <p class="build-price">R$ 8.900</p>
+            <button class="build-cta" onclick="solicitarVenda('Frost G-1', event)" aria-label="Comprar FORGE G-1: Frost">
+              Comprar Agora
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Business Pro -->
+      <article class="build-card" role="listitem"
+               data-id="Business Pro" data-usage="office" data-color="black" data-price="low"
+               onclick="abrirProdutoEmNovaAba('Business Pro')"
+               aria-label="FORGE Business Pro — R$ 3.500">
+
+        <figure class="build-card-img black-pc" aria-hidden="true">
+          <span class="build-badge">Office</span>
+          <div class="blueprint-lines"></div>
+          <div class="chassis-silhouette black"></div>
+        </figure>
+
+        <div class="build-card-body">
+          <p class="build-meta-specs">Ryzen 5 8600G • 16GB RAM</p>
+          <h3 class="build-name">FORGE Business Pro</h3>
+          <p class="build-tagline">Silencioso, compacto e extremamente ágil para multitarefas pesadas.</p>
+          <div class="build-price-row">
+            <p class="build-price">R$ 3.500</p>
+            <button class="build-cta" onclick="solicitarVenda('Business Pro', event)" aria-label="Comprar FORGE Business Pro">
+              Comprar Agora
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card: Titan IA -->
+      <article class="build-card" role="listitem"
+               data-id="Titan IA" data-usage="workstation" data-color="black" data-price="high"
+               onclick="abrirProdutoEmNovaAba('Titan IA')"
+               aria-label="FORGE Titan: IA — R$ 25.000">
+
+        <figure class="build-card-img black-pc" aria-hidden="true">
+          <span class="build-badge">High-End</span>
+          <div class="blueprint-lines"></div>
+          <div class="chassis-silhouette titan"></div>
+        </figure>
+
+        <div class="build-card-body">
+          <p class="build-meta-specs">RTX 4090 • Ryzen 9 7950X3D</p>
+          <h3 class="build-name">FORGE Titan: IA</h3>
+          <p class="build-tagline">Poder bruto sem compromisso para Deep Learning, 3D e renderização local.</p>
+          <div class="build-price-row">
+            <p class="build-price">R$ 25.000</p>
+            <button class="build-cta" onclick="solicitarVenda('Titan IA', event)" aria-label="Comprar FORGE Titan: IA">
+              Comprar Agora
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /.builds-grid -->
+  </section>
+
+  <section id="produto-detalhes" aria-labelledby="produto-heading">
+    <div class="produto-container" id="produto-container">
+      </div>
+  </section>
+
+
+  <!-- ── CONFIGURADOR / QUIZ ──────────────────────────────────── -->
+  <section id="configurador" aria-labelledby="configurador-heading" class ="configurador-section">
+    <div style="position:relative" margin="800px 600px"
+         onkeydown="if(event.key==='Enter' && document.activeElement.classList.contains('quiz-option')) { document.activeElement.click(); }">
+      <div class="grid-bg" aria-hidden="true"></div>
+
+      <header class="sec-header" style="position:relative;z-index:1">
+        <p class="sec-header__eyebrow">Configurador Inteligente</p>
+        <h2 id="configurador-heading" class="sec-header__title">
+          Qual é a sua <span style="color:var(--color-blue)">Forge?</span>
+        </h2>
+        <p class="sec-header__sub">
+          Responda 4 perguntas e receba sua recomendação personalizada
+          com estimativa de performance.
+        </p>
+      </header>
+
+      <div class="quiz-wrap" style="position:relative;z-index:1">
+
+        <div class="quiz-progress" role="progressbar" aria-label="Progresso do questionário" aria-valuemin="1" aria-valuemax="4">
+          <div class="quiz-dot done" id="qd0"></div>
+          <div class="quiz-dot" id="qd1"></div>
+          <div class="quiz-dot" id="qd2"></div>
+          <div class="quiz-dot" id="qd3"></div>
+        </div>
+
+        <!-- Passo 1: Uso principal -->
+        <fieldset class="quiz-step active" id="qstep0" style="border:none;padding:0">
+          <legend class="quiz-question">Para o que você vai usar a máquina?</legend>
+          <p class="quiz-hint">Selecione o uso principal. Você pode refinar depois.</p>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectOption(0,0,'ia')" role="button" tabindex="0">
+              <div class="qo-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <p class="qo-title">IA &amp; Data Science</p>
+              <p class="qo-desc">Treinamento de modelos, PyTorch, TensorFlow, inferência local</p>
             </div>
-            <button class="dl-btn">↓ PDF</button>
-          </div>
-          <div class="dl-item">
-            <div class="dl-info">
-              <div class="dl-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-              <div><div class="dl-name">Especificações completas</div><div class="dl-size">FRG-0094 · PDF · 840KB</div></div>
+            <div class="quiz-option" onclick="selectOption(0,1,'3d')" role="button" tabindex="0">
+              <div class="qo-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" focusable="false">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="#2a84d0" stroke-width="1.5"/>
+                  <path d="M3 9h18M9 21V9" stroke="#2a84d0" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <p class="qo-title">3D &amp; Motion</p>
+              <p class="qo-desc">Blender, Cinema 4D, After Effects, renderização</p>
             </div>
-            <button class="dl-btn">↓ PDF</button>
-          </div>
-          <div class="dl-item">
-            <div class="dl-info">
-              <div class="dl-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M3 9h18M9 21V9" stroke="#2a84d0" stroke-width="1.5"/></svg></div>
-              <div><div class="dl-name">Fotos do build</div><div class="dl-size">FRG-0094 · ZIP · 18MB</div></div>
+            <div class="quiz-option" onclick="selectOption(0,2,'dev')" role="button" tabindex="0">
+              <div class="qo-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path d="M8 6l-6 6 6 6M16 6l6 6-6 6" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <p class="qo-title">Desenvolvimento</p>
+              <p class="qo-desc">IDE, Docker, VMs, compilação, múltiplas telas</p>
             </div>
-            <button class="dl-btn">↓ ZIP</button>
+            <div class="quiz-option" onclick="selectOption(0,3,'game')" role="button" tabindex="0">
+              <div class="qo-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path d="M21 6H3a2 2 0 00-2 2v8a2 2 0 002 2h18a2 2 0 002-2V8a2 2 0 00-2-2z" stroke="#2a84d0" stroke-width="1.5"/>
+                  <path d="M7 12h4M9 10v4M15 11h2M15 13h2" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <p class="qo-title">Gaming</p>
+              <p class="qo-desc">Alta performance, streaming, competitivo ou imersivo</p>
+            </div>
           </div>
+          <div class="quiz-nav">
+            <span></span>
+            <button class="btn-primary" id="qnext0" onclick="nextStep(1)" style="opacity:.3;pointer-events:none">
+              Próximo →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Passo 2: Orçamento -->
+        <fieldset class="quiz-step" id="qstep1" style="border:none;padding:0">
+          <legend class="quiz-question">Qual é sua faixa de investimento?</legend>
+          <p class="quiz-hint">Inclui componentes + serviço de montagem e benchmark.</p>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectOption(1,0,'low')" role="button" tabindex="0">
+              <p class="qo-title">Até R$ 8.000</p>
+              <p class="qo-desc">Entrada no alto desempenho. Ótimo custo-benefício para gaming e dev.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(1,1,'mid')" role="button" tabindex="0">
+              <p class="qo-title">R$ 8.000 – R$ 15.000</p>
+              <p class="qo-desc">Sweet spot profissional. Cobre 95% dos workloads com folga.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(1,2,'high')" role="button" tabindex="0">
+              <p class="qo-title">R$ 15.000 – R$ 25.000</p>
+              <p class="qo-desc">Workstation completa. Render, IA, 3D pesado sem limitação.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(1,3,'ultra')" role="button" tabindex="0">
+              <p class="qo-title">Acima de R$ 25.000</p>
+              <p class="qo-desc">Ultra performance. Multi-GPU, workload crítico, sem compromisso.</p>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <span class="quiz-back" onclick="prevStep(0)" role="button" tabindex="0">← Voltar</span>
+            <button class="btn-primary" id="qnext1" onclick="nextStep(2)" style="opacity:.3;pointer-events:none">
+              Próximo →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Passo 3: Prioridade -->
+        <fieldset class="quiz-step" id="qstep2" style="border:none;padding:0">
+          <legend class="quiz-question">Qual é a prioridade de performance?</legend>
+          <p class="quiz-hint">Isso define o equilíbrio entre CPU e GPU na build.</p>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectOption(2,0,'gpu')" role="button" tabindex="0">
+              <p class="qo-title">Máxima GPU</p>
+              <p class="qo-desc">Render em tempo real, CUDA, gaming ultra. A GPU é a estrela.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(2,1,'cpu')" role="button" tabindex="0">
+              <p class="qo-title">Máxima CPU</p>
+              <p class="qo-desc">Compilação, simulação, múltiplos cores. CPU lidera.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(2,2,'balanced')" role="button" tabindex="0">
+              <p class="qo-title">Equilibrado</p>
+              <p class="qo-desc">Mix de tarefas. Nenhum componente é gargalo.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(2,3,'ram')" role="button" tabindex="0">
+              <p class="qo-title">Alta RAM + Storage</p>
+              <p class="qo-desc">Muitos processos abertos, arquivos grandes, edição RAW.</p>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <span class="quiz-back" onclick="prevStep(1)" role="button" tabindex="0">← Voltar</span>
+            <button class="btn-primary" id="qnext2" onclick="nextStep(3)" style="opacity:.3;pointer-events:none">
+              Próximo →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Passo 4: Prazo -->
+        <fieldset class="quiz-step" id="qstep3" style="border:none;padding:0">
+          <legend class="quiz-question">Quando você precisa da sua Forge?</legend>
+          <p class="quiz-hint">Isso define o prazo e a prioridade de entrega.</p>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="selectOption(3,0,'urgent')" role="button" tabindex="0">
+              <p class="qo-title">Urgente (até 7 dias)</p>
+              <p class="qo-desc">Prazo apertado. Priorizamos componentes em estoque local.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(3,1,'normal')" role="button" tabindex="0">
+              <p class="qo-title">Normal (2–3 semanas)</p>
+              <p class="qo-desc">Tempo ideal para sourcing completo e melhor custo-benefício.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(3,2,'flex')" role="button" tabindex="0">
+              <p class="qo-title">Flexível (+30 dias)</p>
+              <p class="qo-desc">Sem pressa. Podemos aguardar promoções e estoque ideal.</p>
+            </div>
+            <div class="quiz-option" onclick="selectOption(3,3,'consult')" role="button" tabindex="0">
+              <p class="qo-title">Quero consultar primeiro</p>
+              <p class="qo-desc">Prefiro falar com um especialista antes de decidir.</p>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <span class="quiz-back" onclick="prevStep(2)" role="button" tabindex="0">← Voltar</span>
+            <button class="btn-primary" id="btn-solicitar-quiz" onclick="finalizarQuizComModelos()">
+              Ver minha build →
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Resultado do quiz -->
+        <div class="quiz-step" id="qresult">
+          <div class="quiz-result">
+            <p class="result-badge">Recomendação personalizada</p>
+            <h3 class="result-title" id="result-name">Workstation Pro 3D</h3>
+            <p class="result-subtitle" id="result-sub">A build ideal para o seu perfil de uso e investimento.</p>
+
+            <div class="result-build-card">
+              <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--color-blue);margin-bottom:10px;opacity:.8;text-transform:uppercase">
+                Especificações recomendadas
+              </p>
+              <div class="result-specs" id="result-specs"></div>
+              <div class="result-score" id="result-scores"></div>
+            </div>
+
+            <div id="quiz-builds-prontas-section" style="margin-top:40px;text-align:left">
+              <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--color-blue);margin-bottom:15px;text-transform:uppercase;font-weight:bold">
+                ✦ Modelos Prontos Correspondentes:
+              </p>
+              <div class="builds-grid" id="quiz-builds-container" style="gap:20px;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))"></div>
+            </div>
+
+            <div class="result-actions" style="margin-top:40px">
+              <button class="btn-primary" onclick="openBuildModal('Workstation Customizada', 'Sob Consulta')">
+                Solicitar esta build
+              </button>
+              <button class="btn-ghost" onclick="showSection('consultoria')">Falar com especialista</button>
+              <button class="btn-ghost" onclick="resetQuiz()">Refazer quiz</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.quiz-wrap -->
+    </div>
+  </section>
+
+
+  <!-- ── RESULTADO DO CONFIGURADOR ────────────────────────────── -->
+  <section id="resultado-configurador" aria-labelledby="resultado-heading">
+    <div style="padding:80px 60px;position:relative">
+      <div class="grid-bg" aria-hidden="true"></div>
+
+      <header class="sec-header" style="position:relative;z-index:1">
+        <p class="sec-header__eyebrow">Configurador Inteligente</p>
+        <h2 id="resultado-heading" class="sec-header__title">Modelos <span>Selecionados</span></h2>
+        <p class="sec-header__sub">
+          Com base na sua resposta de uso, aqui estão as melhores
+          configurações Forge para o seu fluxo de trabalho.
+        </p>
+      </header>
+
+      <div class="builds-grid" id="resultado-configurador-container" style="position:relative;z-index:1"></div>
+
+      <div style="text-align:center;margin-top:50px;position:relative;z-index:1">
+        <button class="btn-ghost" onclick="showSection('configurador')">✕ Refazer Perguntas</button>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="benchmark" aria-labelledby="benchmark-heading">
+    <div class="grid-bg" aria-hidden="true"></div>
+    
+    <header class="sec-header" style="position:relative; z-index:1">
+      <p class="sec-header__eyebrow">Forge Lab Performance</p>
+      <h2 id="benchmark-heading" class="sec-header__title">Comparador de <span>Workstations</span></h2>
+      <p class="sec-header__sub">
+        Não compare apenas peças frias. Selecione duas configurações da Forge e veja como elas se comportam sob cargas de trabalho reais.
+      </p>
+    </header>
+
+    <div class="compare-dashboard" style="position:relative; z-index:1">
+      
+      <div class="compare-selectors">
+        <div class="compare-select-box">
+          <label for="compare-pc-a">MÁQUINA A</label>
+          <select id="compare-pc-a" onchange="executarComparacao()"></select>
+        </div>
+        
+        <div class="compare-vs" aria-hidden="true">VS</div>
+        
+        <div class="compare-select-box">
+          <label for="compare-pc-b">MÁQUINA B</label>
+          <select id="compare-pc-b" onchange="executarComparacao()"></select>
+        </div>
+      </div>
+
+      <div class="compare-results" id="compare-results-panel">
+        
+        <article class="compare-metric-card">
+          <div class="metric-info">
+            <h3 class="metric-title">Render & CPU Multicore <small>Cinebench R23</small></h3>
+            <p class="metric-desc">Medição de performance bruta para renderização 3D, baking de texturas e exportação de vídeos pesados.</p>
+          </div>
+          <div class="metric-bars">
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-a-cine">Máquina A</span>
+              <div class="bar-track"><div class="bar-fill fill-a" id="bar-fill-a-cine" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-a-cine">0 pts</span>
+            </div>
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-b-cine">Máquina B</span>
+              <div class="bar-track"><div class="bar-fill fill-b" id="bar-fill-b-cine" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-b-cine">0 pts</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="compare-metric-card">
+          <div class="metric-info">
+            <h3 class="metric-title">Poder de GPU & DirectX 12 <small>3DMark TimeSpy</small></h3>
+            <p class="metric-desc">Desempenho em viewport 3D (Blender/Unreal), engines de jogos modernas e aceleração de hardware.</p>
+          </div>
+          <div class="metric-bars">
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-a-3dm">Máquina A</span>
+              <div class="bar-track"><div class="bar-fill fill-a" id="bar-fill-a-3dm" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-a-3dm">0 pts</span>
+            </div>
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-b-3dm">Máquina B</span>
+              <div class="bar-track"><div class="bar-fill fill-b" id="bar-fill-b-3dm" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-b-3dm">0 pts</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="compare-metric-card">
+          <div class="metric-info">
+            <h3 class="metric-title">Taxa de Quadros sustentada <small>CS2 / Jogos AAA</small></h3>
+            <p class="metric-desc">Fluidez em tempo real e estabilidade de FPS para fluxos competitivos e streams de alta resolução.</p>
+          </div>
+          <div class="metric-bars">
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-a-fps">Máquina A</span>
+              <div class="bar-track"><div class="bar-fill fill-a" id="bar-fill-a-fps" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-a-fps">0 FPS</span>
+            </div>
+            <div class="metric-bar-row">
+              <span class="machine-label-name" id="bar-name-b-fps">Máquina B</span>
+              <div class="bar-track"><div class="bar-fill fill-b" id="bar-fill-b-fps" style="width: 0%"></div></div>
+              <span class="machine-bar-val" id="bar-val-b-fps">0 FPS</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="compare-verdict" id="compare-verdict-box">
+        <div class="verdict-icon">✦</div>
+        <div class="verdict-content">
+          <h4 class="verdict-title">Análise de Eficiência e Custo-Benefício</h4>
+          <p class="verdict-text" id="verdict-text-display">Selecione duas máquinas acima para rodar a telemetria comparativa de workloads.</p>
         </div>
       </div>
 
     </div>
+  </section>
 
-    <div class="main-panel">
 
-      <div class="bench-chart-wrap">
-        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;opacity:.8">Performance do meu build</div>
-        <div style="font-size:12px;color:var(--gray)">FRG-2025-0094 · Workstation Pro 3D · Entregue em 15/01/2025</div>
-        <div class="bench-bars-list">
-          <div class="bench-bar-row"><span class="bench-bar-label">Cinebench R23</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:78%"></div></div><span class="bench-bar-score">19.200</span></div>
-          <div class="bench-bar-row"><span class="bench-bar-label">3DMark</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:80%"></div></div><span class="bench-bar-score">18.400</span></div>
-          <div class="bench-bar-row"><span class="bench-bar-label">Blender BMW</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:72%"></div></div><span class="bench-bar-score">41s render</span></div>
-          <div class="bench-bar-row"><span class="bench-bar-label">Temp. CPU máx.</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:72%"></div></div><span class="bench-bar-score">72°C</span></div>
-          <div class="bench-bar-row"><span class="bench-bar-label">Temp. GPU máx.</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:68%"></div></div><span class="bench-bar-score">68°C</span></div>
-        </div>
+  <section id="cadastro" aria-labelledby="cadastro-heading">
+    <div class="grid-bg" style="position:fixed;inset:0;pointer-events:none;z-index:0" aria-hidden="true"></div>
+
+    <div class="auth-wrap" style="position:relative;z-index:1">
+      
+      <div style="text-align:center;margin-bottom:28px" aria-hidden="true">
+        <svg width="38" height="44" viewBox="0 0 56 66" fill="none" focusable="false">
+          <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
+          <rect x="17" y="14" width="8"  height="31" fill="#0B0907"/>
+          <rect x="25" y="14" width="14" height="9"  fill="#0B0907"/>
+          <rect x="25" y="30" width="10" height="8"  fill="#0B0907"/>
+        </svg>
       </div>
 
-      <div class="client-card">
-        <div class="client-card-title">Suporte técnico</div>
-        <div class="ticket-list">
-          <div class="ticket-item">
-            <div class="ticket-dot"></div>
+      <div class="auth-tabs" role="tablist" aria-label="Opções de acesso">
+        <button class="auth-tab active" onclick="switchTab('login')"
+                role="tab" id="tab-login" aria-selected="true" aria-controls="form-login">
+          Entrar
+        </button>
+        <button class="auth-tab" onclick="switchTab('register')"
+                role="tab" id="tab-register" aria-selected="false" aria-controls="form-register">
+          Criar conta
+        </button>
+      </div>
+
+      <div class="auth-form active" id="form-login" role="tabpanel" aria-labelledby="tab-login">
+        <h2 id="cadastro-heading" class="auth-title" style="text-align:center">Bem-vindo de volta</h2>
+        <p class="auth-sub" style="text-align:center">
+          Acesse sua área do cliente para acompanhar seu build, baixar laudos e abrir chamados.
+        </p>
+        
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="login-pass">Senha</label>
+          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        
+        <button class="auth-submit" onclick="doLogin()">Entrar na minha conta</button>
+        
+        <div class="auth-divider" aria-hidden="true">ou</div>
+        
+        <button class="social-btn" onclick="doLogin()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M20.3 12.2c0-.7-.1-1.3-.2-2H12v3.8h4.7c-.2 1-1 3-4.7 3a5.5 5.5 0 010-11c1.6 0 2.6.7 3.2 1.2l2.2-2.1C15.9 3.5 14.1 2.8 12 2.8a9.2 9.2 0 000 18.4c5.3 0 8.8-3.7 8.8-8.9-.1-.4-.1-.7-.5-1.1z" fill="#4285F4"/>
+          </svg>
+          Continuar com Google
+        </button>
+        
+        <p class="terms">
+          Ao entrar você concorda com os
+          <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>
+        </p>
+      </div>
+
+      <div class="auth-form" id="form-register" role="tabpanel" aria-labelledby="tab-register">
+        <h2 class="auth-title" style="text-align:center">Criar conta</h2>
+        <p class="auth-sub" style="text-align:center">
+          Cadastre-se para solicitar orçamentos e acessar laudos de benchmark.
+        </p>
+        
+        <div class="field-row">
+          <div class="field">
+            <label for="reg-nome">Nome</label>
+            <input type="text" id="reg-nome" placeholder="Seu nome" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="reg-sobrenome">Sobrenome</label>
+            <input type="text" id="reg-sobrenome" placeholder="Seu sobrenome" autocomplete="family-name">
+          </div>
+        </div>
+        
+        <div class="field">
+          <label for="reg-email">E-mail</label>
+          <input type="email" id="reg-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="reg-tel">WhatsApp</label>
+          <input type="tel" id="reg-tel" placeholder="(31) 9 9999-9999" autocomplete="tel">
+        </div>
+        
+        <div class="field">
+          <label for="reg-perfil">Perfil de uso</label>
+          <select id="reg-perfil">
+            <option value="">Selecione...</option>
+            <option>Designer / Artista 3D</option>
+            <option>Desenvolvedor de Software</option>
+            <option>Cientista de Dados / IA</option>
+            <option>Gamer</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        
+        <div class="field">
+          <label for="reg-senha">Senha</label>
+          <input type="password" id="reg-senha" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+        </div>
+        
+        <button class="auth-submit" onclick="doRegister()">Criar minha conta Forge</button>
+        <p class="terms">
+          Ao criar uma conta você concorda com nossos
+          <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+<section id="cliente" aria-labelledby="cliente-heading">
+    <header class="client-header">
+      <div>
+        <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--color-blue);margin-bottom:6px;opacity:.8">Área do cliente</p>
+        <h2 id="cliente-heading" class="client-welcome">Olá, <span id="client-name-display">Renan</span></h2>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Sair da conta</button>
+    </header>
+
+    <div class="client-grid">
+      <aside class="client-sidebar">
+        <article class="client-card">
+          <h3 class="client-card-title">Minha build</h3>
+          <div class="build-summary">
+            <div class="build-icon">
+              <svg width="28" height="32" viewBox="0 0 56 66" fill="none" aria-hidden="true">
+                <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
+                <rect x="17" y="14" width="8" height="31" fill="#0B0907"/>
+                <rect x="25" y="14" width="14" height="9" fill="#0B0907"/>
+                <rect x="25" y="30" width="10" height="8" fill="#0B0907"/>
+              </svg>
+            </div>
             <div>
-              <div class="ticket-title">Dúvida sobre OC da RAM para 6400MHz</div>
-              <div class="ticket-meta">#TKT-0041 · Aberto em 18/03/2025</div>
-              <div class="ticket-status status-open">Em atendimento</div>
+              <p class="build-info-name">Workstation Pro 3D</p>
+              <p class="build-info-id">FRG-2025-0094</p>
+              <p class="build-status"><span class="status-dot"></span>Performance garantida</p>
             </div>
           </div>
-          <div class="ticket-item" style="border-left-color:var(--gray-dim)">
-            <div class="ticket-dot" style="background:var(--gray)"></div>
-            <div>
-              <div class="ticket-title">Atualização de driver RTX — procedimento</div>
-              <div class="ticket-meta">#TKT-0028 · Resolvido em 02/02/2025</div>
-              <div class="ticket-status status-closed">Resolvido</div>
+          <div class="mini-stat-grid" style="margin-top:16px">
+            <div class="mini-stat"><p class="mini-stat-val">19.2K</p><p class="mini-stat-lbl">Cinebench</p></div>
+            <div class="mini-stat"><p class="mini-stat-val">68°C</p><p class="mini-stat-lbl">Temp. máx.</p></div>
+            <div class="mini-stat"><p class="mini-stat-val">9.1</p><p class="mini-stat-lbl">Eficiência</p></div>
+            <div class="mini-stat"><p class="mini-stat-val">87d</p><p class="mini-stat-lbl">Garantia</p></div>
+          </div>
+        </article>
+
+        <article class="client-card">
+          <h3 class="client-card-title">Downloads</h3>
+          <div class="dl-list">
+            <div class="dl-item">
+              <div class="dl-info">
+                <div class="dl-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="#2a84d0" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div><p class="dl-name">Laudo de Benchmark</p><p class="dl-size">FRG-0094 · PDF · 2.4MB</p></div>
+              </div>
+              <button class="dl-btn">↓ PDF</button>
+            </div>
+            <div class="dl-item">
+              <div class="dl-info">
+                <div class="dl-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div><p class="dl-name">Especificações completas</p><p class="dl-size">FRG-0094 · PDF · 840KB</p></div>
+              </div>
+              <button class="dl-btn">↓ PDF</button>
             </div>
           </div>
-        </div>
-        <div style="margin-top:16px">
-          <button class="btn-ghost" style="font-size:13px;padding:10px 18px" onclick="showSection('consultoria')">Abrir novo chamado</button>
-        </div>
+        </article>
+      </aside>
+
+      <div class="main-panel">
+        <article class="bench-chart-wrap">
+          <h3 style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--color-blue);margin-bottom:4px;opacity:.8">Performance do meu build</h3>
+          <p style="font-size:12px;color:var(--color-gray)">FRG-2025-0094 · Workstation Pro 3D · Entregue em 15/01/2025</p>
+          <div class="bench-bars-list">
+            <div class="bench-bar-row"><span class="bench-bar-label">Cinebench R23</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:78%"></div></div><span class="bench-bar-score">19.200</span></div>
+            <div class="bench-bar-row"><span class="bench-bar-label">3DMark</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:80%"></div></div><span class="bench-bar-score">18.400</span></div>
+            <div class="bench-bar-row"><span class="bench-bar-label">Temp. CPU máx.</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:72%"></div></div><span class="bench-bar-score">72°C</span></div>
+          </div>
+        </article>
+
+        <article class="client-card">
+          <h3 class="client-card-title">Suporte técnico</h3>
+          <div class="ticket-list">
+            <div class="ticket-item">
+              <div class="ticket-dot"></div>
+              <div>
+                <p class="ticket-title">Dúvida sobre OC da RAM para 6400MHz</p>
+                <p class="ticket-meta">#TKT-0041 · Aberto em 18/03/2025</p>
+                <p class="ticket-status status-open">Em atendimento</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn-ghost" style="font-size:13px;padding:10px 18px" onclick="showSection('consultoria')">Abrir novo chamado</button>
+          </div>
+        </article>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="consultoria">
-  <div style="padding:80px 60px">
-    <div class="sec-header">
-      <div class="sec-eyebrow">Consultoria técnica</div>
-      <h2 class="sec-title">Fale com um <span style="color:var(--blue)">especialista</span></h2>
-      <p class="sec-sub">Chat direto, agendamento de call ou diagnóstico do seu setup atual.</p>
-    </div>
+  <section id="consultoria" aria-labelledby="consultoria-heading">
+    <header class="sec-header">
+      <p class="sec-header__eyebrow">Consultoria técnica</p>
+      <h2 id="consultoria-heading" class="sec-header__title">Fale com um <span style="color:var(--color-blue)">especialista</span></h2>
+      <p class="sec-header__sub">Chat direto, agendamento de call ou diagnóstico do seu setup atual.</p>
+    </header>
+
     <div class="consul-grid">
       <div>
-        <div class="consul-card" onclick="showSection('cadastro')">
-          <div class="consul-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-          <div class="consul-card-title">Chat com especialista</div>
-          <div class="consul-card-desc">Resposta em até 2h em dias úteis. Para dúvidas rápidas sobre componentes, compatibilidade e configuração.</div>
-        </div>
-        <div class="consul-card" onclick="alert('Agendamento em breve!')">
-          <div class="consul-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-          <div class="consul-card-title">Agendar call de 45min</div>
-          <div class="consul-card-desc">Reunião técnica por Google Meet para dimensionamento completo do seu workload e definição da build ideal.</div>
-        </div>
-        <div class="consul-card" onclick="showSection('configurador')">
-          <div class="consul-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#2a84d0" stroke-width="1.5"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07 10 10 0 0 0 19.07 4.93z" stroke="#2a84d0" stroke-width="1.5"/></svg></div>
-          <div class="consul-card-title">Diagnóstico do setup atual</div>
-          <div class="consul-card-desc">Você nos manda as specs do seu PC atual e a gente identifica gargalos, sugere upgrades e calcula o ganho de performance.</div>
-        </div>
+        <article class="consul-card" onclick="showSection('cadastro')">
+          <div class="consul-card__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3 class="consul-card-title">Chat com especialista</h3>
+          <p class="consul-card-desc">Resposta em até 2h em dias úteis. Para dúvidas rápidas sobre componentes, compatibilidade e configuração.</p>
+        </article>
+
+        <article class="consul-card" onclick="alert('Agendamento em breve!')">
+          <div class="consul-card__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#2a84d0" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#2a84d0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3 class="consul-card-title">Agendar call de 45min</h3>
+          <p class="consul-card-desc">Reunião técnica por Google Meet para dimensionamento completo do seu workload e definição da build ideal[cite: 47].</p>
+        </article>
+
+        <article class="consul-card" onclick="showSection('configurador')">
+          <div class="consul-card__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#2a84d0" stroke-width="1.5"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07 10 10 0 0 0 19.07 4.93z" stroke="#2a84d0" stroke-width="1.5"/></svg></div>
+          <h3 class="consul-card-title">Diagnóstico do setup atual</h3>
+          <p class="consul-card-desc">Você nos manda as specs do seu PC atual e a gente identifica gargalos, sugere upgrades e calcula o ganho de performance[cite: 67, 69, 70].</p>
+        </article>
       </div>
+
       <div class="schedule-form">
-        <div class="schedule-title">Agendar call</div>
+        <h3 class="schedule-title">Agendar call</h3>
         <div class="field"><label>Seu nome</label><input type="text" placeholder="Seu nome completo"></div>
         <div class="field"><label>E-mail ou WhatsApp</label><input type="text" placeholder="seu@email.com · (31) 9 9999-9999"></div>
         <div class="field">
@@ -598,73 +807,100 @@
         </div>
         <div class="field"><label>Horários disponíveis</label></div>
         <div class="time-slots">
-          <div class="time-slot" onclick="selectSlot(this)">Seg 09h</div>
-          <div class="time-slot" onclick="selectSlot(this)">Seg 14h</div>
-          <div class="time-slot" onclick="selectSlot(this)">Ter 10h</div>
-          <div class="time-slot" onclick="selectSlot(this)">Ter 16h</div>
-          <div class="time-slot" onclick="selectSlot(this)">Qua 09h</div>
-          <div class="time-slot" onclick="selectSlot(this)">Qui 15h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 09h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 14h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 10h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 16h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qua 09h</div>
+          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qui 15h</div>
         </div>
         <button class="auth-submit" onclick="alert('Agendamento enviado! Entraremos em contato para confirmar.')">Confirmar agendamento</button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
+</main><!-- /#main-content -->
+
+
+<!-- ============================================================
+     RODAPÉ GLOBAL
+     ============================================================ -->
 <footer id="main-footer">
   <div class="footer-grid">
+
     <div class="footer-brand">
-      <svg width="32" height="37" viewBox="0 0 56 66" fill="none">
+      <svg width="32" height="37" viewBox="0 0 56 66" fill="none" aria-hidden="true" focusable="false">
         <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
-        <rect x="17" y="14" width="8" height="31" fill="#1A1612"/>
-        <rect x="25" y="14" width="14" height="9" fill="#1A1612"/>
-        <rect x="25" y="30" width="10" height="8" fill="#1A1612"/>
+        <rect x="17" y="14" width="8"  height="31" fill="#1A1612"/>
+        <rect x="25" y="14" width="14" height="9"  fill="#1A1612"/>
+        <rect x="25" y="30" width="10" height="8"  fill="#1A1612"/>
       </svg>
-      <div class="brand-name">FORGE</div>
-      <div class="brand-tag">Performance Computing · Belo Horizonte, MG</div>
+      <p class="brand-name">FORGE</p>
+      <p class="brand-tag">Performance Computing · Belo Horizonte, MG</p>
     </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Produtos</div>
+
+    <nav class="footer-col" aria-label="Links de Produtos">
+      <h4 class="footer-col-title">Produtos</h4>
       <a href="#" onclick="showSection('vendas');return false">Builds prontos</a>
       <a href="#" onclick="showSection('configurador');return false">Configurador</a>
       <a href="#" onclick="showSection('benchmark');return false">Benchmark</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Serviços</div>
+    </nav>
+
+    <nav class="footer-col" aria-label="Links de Serviços">
+      <h4 class="footer-col-title">Serviços</h4>
       <a href="#" onclick="showSection('consultoria');return false">Consultoria técnica</a>
-      <a href="#">Upgrade & diagnóstico</a>
+      <a href="#">Upgrade &amp; diagnóstico</a>
       <a href="#">Suporte pós-entrega</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Contato</div>
-      <a href="#">renan@forge.build</a>
-      <a href="#">+55 31 9 0000-0000</a>
-      <a href="#">forge.build</a>
-      <a href="#">Instagram · @forge.build</a>
-    </div>
+    </nav>
+
+    <address class="footer-col" aria-label="Informações de contato">
+      <h4 class="footer-col-title">Contato</h4>
+      <a href="mailto:forge@build.com">forge@build.com</a>
+      <a href="tel:+5531900000000">+55 31 9 0000-0000</a>
+      <a href="https://forge.build" target="_blank" rel="noopener">forge.build</a>
+      <a href="https://instagram.com/forge.build" target="_blank" rel="noopener">Instagram · @forge.build</a>
+    </address>
+
   </div>
+
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 FORGE Performance Computing. Todos os direitos reservados.</div>
-    <div class="footer-tech">forge.build · v1.0 · Belo Horizonte, MG</div>
+    <small class="footer-copy">© 2026 FORGE Performance Computing. Todos os direitos reservados.</small>
+    <p class="footer-tech">forge.build · v1.0 · Belo Horizonte, MG</p>
   </div>
 </footer>
 
-<div class="modal-overlay" id="build-modal">
+
+
+<div class="modal-overlay" id="build-modal"
+     role="dialog" aria-modal="true" aria-labelledby="modal-build-name">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title">Solicitar build</div>
-    <div class="modal-sub">Preencha seus dados e entraremos em contato em até 24h com a proposta completa.</div>
+    <button class="modal-close" onclick="closeModal()" aria-label="Fechar modal de solicitação">✕</button>
+    <h2 class="modal-title">Solicitar build</h2>
+    <p class="modal-sub">
+      Preencha seus dados e entraremos em contato em até 24h com a proposta completa.
+    </p>
     <div class="modal-build-preview">
-      <div class="modal-build-name" id="modal-build-name">Workstation Pro 3D</div>
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray);margin-top:4px" id="modal-build-specs">RTX 4080 · i9-14900K · 64GB DDR5</div>
-      <div class="modal-build-price" id="modal-build-price">R$ 12.500</div>
+      <p class="modal-build-name" id="modal-build-name">Workstation Pro 3D</p>
+      <p style="font-family:var(--font-mono);font-size:11px;color:var(--color-gray);margin-top:4px" id="modal-build-specs">
+        RTX 4080 · i9-14900K · 64GB DDR5
+      </p>
+      <p class="modal-build-price" id="modal-build-price">R$ 12.500</p>
     </div>
-    <div class="field"><label>Nome completo</label><input type="text" placeholder="Renan Alves"></div>
-    <div class="field"><label>WhatsApp</label><input type="tel" placeholder="(31) 9 9999-9999"></div>
-    <div class="field"><label>E-mail</label><input type="email" placeholder="renan@forge.build"></div>
     <div class="field">
-      <label>Prazo desejado</label>
-      <select>
+      <label for="modal-nome">Nome completo</label>
+      <input type="text" id="modal-nome" placeholder="Digite seu nome" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="modal-tel">WhatsApp</label>
+      <input type="tel" id="modal-tel" placeholder="(31) 9 9999-9999" autocomplete="tel">
+    </div>
+    <div class="field">
+      <label for="modal-email">E-mail</label>
+      <input type="email" id="modal-email" placeholder="Digite seu e-mail" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="modal-prazo">Prazo desejado</label>
+      <select id="modal-prazo">
         <option>Urgente — até 7 dias</option>
         <option>Normal — 2 a 3 semanas</option>
         <option>Flexível — sem pressa</option>
@@ -673,6 +909,17 @@
     <button class="auth-submit" onclick="submitBuildRequest()">Enviar solicitação</button>
   </div>
 </div>
+
+<!-- Modal: Confirmação de login -->
+<div id="login-success" class="success-modal"
+     role="dialog" aria-modal="true" aria-live="polite">
+  <div class="success-box">
+    <div class="success-icon" aria-hidden="true">✓</div>
+    <h3>Login realizado</h3>
+    <p>Bem-vindo de volta!</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
 </html>
