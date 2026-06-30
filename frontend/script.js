@@ -441,22 +441,104 @@ function updateNav() {
   }
 }
 
-function doLogin() {
-    const email = document.getElementById("login-email").value.trim();
-    const senha = document.getElementById("login-pass").value.trim();
-    if(!email || !senha){ alert("Preencha e-mail e senha."); return; }
-    isLoggedIn = true;
-    const nomeUsuario = email.split("@")[0];
-    const display = document.getElementById("client-name-display");
-    if(display) display.textContent = nomeUsuario;
-    updateNav();
-    const modal = document.getElementById("login-success");
-    if(modal) {
-      modal.classList.add("show");
-      setTimeout(() => { modal.classList.remove("show"); showSection("configurador"); }, 2000);
+// =========================================================
+// 5. LOGIN E AUTENTICAÇÃO VIA API REST
+// =========================================================
+async function doLogin() {
+  const email = document.getElementById("login-email").value.trim();
+  const senha = document.getElementById("login-pass").value.trim();
+  
+  if(!email || !senha) { 
+    alert("Preencha e-mail e senha."); 
+    return; 
+  }
+
+  // 1. Muda o texto do botão para dar feedback visual
+  const btnSubmit = document.querySelector('#form-login .auth-submit');
+  const textoOriginal = btnSubmit.textContent;
+  btnSubmit.textContent = "Autenticando...";
+  btnSubmit.style.opacity = "0.7";
+
+  try {
+    // 2. Dispara requisição POST para o seu Back-end (server.js -> auth.js)
+    const resposta = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
+
+    const dados = await resposta.json();
+
+    if (resposta.ok) {
+      isLoggedIn = true;
+      
+      // Salva o Token e os Dados do Usuário no navegador
+      localStorage.setItem('forge_token', dados.token);
+      localStorage.setItem('forge_user', JSON.stringify(dados.usuario));
+
+      // Atualiza o nome no Header
+      const primeiroNome = dados.usuario.nome.split(" ")[0];
+      const display = document.getElementById("client-name-display");
+      if(display) display.textContent = primeiroNome;
+      
+      updateNav();
+
+      // Mostra o Modal de Sucesso
+      const modal = document.getElementById("login-success");
+      if(modal) {
+        modal.classList.add("show");
+        setTimeout(() => { 
+          modal.classList.remove("show"); 
+          
+          carregarDashboardDoCliente(dados.usuario.id);
+          showSection("cliente"); 
+        }, 1500);
+      }
     } else {
-      showSection("configurador");
+      alert(dados.message || "Credenciais inválidas.");
     }
+  } catch (erro) {
+    console.error("Erro na comunicação com a API:", erro);
+    alert("Erro de conexão com o servidor FORGE. Tente novamente.");
+  } finally {
+    btnSubmit.textContent = textoOriginal;
+    btnSubmit.style.opacity = "1";
+  }
+}
+
+async function carregarDashboardDoCliente(usuarioId) {
+  try {
+    const resposta = await fetch(`/api/cliente/${usuarioId}/dashboard`);
+    const dados = await resposta.json();
+
+    if (resposta.ok) {
+      document.querySelector('.build-info-name').textContent = dados.build.nome;
+      document.querySelector('.build-info-id').textContent = dados.build.id;
+      
+      const statusFormatado = dados.build.status.replace(/_/g, ' ');
+      document.querySelector('.build-status').innerHTML = `<span class="status-dot"></span>${statusFormatado}`;
+
+      const painelBench = document.querySelector('.bench-bars-list');
+      if (painelBench && dados.benchmark) {
+        painelBench.innerHTML = `
+          <div class="bench-bar-row"><span class="bench-bar-label">Cinebench R23</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:${dados.benchmark.cinebenchR23.percentual}%"></div></div><span class="bench-bar-score">${dados.benchmark.cinebenchR23.score}</span></div>
+          <div class="bench-bar-row"><span class="bench-bar-label">3DMark</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:${dados.benchmark.tmeSpy.percentual}%"></div></div><span class="bench-bar-score">${dados.benchmark.tmeSpy.score}</span></div>
+          <div class="bench-bar-row"><span class="bench-bar-label">Blender BMW</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:${dados.benchmark.blenderBmw.percentual}%"></div></div><span class="bench-bar-score">${dados.benchmark.blenderBmw.score}</span></div>
+          <div class="bench-bar-row"><span class="bench-bar-label">Temp. CPU máx.</span><div class="bench-bar-track"><div class="bench-bar-fill" style="width:${dados.benchmark.tempMaxCpu.percentual}%"></div></div><span class="bench-bar-score">${dados.benchmark.tempMaxCpu.score}</span></div>
+        `;
+        // Ativa a animação das barras
+        setTimeout(() => {
+          document.querySelectorAll('.bench-bar-fill').forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            setTimeout(() => { bar.style.width = width; }, 100);
+          });
+        }, 300);
+      }
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar dashboard:", erro);
+  }
 }
 
 function doRegister() {

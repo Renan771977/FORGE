@@ -2201,3 +2201,520 @@ footer {
     transform: translateY(0); 
   }
 }
+
+/* =============================================================================
+   SEÇÃO: SOFTWARE — Forge App Desktop
+   Arquivo: software-section.css
+   Adicionar ao style.css, dentro do bloco de Seções (após Benchmark).
+   Segue o mesmo padrão: dark theme, BEM, zero !important, mobile-first.
+   ============================================================================= */
+
+
+/* =============================================================================
+   SEÇÃO WRAPPER
+   ============================================================================= */
+
+#software {
+  padding: var(--section-padding);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradiente de fundo sutil para diferenciar visualmente da seção anterior */
+#software::before {
+  content:    '';
+  position:   absolute;
+  inset:      0;
+  background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(42, 132, 208, .05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.software-wrap {
+  position: relative;
+  z-index:  1;
+  max-width: var(--content-max);
+  margin:   0 auto;
+}
+
+/* Sobrepõe o alinhamento padrão do .sec-header para ficar à esquerda
+   na seção de software (onde o layout é assimétrico, não centrado) */
+.software__header {
+  text-align:    left;
+  margin-bottom: var(--space-2xl);
+  max-width:     560px;
+}
+
+.software__header .sec-header__eyebrow,
+.software__header .sec-header__sub { margin-left: 0; }
+
+
+/* =============================================================================
+   LAYOUT 2 COLUNAS: features | mockup
+   Mobile-first: empilhado → lado a lado a partir de 1024px
+   ============================================================================= */
+
+.software__grid {
+  display:               grid;
+  grid-template-columns: 1fr;
+  gap:                   var(--space-2xl);
+  align-items:           start;
+}
+
+@media (min-width: 1024px) {
+  .software__grid {
+    grid-template-columns: 1fr 1fr;
+    gap:                   clamp(40px, 5vw, 80px);
+    align-items:           center;
+  }
+}
+
+
+/* =============================================================================
+   COLUNA ESQUERDA: FEATURES
+   ============================================================================= */
+
+.software__features {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-xl);
+}
+
+
+/* ── Score destaque ─────────────────────────────────────────── */
+
+.software-score {
+  display:       inline-flex;
+  flex-direction: column;
+  padding:       20px 24px;
+  background:    rgba(42, 132, 208, .06);
+  border:        0.5px solid rgba(42, 132, 208, .2);
+  border-radius: 4px;
+  align-self:    flex-start;
+}
+
+.software-score__label {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color:          var(--color-blue);
+  opacity:        .8;
+}
+
+.software-score__value {
+  font-family: var(--font-display);
+  font-size:   64px;
+  font-weight: 900;
+  line-height: 1;
+  color:       var(--color-ash);
+  margin:      4px 0 2px;
+}
+
+.software-score__value span {
+  font-size: 40px;
+  color:     var(--color-blue);
+}
+
+.software-score__desc {
+  font-size:   12px;
+  color:       var(--color-gray);
+  max-width:   220px;
+  line-height: 1.5;
+}
+
+
+/* ── Lista de funcionalidades ─────────────────────────────── */
+
+.feature-list {
+  list-style: none;
+  display:    flex;
+  flex-direction: column;
+  gap:        20px;
+}
+
+.feature-list__item {
+  display:     flex;
+  align-items: flex-start;
+  gap:         16px;
+  padding-bottom: 20px;
+  border-bottom:  0.5px solid rgba(255, 255, 255, .04);
+}
+
+.feature-list__item:last-child { border-bottom: none; }
+
+.feature-list__icon {
+  width:         36px;
+  height:        36px;
+  flex-shrink:   0;
+  border-radius: 4px;
+  background:    rgba(42, 132, 208, .08);
+  border:        0.5px solid rgba(42, 132, 208, .15);
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  margin-top:    2px;
+  transition:    background var(--ease-ui), border-color var(--ease-ui);
+}
+
+.feature-list__item:hover .feature-list__icon {
+  background:    rgba(42, 132, 208, .16);
+  border-color:  rgba(42, 132, 208, .4);
+}
+
+.feature-list__title {
+  font-family:    var(--font-display);
+  font-size:      17px;
+  font-weight:    800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color:          var(--color-ash);
+  margin-bottom:  4px;
+}
+
+.feature-list__desc {
+  font-size:   13px;
+  color:       var(--color-gray);
+  line-height: 1.6;
+}
+
+
+/* ── Tech stack pills ─────────────────────────────────────── */
+
+.software-stack { display: flex; flex-direction: column; gap: 10px; }
+
+.software-stack__label {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color:          var(--color-gray);
+}
+
+.software-stack__pills {
+  list-style: none;
+  display:    flex;
+  flex-wrap:  wrap;
+  gap:        8px;
+}
+
+.software-stack__pill {
+  font-family:    var(--font-mono);
+  font-size:      11px;
+  letter-spacing: 1px;
+  color:          var(--color-blue);
+  padding:        4px 12px;
+  background:     rgba(42, 132, 208, .07);
+  border:         0.5px solid rgba(42, 132, 208, .2);
+  border-radius:  2px;
+}
+
+
+/* ── CTA de download ─────────────────────────────────────── */
+
+.software__cta-wrap {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+}
+
+/* Herdamos .btn-primary e adicionamos o ícone inline */
+.software__cta {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            10px;
+  text-decoration: none;
+  align-self:     flex-start;
+}
+
+.software__cta-meta {
+  font-family:    var(--font-mono);
+  font-size:      11px;
+  color:          var(--color-gray);
+  display:        flex;
+  flex-direction: column;
+  gap:            3px;
+}
+
+.software__cta-privacy {
+  font-size:   10px;
+  color:       var(--color-gray-dim);
+  letter-spacing: .5px;
+}
+
+
+/* =============================================================================
+   COLUNA DIREITA: MOCKUP — janela do app
+   ============================================================================= */
+
+.software__mockup {
+  position: relative;
+  margin:   0; /* reset do default do <figure> */
+}
+
+.software__mockup-caption {
+  font-family: var(--font-mono);
+  font-size:   10px;
+  letter-spacing: 1.5px;
+  color:       var(--color-gray-dim);
+  text-align:  center;
+  margin-top:  12px;
+}
+
+
+/* ── Janela do app ────────────────────────────────────────── */
+
+.app-window {
+  background:    var(--color-iron);
+  border:        0.5px solid rgba(42, 132, 208, .25);
+  border-radius: 8px;
+  overflow:      hidden;
+  box-shadow:    0 30px 60px rgba(0, 0, 0, .5),
+                 0 0 0 0.5px rgba(42, 132, 208, .1),
+                 inset 0 1px 0 rgba(255, 255, 255, .03);
+}
+
+/* Barra de título */
+.app-window__titlebar {
+  display:         flex;
+  align-items:     center;
+  gap:             12px;
+  padding:         10px 16px;
+  background:      rgba(11, 9, 7, .8);
+  border-bottom:   0.5px solid rgba(42, 132, 208, .1);
+}
+
+.app-window__dots {
+  display: flex;
+  gap:     6px;
+}
+
+.app-window__dot {
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+}
+
+.app-window__dot--close { background: #ff5f57; }
+.app-window__dot--min   { background: #ffbd2e; }
+.app-window__dot--max   { background: #28c840; }
+
+.app-window__title {
+  font-family:    var(--font-mono);
+  font-size:      11px;
+  letter-spacing: 1.5px;
+  color:          var(--color-gray);
+  flex:           1;
+  text-align:     center;
+}
+
+.app-window__version {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  color:          var(--color-gray-dim);
+  letter-spacing: 1px;
+}
+
+/* Corpo da janela: sidebar + dashboard */
+.app-window__body {
+  display:               grid;
+  grid-template-columns: 64px 1fr;
+  min-height:            340px;
+}
+
+
+/* ── Sidebar interna do app ───────────────────────────────── */
+
+.app-sidebar {
+  background:    var(--color-void);
+  border-right:  0.5px solid rgba(42, 132, 208, .08);
+  display:       flex;
+  flex-direction: column;
+  align-items:   center;
+  padding:       16px 0;
+  gap:           20px;
+}
+
+.app-sidebar__items {
+  list-style:     none;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            4px;
+  width:          100%;
+}
+
+.app-sidebar__item {
+  font-family:    var(--font-mono);
+  font-size:      8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color:          var(--color-gray-dim);
+  padding:        6px 0;
+  width:          100%;
+  text-align:     center;
+  cursor:         default;
+  transition:     color var(--ease-ui), background var(--ease-ui);
+}
+
+.app-sidebar__item--active {
+  color:      var(--color-blue);
+  background: rgba(42, 132, 208, .07);
+}
+
+
+/* ── Painel principal do dashboard ───────────────────────── */
+
+.app-dashboard {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap:     14px;
+}
+
+
+/* Ring do FORGE Score */
+.app-score-ring {
+  align-self:    center;
+  position:      relative;
+  width:         120px;
+  height:        120px;
+  margin:        0 auto;
+  flex-shrink:   0;
+}
+
+.app-score-ring__inner {
+  position:        absolute;
+  inset:           0;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+}
+
+.app-score-ring__value {
+  font-family: var(--font-display);
+  font-size:   28px;
+  font-weight: 900;
+  color:       var(--color-ash);
+  line-height: 1;
+}
+
+.app-score-ring__label {
+  font-family:    var(--font-mono);
+  font-size:      7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color:          var(--color-blue);
+  opacity:        .8;
+  margin-top:     3px;
+}
+
+
+/* Gauges de telemetria */
+.app-gauges {
+  display: flex;
+  flex-direction: column;
+  gap:     8px;
+}
+
+.app-gauge { display: flex; flex-direction: column; gap: 4px; }
+
+.app-gauge__header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+}
+
+.app-gauge__name {
+  font-family:    var(--font-mono);
+  font-size:      9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color:          var(--color-gray);
+}
+
+.app-gauge__value {
+  font-family: var(--font-mono);
+  font-size:   10px;
+  font-weight: 700;
+  color:       var(--color-ash);
+}
+
+.app-gauge__bar {
+  height:        4px;
+  background:    rgba(42, 132, 208, .1);
+  border-radius: 2px;
+}
+
+.app-gauge__fill {
+  height:     4px;
+  background: var(--color-blue);
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* GPU acima de 85%: vira laranja para indicar carga alta */
+.app-gauge__fill--hot { background: linear-gradient(90deg, var(--color-blue), #e0823a); }
+
+.app-gauge__temp {
+  font-family: var(--font-mono);
+  font-size:   9px;
+  color:       var(--color-gray-dim);
+  text-align:  right;
+}
+
+
+/* Minigráfico */
+.app-chart { display: flex; flex-direction: column; gap: 6px; }
+
+.app-chart__title {
+  font-family:    var(--font-mono);
+  font-size:      9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color:          var(--color-gray);
+}
+
+.app-chart__svg {
+  width:        100%;
+  height:       48px;
+  display:      block;
+  border-bottom: 0.5px solid rgba(42, 132, 208, .1);
+}
+
+
+/* Badge FORGE Certified */
+.app-certified {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            6px;
+  font-family:    var(--font-mono);
+  font-size:      9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color:          var(--color-blue);
+  padding:        6px 12px;
+  background:     rgba(42, 132, 208, .06);
+  border:         0.5px solid rgba(42, 132, 208, .2);
+  border-radius:  2px;
+  align-self:     flex-start;
+}
+
+
+/* =============================================================================
+   RESPONSIVIDADE ADICIONAL (mobile ≤ 768px)
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .software__header { max-width: 100%; }
+
+  .software-score__value { font-size: 48px; }
+  .software-score__value span { font-size: 32px; }
+
+  /* Janela do app: sidebar colapsa, apenas ícone */
+  .app-window__body { grid-template-columns: 48px 1fr; }
+
+  .app-sidebar__item { font-size: 7px; letter-spacing: .5px; }
+
+  .software__cta { width: 100%; justify-content: center; }
+}
