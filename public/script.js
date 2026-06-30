@@ -246,6 +246,7 @@ window.addEventListener('DOMContentLoaded', () => {
   montarSeletoresComparador();
   inicializarRastroMouse();
   inicializarScrollReveal();
+  verificarSessaoExistente();
 });
 
 function carregarCards() {
@@ -427,18 +428,64 @@ function submitBuildRequest() {
 }
 
 // =========================================================
-// 5. LOGIN E AUTENTICAÇÃO
+// 5. CONTROLE DE INTERFACE DE NAVEGAÇÃO E SESSÃO
 // =========================================================
+
 function updateNav() {
   const navUser = document.getElementById('nav-user-area');
   const navCta = document.getElementById('nav-cta-btn');
+  
+  if (!navUser || !navCta) return;
+
+  // Se o usuário estiver logado de fato
   if (isLoggedIn) {
-    if (navUser) navUser.classList.add('visible');
-    if (navCta) navCta.style.display = 'none';
+    navCta.style.display = 'none'; // Esconde o botão "Minha Conta"
+    navUser.style.display = 'flex'; // Mostra a bolinha de perfil
+    
+    // Recupera os dados salvos para garantir o nome correto na barra
+    const usuarioSalvo = localStorage.getItem('forge_user');
+    if (usuarioSalvo) {
+      const usuario = JSON.parse(usuarioSalvo);
+      document.getElementById('client-name-display').textContent = usuario.nome.split(" ")[0];
+      // Injeta as duas primeiras letras do nome no avatar
+      document.getElementById('nav-avatar-initials').textContent = usuario.nome.substring(0, 2).toUpperCase();
+    }
   } else {
-    if (navUser) navUser.classList.remove('visible');
-    if (navCta) navCta.style.display = 'block';
+    navCta.style.display = 'block'; // Mostra o botão "Minha Conta"
+    navUser.style.display = 'none';  // Esconde a bolinha de perfil
   }
+}
+
+// Abre/Fecha o mini menu de sair da conta
+function toggleMenuUsuario() {
+  const dropdown = document.getElementById('avatar-dropdown-menu');
+  if(dropdown) dropdown.classList.toggle('show');
+}
+
+// Destrói a sessão e limpa os tokens do navegador (Logout real)
+function ejecutarLogout() {
+  isLoggedIn = false;
+  localStorage.removeItem('forge_token');
+  localStorage.removeItem('forge_user');
+  updateNav();
+  showSection('hero'); // Devolve o usuário deslogado pra Home
+}
+
+// FUNÇÃO CRUCIAL: Roda toda vez que o site abre para ver se já havia um login ativo
+function verificarSessaoExistente() {
+  const token = localStorage.getItem('forge_token');
+  const usuarioSalvo = localStorage.getItem('forge_user');
+
+  if (token && usuarioSalvo) {
+    isLoggedIn = true;
+    const usuario = JSON.parse(usuarioSalvo);
+    
+    // Se ele já estava logado, reconecta o dashboard dele em background
+    if(usuario.id) carregarDashboardDoCliente(usuario.id);
+  }
+  
+  // Atualiza os botões do menu com base no resultado acima
+  updateNav();
 }
 
 // =========================================================

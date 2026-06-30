@@ -40,9 +40,22 @@
     </ul>
 
     <!-- Ação principal + avatar de usuário -->
-    <div class="nav-user nav-user--visible" aria-label="Controles de conta">
-      <button class="nav-cta" onclick="showSection('cadastro')" aria-label="Acessar minha conta">Minha Conta</button>
+    <div class="nav-auth-container">
+  <button id="nav-cta-btn" class="btn-primary" onclick="showSection('cadastro')" style="display: block;">
+    Minha Conta
+  </button>
+
+  <div id="nav-user-area" class="nav-user-profile" style="display: none;" onclick="toggleMenuUsuario()">
+    <div class="avatar-circle">
+      <span id="nav-avatar-initials">U</span>
     </div>
+    <span class="avatar-name" id="client-name-display">Usuário</span>
+    
+    <div class="avatar-dropdown" id="avatar-dropdown-menu">
+      <button onclick="executarLogout()">Sair da Conta</button>
+    </div>
+  </div>
+</div>
 
   </nav>
 </header>
