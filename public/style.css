@@ -2752,42 +2752,42 @@ footer {
 .avatar-dropdown button:hover { background: rgba(255, 95, 87, 0.1); }
 
 /* =============================================================================
-   FIX 2.0: ALINHAMENTO DE IMAGENS NOS CARDS E DETALHES
+   FIX DEFINITIVO: SEPARAÇÃO DE CARDS E DETALHES
    ============================================================================= */
 
-/* Container das fotos no Catálogo */
+/* 1. CONTAINER DO CATÁLOGO (Cards) */
 .build-card-img {
   position: relative;
+  width: 100%;
+  height: 250px; 
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 250px; /* O SEGREDO: garante o espaço aberto para a imagem não ser esmagada */
   overflow: hidden;
-  padding: 20px;
+  padding: 10px; /* Reduzido para a imagem chegar mais perto das bordas */
 }
 
-/* Container da foto na Página de Detalhes (Workstation flutuando) */
+/* 2. CONTAINER DE DETALHES (A página grande) */
 .blueprint-panel {
   position: relative;
+  width: 100%;
+  height: 450px; 
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px; /* Espaço maior para ela brilhar nos detalhes */
   overflow: hidden;
 }
 
-/* A regra mestre da imagem (serve para os dois) */
+/* 3. A IMAGEM - À prova de cortes */
 .pc-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Encaixa perfeitamente a imagem sem cortar e sem distorcer */
-  position: relative;
+  max-width: 95%;  /* Impede a imagem de vazar para os lados */
+  max-height: 95%; /* Impede a imagem de cortar em cima ou embaixo */
+  object-fit: contain; /* Encaixa a proporção original perfeitamente */
+  display: block;
   z-index: 2;
 }
 
-/* (Mantenha as animações .ambient-glow e .hardware-item que passei antes logo abaixo daqui) */
-
-/* Efeito de Holograma / Brilho atrás do PC na página de detalhes */
+/* Mantendo os efeitos premium intactos */
 .ambient-glow {
   position: absolute;
   top: 50%;
@@ -2804,12 +2804,6 @@ footer {
 @keyframes pulseGlow {
   0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
   100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-}
-
-/* Animação em cascata para as peças de hardware */
-@keyframes slideFadeIn {
-  0% { opacity: 0; transform: translateX(20px); }
-  100% { opacity: 1; transform: translateX(0); }
 }
 
 .hardware-item {
