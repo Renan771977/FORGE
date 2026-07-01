@@ -2752,21 +2752,55 @@ footer {
 .avatar-dropdown button:hover { background: rgba(255, 95, 87, 0.1); }
 
 /* =============================================================================
-   FIX: ALINHAMENTO DE IMAGENS DOS PCS
+   FIX DEFINITIVO: ALINHAMENTO DE IMAGENS E EFEITOS PREMIUM
    ============================================================================= */
-.pc-photo {
-  width: 100%;
-  height: 100%;
-  max-height: 250px; /* Limite de altura para os cards do catálogo */
-  object-fit: contain; /* Faz a imagem caber sem esmagar/esticar */
-  display: block;
-  margin: 0 auto;
-}
 
-.blueprint-panel {
+/* Garante que o contêiner da foto seja um palco perfeito */
+.build-card-img, .blueprint-panel {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Impede que imagens gigantes vazem do quadrado */
+  overflow: hidden;
+}
+
+/* Centralização absoluta à prova de falhas para a foto do PC */
+.pc-photo {
+  position: absolute;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  inset: 0;
+  margin: auto; 
+  z-index: 2;
+}
+
+/* Efeito de Holograma / Brilho atrás do PC na página de detalhes */
+.ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(42, 132, 208, 0.3) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: 1;
+  animation: pulseGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+/* Animação em cascata para as peças de hardware */
+@keyframes slideFadeIn {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.hardware-item {
+  opacity: 0; /* Começa invisível para a animação funcionar */
+  animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

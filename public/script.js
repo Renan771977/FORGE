@@ -93,8 +93,8 @@ function abrirDetalhesProduto(idMaquina) {
     <div class="product-grid">
       
       <div class="blueprint-panel">
-        <div class="blueprint-lines"></div>
-        <img src="${pc.img}" class="pc-photo" style="max-width: 85%; max-height: 85%; object-fit: contain; z-index: 2; position: relative; animation: float 4s ease-in-out infinite;" alt="${pc.name}">
+        <div class="ambient-glow"></div> <div class="blueprint-lines"></div>
+        <img src="${pc.img}" class="pc-photo" style="animation: float 4s ease-in-out infinite;" alt="${pc.name}">
         <div class="machine-badge">${pc.badge}</div>
       </div>
       
@@ -107,14 +107,14 @@ function abrirDetalhesProduto(idMaquina) {
         <div>
           <div class="section-subtitle">Especificações de Hardware</div>
           <div class="hardware-list">
-            <div class="hardware-item"><div class="hardware-label">PROCESSADOR</div><div class="hardware-value">${pc.specs.cpu}</div></div>
-            <div class="hardware-item"><div class="hardware-label">PLACA DE VÍDEO</div><div class="hardware-value">${pc.specs.gpu}</div></div>
-            <div class="hardware-item"><div class="hardware-label">PLACA MÃE</div><div class="hardware-value">${pc.specs.motherboard}</div></div>
-            <div class="hardware-item"><div class="hardware-label">MEMÓRIA RAM</div><div class="hardware-value">${pc.specs.ram}</div></div>
-            <div class="hardware-item"><div class="hardware-label">ARMAZENAMENTO</div><div class="hardware-value">${pc.specs.storage}</div></div>
-            <div class="hardware-item"><div class="hardware-label">REFRIGERAÇÃO</div><div class="hardware-value">${pc.specs.cooler}</div></div>
-            <div class="hardware-item"><div class="hardware-label">FONTE</div><div class="hardware-value">${pc.specs.psu}</div></div>
-            <div class="hardware-item"><div class="hardware-label">GABINETE</div><div class="hardware-value">${pc.specs.cabinet}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.1s;"><div class="hardware-label">PROCESSADOR</div><div class="hardware-value">${pc.specs.cpu}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.2s;"><div class="hardware-label">PLACA DE VÍDEO</div><div class="hardware-value">${pc.specs.gpu}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.3s;"><div class="hardware-label">PLACA MÃE</div><div class="hardware-value">${pc.specs.motherboard}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.4s;"><div class="hardware-label">MEMÓRIA RAM</div><div class="hardware-value">${pc.specs.ram}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.5s;"><div class="hardware-label">ARMAZENAMENTO</div><div class="hardware-value">${pc.specs.storage}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.6s;"><div class="hardware-label">REFRIGERAÇÃO</div><div class="hardware-value">${pc.specs.cooler}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.7s;"><div class="hardware-label">FONTE</div><div class="hardware-value">${pc.specs.psu}</div></div>
+            <div class="hardware-item" style="animation-delay: 0.8s;"><div class="hardware-label">GABINETE</div><div class="hardware-value">${pc.specs.cabinet}</div></div>
           </div>
         </div>
         
