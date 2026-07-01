@@ -94,7 +94,7 @@ function abrirDetalhesProduto(idMaquina) {
       
       <div class="blueprint-panel">
         <div class="blueprint-lines"></div>
-        <img src="${pc.img}" class="pc-photo" style="width: 85%; height: 85%; object-fit: contain; z-index: 2; animation: float 4s ease-in-out infinite;" alt="${pc.name}">
+        <img src="${pc.img}" class="pc-photo" style="max-width: 85%; max-height: 85%; object-fit: contain; z-index: 2; position: relative; animation: float 4s ease-in-out infinite;" alt="${pc.name}">
         <div class="machine-badge">${pc.badge}</div>
       </div>
       
