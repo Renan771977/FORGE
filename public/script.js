@@ -61,9 +61,9 @@ function carregarCards() {
         <div>
           <div class="build-meta-specs">${shortGpu} • ${shortCpu}</div>
           <div class="build-name">${pc.name}</div>
-          <div class="build-tagline">${pc.tagline}</div>
+          <div class="build-tagline" style="margin-top: 8px;">${pc.tagline}</div>
         </div>
-        <div class="build-price-row">
+        <div class="build-price-row" style="margin-top: 16px;">
           <div class="build-price">${pc.price}</div>
           <button class="build-cta" onclick="solicitarVenda('${id}', event)">Comprar Agora</button>
         </div>
@@ -74,9 +74,6 @@ function carregarCards() {
 }
 
 
-// =========================================================
-// 3. PÁGINA TÉCNICA (SINGLE PAGE APPLICATION)
-// =========================================================
 function abrirDetalhesProduto(idMaquina) {
   const pc = BANCO_DE_HARDWARE[idMaquina];
   if (!pc) return;
@@ -93,8 +90,9 @@ function abrirDetalhesProduto(idMaquina) {
     <div class="product-grid">
       
       <div class="blueprint-panel">
-        <div class="ambient-glow"></div> <div class="blueprint-lines"></div>
-        <img src="${pc.img}" class="pc-photo" style="animation: float 4s ease-in-out infinite;" alt="${pc.name}">
+        <div class="ambient-glow"></div> 
+        <div class="blueprint-lines"></div>
+        <img src="${pc.img}" class="pc-photo" alt="${pc.name}">
         <div class="machine-badge">${pc.badge}</div>
       </div>
       
