@@ -2788,7 +2788,14 @@ footer {
   object-fit: contain !important;
   margin: auto !important;
   display: block !important;
+  transform: none !important; /* <--- ISSO MATA O DESLOCAMENTO FANTASMA */
   z-index: 2;
+  transition: transform 0.3s ease !important;
+}
+
+/* 3.1 Consertando o "Zoom" ao passar o mouse no catálogo */
+.build-card:hover .pc-photo {
+  transform: scale(1.07) !important; /* Faz o zoom sem empurrar a imagem pro lado */
 }
 
 /* 4. AURA BRILHANTE (Fundo da Workstation) */
