@@ -294,17 +294,13 @@ section {
 }
 
 
-/* =============================================================================
-   8. COMPONENT — BUTTONS
-   ============================================================================= */
-
 .btn-primary {
   font-family:    var(--font-display);
   font-size:      16px;
   font-weight:    700;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  padding:        16px 36px;
+  padding:        14px 36px;
   background:     var(--color-blue);
   color:          var(--color-void);
   border:         none;

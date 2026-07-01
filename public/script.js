@@ -4,9 +4,7 @@ let userName = 'Renan';
 
 let BANCO_DE_HARDWARE = {}; 
 
-// =========================================================
-// 2. INICIALIZAÇÃO DO SITE E GERAÇÃO DOS CARDS
-// =========================================================
+
 window.addEventListener('DOMContentLoaded', async () => {
   showSection('hero');
   updateNav();
