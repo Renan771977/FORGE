@@ -2752,42 +2752,46 @@ footer {
 .avatar-dropdown button:hover { background: rgba(255, 95, 87, 0.1); }
 
 /* =============================================================================
-   FIX DEFINITIVO: SEPARAÇÃO DE CARDS E DETALHES
+   FIX DEFINITIVO: IMAGENS E ANIMAÇÃO DOS HARDWARES
    ============================================================================= */
 
 /* 1. CONTAINER DO CATÁLOGO (Cards) */
 .build-card-img {
   position: relative;
   width: 100%;
-  height: 250px; 
+  height: 250px !important; 
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 10px; /* Reduzido para a imagem chegar mais perto das bordas */
+  padding: 10px;
 }
 
 /* 2. CONTAINER DE DETALHES (A página grande) */
 .blueprint-panel {
   position: relative;
   width: 100%;
-  height: 450px; 
+  height: 450px !important; 
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-/* 3. A IMAGEM - À prova de cortes */
+/* 3. A IMAGEM - Forçando a centralização absoluta sem cortes */
 .pc-photo {
-  max-width: 95%;  /* Impede a imagem de vazar para os lados */
-  max-height: 95%; /* Impede a imagem de cortar em cima ou embaixo */
-  object-fit: contain; /* Encaixa a proporção original perfeitamente */
-  display: block;
+  position: static !important;
+  width: 90% !important;
+  height: 90% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  margin: auto !important;
+  display: block !important;
   z-index: 2;
 }
 
-/* Mantendo os efeitos premium intactos */
+/* 4. AURA BRILHANTE (Fundo da Workstation) */
 .ambient-glow {
   position: absolute;
   top: 50%;
@@ -2806,7 +2810,13 @@ footer {
   100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
 }
 
+/* 5. CORREÇÃO DOS TEXTOS SUMIDOS (Trazendo o hardware de volta) */
 .hardware-item {
-  opacity: 0; /* Começa invisível para a animação funcionar */
+  opacity: 0; 
   animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFadeIn {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
 }

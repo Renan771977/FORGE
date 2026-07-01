@@ -61,9 +61,9 @@ function carregarCards() {
         <div>
           <div class="build-meta-specs">${shortGpu} • ${shortCpu}</div>
           <div class="build-name">${pc.name}</div>
-          <div class="build-tagline" style="margin-top: 8px;">${pc.tagline}</div>
+          <div class="build-tagline">${pc.tagline}</div>
         </div>
-        <div class="build-price-row" style="margin-top: 16px;">
+        <div class="build-price-row">
           <div class="build-price">${pc.price}</div>
           <button class="build-cta" onclick="solicitarVenda('${id}', event)">Comprar Agora</button>
         </div>
