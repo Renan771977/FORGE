@@ -2827,3 +2827,69 @@ footer {
   0% { opacity: 0; transform: translateX(20px); }
   100% { opacity: 1; transform: translateX(0); }
 }
+
+/* =============================================================================
+   E-COMMERCE CONVERSION STYLES (Estilo Mercado Livre / Amazon)
+   ============================================================================= */
+
+.ecom-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Prova Social (Estrelas) */
+.ecom-stars {
+  font-size: 14px;
+  color: #FFA41C; /* Amarelo clássico da Amazon */
+  margin-top: 6px;
+  margin-bottom: 15px;
+}
+.ecom-reviews {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-gray);
+  margin-left: 5px;
+}
+
+/* Bloco de Preços */
+.ecom-price-block {
+  margin-bottom: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(42, 132, 208, 0.15);
+}
+
+.ecom-installments {
+  font-size: 13px;
+  color: #00a650; /* Verde clássico do Mercado Livre */
+  margin-top: 4px;
+}
+.ecom-installments strong {
+  font-weight: 700;
+}
+
+/* Gatilho de Frete */
+.ecom-shipping {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* Botão de Compra Varejo (Largo e Chamativo) */
+.ecom-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--color-blue); /* Se quiser algo mais agressivo, pode tentar #3483FA (Mercado Livre) */
+}

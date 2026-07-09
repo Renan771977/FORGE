@@ -51,21 +51,34 @@ function carregarCards() {
     card.setAttribute('data-price', faixaPreco);
     card.onclick = () =>  abrirDetalhesProduto(id); 
 
+    // Calcula o valor da parcela em 10x sem juros automaticamente
+    const valorDaParcela = (valor / 10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
     card.innerHTML = `
       <div class="build-card-img ${cor === 'white' ? 'white-pc' : 'black-pc'}">
         <span class="build-badge">${pc.badge}</span>
         <div class="blueprint-lines"></div>
         <img src="${pc.img}" class="pc-photo" alt="${pc.name}">
       </div>
-      <div class="build-card-body" style="display:flex; flex-direction:column; justify-content:space-between; height: 100%;">
-        <div>
+      <div class="build-card-body ecom-body">
+        
+        <div class="ecom-top">
           <div class="build-meta-specs">${shortGpu} • ${shortCpu}</div>
           <div class="build-name">${pc.name}</div>
-          <div class="build-tagline" style="margin-top: 8px;">${pc.tagline}</div>
+          <div class="ecom-stars">
+            ★★★★★ <span class="ecom-reviews">(+50 vendidos)</span>
+          </div>
         </div>
-        <div class="build-price-row" style="margin-top: 16px;">
-          <div class="build-price">${pc.price}</div>
-          <button class="build-cta" onclick="solicitarVenda('${id}', event)">Comprar Agora</button>
+
+        <div class="ecom-bottom">
+          <div class="ecom-price-block">
+            <div class="build-price">${pc.price}</div>
+            <div class="ecom-installments">em até <strong>10x de ${valorDaParcela}</strong> sem juros</div>
+            <div class="ecom-shipping">
+              <span class="ecom-truck">⚡</span> Frete Grátis para todo o Brasil
+            </div>
+          </div>
+          <button class="build-cta ecom-btn" onclick="solicitarVenda('${id}', event)">Comprar Agora</button>
         </div>
       </div>
     `;
@@ -252,7 +265,6 @@ function verificarSessaoExistente() {
     if(usuario.id) carregarDashboardDoCliente(usuario.id);
   }
   
-  // Atualiza os botões do menu com base no resultado acima
   updateNav();
 }
 
