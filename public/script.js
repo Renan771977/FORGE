@@ -3042,3 +3042,26 @@ async function enviarAgendamentoConsultoria(assuntoSelecionado) {
     console.error("Erro na requisição do chamado:", error);
   }
 }
+
+// FUNÇÃO PARA ABRIR E FECHAR O MENU DE LOGOUT
+function toggleMenuUsuario(event) {
+  // Impede que o clique feche o menu imediatamente se clicar no botão de sair
+  if (event) event.stopPropagation();
+  
+  const menu = document.getElementById('avatar-dropdown-menu');
+  if (menu) {
+    if (menu.style.display === 'none' || menu.style.display === '') {
+      menu.style.display = 'block';
+    } else {
+      menu.style.display = 'none';
+    }
+  }
+}
+
+// Fecha o menu de logout se o usuário clicar em qualquer outro lugar da tela
+document.addEventListener('click', function() {
+  const menu = document.getElementById('avatar-dropdown-menu');
+  if (menu) {
+    menu.style.display = 'none';
+  }
+});
