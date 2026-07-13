@@ -489,7 +489,7 @@ async function doLogin() {
   btnSubmit.style.opacity = "0.7";
 
   try {
-    const resposta = await fetch('/api/auth/login', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
@@ -526,7 +526,7 @@ async function doLogin() {
 window.handleGoogleLogin = async function(response) {
   // O Google devolveu a credencial! Vamos enviá-la para o nosso Back-end.
   try {
-    const resposta = await fetch('/api/auth/google', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ credential: response.credential })
@@ -868,7 +868,7 @@ async function agDoLogin() {
   btn.disabled = true;
 
   try {
-    const res  = await fetch('/api/auth/login', {
+    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email, senha }),
@@ -928,7 +928,7 @@ async function agDoRegister() {
   btn.disabled = true;
 
   try {
-    const res  = await fetch('/api/auth/register', {
+    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ nome, sobrenome, email, telefone: tel, senha }),
@@ -1740,7 +1740,7 @@ async function doRegister() {
 
   try {
     // 2. Envia os dados para a nossa rota real no Node.js
-    const resposta = await fetch('/api/auth/register', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, sobrenome, email, whatsapp, perfil_uso, senha })
@@ -2169,7 +2169,7 @@ function inicializarScrollReveal() {
 
 async function carregarCatalogoDoBanco() {
   try {
-    const resposta = await fetch('/api/catalogo');
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo');
     const dados = await resposta.json();
 
     if (resposta.ok && dados.builds) {
@@ -2786,7 +2786,7 @@ window.carregarDashboardDoCliente = async function() {
 
   try {
     // 1. Busca os dados do perfil do cliente
-    const resposta = await fetch('/api/cliente/dashboard', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -2804,7 +2804,7 @@ window.carregarDashboardDoCliente = async function() {
     
     // 2. INTEGRAÇÃO REAL: Busca os chamados deste cliente salvos no MySQL do Railway
     try {
-      const resChamados = await fetch('/api/cliente/chamados', {
+      const resChamados = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -3019,7 +3019,7 @@ async function enviarAgendamentoConsultoria(assuntoSelecionado) {
   }
 
   try {
-    const resposta = await fetch('http://localhost:3000/api/cliente/chamados', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
