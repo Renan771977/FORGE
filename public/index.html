@@ -1321,32 +1321,27 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="checkout-modal" role="dialog" aria-modal="true" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center;">
-  <div class="modal" style="background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 30px; border-radius: 6px; max-width: 450px; width: 100%; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.7);">
-    <button class="modal-close" onclick="fecharCheckout()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--color-gray); cursor: pointer; font-size: 18px;">✕</button>
-    
-    <h2 class="modal-title" style="font-family: var(--font-display); font-size: 24px; text-transform: uppercase; color: var(--color-ash); margin-bottom: 5px;">Checkout <span style="color:var(--color-blue)">Seguro</span></h2>
-    <p class="modal-sub" style="color: var(--color-gray); font-size: 13px; margin-bottom: 20px; line-height: 1.4;">Ambiente de demonstração da Forge. Selecione uma forma de pagamento fictícia.</p>
-    
-    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-      <button class="btn-ghost" style="flex: 1; border-color: var(--color-blue); color: #fff; padding: 10px; font-size: 12px; font-weight: bold;" onclick="selecionarMetodoPagamento('pix')">❖ PIX FICTÍCIO</button>
-      <button class="btn-ghost" style="flex: 1; border-color: rgba(255,255,255,0.1); color: var(--color-gray); padding: 10px; font-size: 12px;" onclick="selecionarMetodoPagamento('cartao')">💳 CARTÃO SIMULADO</button>
-    </div>
-
-    <div id="checkout-conteudo-pagamento" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 4px; text-align: center; margin-bottom: 20px;">
-      <p style="color: var(--color-ash); font-family: var(--font-mono); font-size: 12px; margin-bottom: 12px; letter-spacing: 1px;">QR CODE DE TESTE GERADO</p>
-      <div style="width: 140px; height: 140px; background: #fff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 11px; border: 4px solid #fff; border-radius: 4px; letter-spacing: 0.5px;">[ QR CODE FORGE ]</div>
-      <p style="color: var(--color-gray); font-size: 11px; line-height: 1.4;">Escaneamento simulado. Clique no botão abaixo para aprovar instantaneamente.</p>
-    </div>
-
-    <button class="auth-submit" id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #2a84d0; color: #fff; border: none; padding: 14px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 13px;">CONFIRMAR PAGAMENTO</button>
-  </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 <script src="forge-visao-geral.js"></script>
 <script src="forge-chamados.js"></script>
 <script src="forge-chamados-api.js"></script>
+
+<div id="checkout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 30px; border-radius: 6px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7);">
+    <h2 style="color: #fff; font-family: var(--font-display); margin-bottom: 10px;">CHECKOUT <span style="color:#2a84d0">FORGE</span></h2>
+    <p style="color: var(--color-gray); font-size: 13px; margin-bottom: 20px;">Ambiente de demonstração da Forge. Selecione o método de pagamento.</p>
+    
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 4px; margin-bottom: 20px;">
+      <div style="width: 100px; height: 100px; background: #fff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 10px;">[ QR CODE ]</div>
+      <p style="color: var(--color-gray); font-size: 11px;">Clique no botão abaixo para simular a aprovação instantânea do PIX.</p>
+    </div>
+
+    <button id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #2a84d0; color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase;">CONFIRMAR PAGAMENTO</button>
+    <button onclick="document.getElementById('checkout-modal').style.display='none'" style="background: none; border: none; color: var(--color-gray); margin-top: 15px; cursor: pointer; font-size: 12px;">Cancelar</button>
+  </div>
+</div>
+
 </body>
 </html>

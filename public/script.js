@@ -3190,3 +3190,86 @@ function processarPagamentoFicticio() {
     }
   }, 2000);
 }
+
+// =============================================================================
+// INTERCEPTOR BLINDADO PARA A APRESENTAÇÃO
+// =============================================================================
+
+// 1. Força a abertura do ecrã de pagamento ao clicar em QUALQUER botão de finalizar
+document.addEventListener('click', function(event) {
+  if (event.target && event.target.innerText && event.target.innerText.includes('FINALIZAR COMPRA')) {
+    event.preventDefault();
+    event.stopPropagation();
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+      modal.style.display = 'flex'; // Abre o modal à força
+    }
+  }
+});
+
+// 2. Processa o pagamento simulado e reconstrói o Dashboard
+function processarPagamentoFicticio() {
+  const btn = document.getElementById('btn-confirmar-pagamento');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "A PROCESSAR...";
+  }
+
+  setTimeout(() => {
+    // Fecha o ecrã de pagamento
+    const modal = document.getElementById('checkout-modal');
+    if (modal) modal.style.display = 'none';
+    
+    // Restaura o botão
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "CONFIRMAR PAGAMENTO";
+    }
+
+    alert("Pagamento aprovado com sucesso! Seu pedido entrou na esteira de produção da Forge.");
+
+    // Redireciona para o Dashboard do Cliente à força
+    if (typeof showSection === 'function') {
+      showSection('cliente');
+    }
+
+    // Injeta o ecrã de rastreio com o Stepper animado dentro do Dashboard
+    const boxChamados = document.getElementById('box-chamados');
+    if (boxChamados) {
+      boxChamados.innerHTML = `
+        <h3 class="client-card-title">Situação do meu Pedido</h3>
+        <div style="background: rgba(0,0,0,0.18); border: 1px solid rgba(42,132,208,0.25); border-radius: 8px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px;">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); display: block; margin-bottom: 4px;">ORDEM #FRG-9842 · HOJE</span>
+              <h4 style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--color-ash); margin: 0;">Workstation Forge Custom</h4>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 9px; font-weight: 700; padding: 4px 10px; background: rgba(255,189,46,0.12); color: #ffbd2e; border: 0.5px solid rgba(255,189,46,0.3); border-radius: 2px;">EM MONTAGEM</span>
+          </div>
+
+          <div style="position: relative; display: flex; justify-content: space-between; width: 100%; padding: 0 7px;">
+            <div style="position: absolute; top: 7px; left: 28px; right: 28px; height: 2px; background: rgba(255,255,255,0.05); z-index: 1;"></div>
+            <div style="position: absolute; top: 7px; left: 28px; width: 33%; height: 2px; background: var(--color-blue); z-index: 2;"></div>
+            
+            <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: var(--color-blue);"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ash);">Pago</span>
+            </div>
+            <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: #ffbd2e; box-shadow: 0 0 10px #ffbd2e;"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: #ffbd2e; font-weight: bold;">Montagem</span>
+            </div>
+            <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.08);"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-gray);">Testes</span>
+            </div>
+            <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.08);"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-gray);">Envio</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }, 1500);
+}
