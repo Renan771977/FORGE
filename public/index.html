@@ -1328,20 +1328,26 @@
 <script src="forge-chamados.js"></script>
 <script src="forge-chamados-api.js"></script>
 
-<div id="checkout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center;">
-  <div style="background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 30px; border-radius: 6px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7);">
-    <h2 style="color: #fff; font-family: var(--font-display); margin-bottom: 10px;">CHECKOUT <span style="color:#2a84d0">FORGE</span></h2>
-    <p style="color: var(--color-gray); font-size: 13px; margin-bottom: 20px;">Ambiente de demonstração da Forge. Selecione o método de pagamento.</p>
+<div id="checkout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+  <div style="background: #0B0907; border: 1px solid #2a84d0; padding: 30px; border-radius: 8px; max-width: 440px; width: 100%; position: relative; box-shadow: 0 0 20px rgba(42, 132, 208, 0.2);">
+    <button onclick="document.getElementById('checkout-modal').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">✕</button>
     
-    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 4px; margin-bottom: 20px;">
-      <div style="width: 100px; height: 100px; background: #fff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 10px;">[ QR CODE ]</div>
-      <p style="color: var(--color-gray); font-size: 11px;">Clique no botão abaixo para simular a aprovação instantânea do PIX.</p>
+    <h2 style="font-family: var(--font-display); font-size: 24px; text-transform: uppercase; color: #fff; margin: 0 0 5px 0; letter-spacing: 1px;">Checkout <span style="color:#2a84d0">Seguro</span></h2>
+    <p style="color: #666; font-size: 13px; margin: 0 0 20px 0;">Demonstração de workload de pagamento da FORGE.</p>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <button id="tab-pix" onclick="selecionarMetodoPagamento('pix')" style="flex: 1; background: rgba(42, 132, 208, 0.15); border: 1px solid #2a84d0; color: #fff; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">❖ Método: PIX</button>
+      <button id="tab-cartao" onclick="selecionarMetodoPagamento('cartao')" style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">💳 Cartão de Crédito</button>
     </div>
 
-    <button id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #2a84d0; color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase;">CONFIRMAR PAGAMENTO</button>
-    <button onclick="document.getElementById('checkout-modal').style.display='none'" style="background: none; border: none; color: var(--color-gray); margin-top: 15px; cursor: pointer; font-size: 12px;">Cancelar</button>
+    <div id="checkout-conteudo-pagamento" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 4px; text-align: center; margin-bottom: 20px; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
+      </div>
+
+    <button id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #2a84d0; color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; border-radius: 4px; box-shadow: 0 4px 12px rgba(42,132,208,0.3);">CONFIRMAR PAGAMENTO</button>
   </div>
 </div>
+
+<div id="forge-toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 11000; display: flex; flex-direction: column; gap: 10px;"></div>
 
 </body>
 </html>

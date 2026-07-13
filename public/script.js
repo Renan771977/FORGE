@@ -3192,57 +3192,149 @@ function processarPagamentoFicticio() {
 }
 
 // =============================================================================
-// INTERCEPTOR BLINDADO PARA A APRESENTAÇÃO
+// SISTEMA DE NOTIFICAÇÃO E CHECKOUT PERSONALIZADO FORGE (APRESENTAÇÃO)
 // =============================================================================
 
-// 1. Força a abertura do ecrã de pagamento ao clicar em QUALQUER botão de finalizar
+// Função para disparar o Toast da Forge na Tela (Substitui o alert)
+function dispararNotificacaoForge(mensagem, titulo = "SISTEMA FORGE") {
+  const container = document.getElementById('forge-toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    background: #0B0907;
+    border-left: 4px solid #2a84d0;
+    border-top: 1px solid rgba(42,132,208,0.2);
+    border-bottom: 1px solid rgba(42,132,208,0.2);
+    border-right: 1px solid rgba(42,132,208,0.2);
+    padding: 15px 20px;
+    border-radius: 0 4px 4px 0;
+    color: #fff;
+    min-width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6), 0 0 10px rgba(42,132,208,0.2);
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  `;
+
+  toast.innerHTML = `
+    <strong style="display:block; font-family:var(--font-mono); font-size:11px; color:#2a84d0; letter-spacing:1px; margin-bottom:4px;">${titulo}</strong>
+    <span style="font-size:13px; color:var(--color-ash); line-height:1.4;">${mensagem}</span>
+  `;
+
+  container.appendChild(toast);
+
+  // Animação de entrada
+  setTimeout(() => { toast.style.transform = 'translateX(0)'; }, 50);
+
+  // Remove automaticamente após 5 segundos
+  setTimeout(() => {
+    toast.style.transform = 'translateX(120%)';
+    setTimeout(() => { toast.remove(); }, 400);
+  }, 5000);
+}
+
+// Abre o modal de checkout e força o carregamento inicial do PIX
 document.addEventListener('click', function(event) {
   if (event.target && event.target.innerText && event.target.innerText.includes('FINALIZAR COMPRA')) {
     event.preventDefault();
     event.stopPropagation();
     const modal = document.getElementById('checkout-modal');
     if (modal) {
-      modal.style.display = 'flex'; // Abre o modal à força
+      modal.style.display = 'flex';
+      selecionarMetodoPagamento('pix'); // Garante que abre mostrando o PIX ativo
     }
   }
 });
 
-// 2. Processa o pagamento simulado e reconstrói o Dashboard
+// Controla a troca visual das Abas (PIX vs Cartão)
+function selecionarMetodoPagamento(metodo) {
+  const containerConteudo = document.getElementById('checkout-conteudo-pagamento');
+  const btnPix = document.getElementById('tab-pix');
+  const btnCartao = document.getElementById('tab-cartao');
+  
+  if (!containerConteudo || !btnPix || !btnCartao) return;
+
+  if (metodo === 'pix') {
+    // Atualiza botões
+    btnPix.style.cssText = "flex: 1; background: rgba(42, 132, 208, 0.15); border: 1px solid #2a84d0; color: #fff; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;";
+    btnCartao.style.cssText = "flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;";
+    
+    // Injeta o QR Code
+    containerConteudo.innerHTML = `
+      <p style="color: #fff; font-family: var(--font-mono); font-size: 11px; margin: 0 0 15px 0; letter-spacing: 1px; text-transform: uppercase;">❖ QR Code de Teste Operacional</p>
+      <div style="width: 130px; height: 130px; background: #fff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 11px; border: 4px solid #fff; border-radius: 4px;">[ QR CODE FORGE ]</div>
+      <p style="color: #888; font-size: 11px; margin: 0; line-height: 1.4;">Simulador ativo. Clique no botão de confirmação abaixo para simular o recebimento do PIX.</p>
+    `;
+  } else {
+    // Atualiza botões
+    btnPix.style.cssText = "flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;";
+    btnCartao.style.cssText = "flex: 1; background: rgba(42, 132, 208, 0.15); border: 1px solid #2a84d0; color: #fff; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;";
+    
+    // Injeta o formulário do Cartão
+    containerConteudo.innerHTML = `
+      <p style="color: #fff; font-family: var(--font-mono); font-size: 11px; margin: 0 0 15px 0; letter-spacing: 1px; text-transform: uppercase;">💳 Dados do Cartão Simulado</p>
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 10px; max-width: 280px; margin: 0 auto; width: 100%;">
+        <input type="text" value="4444 •••• •••• 1928" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; width: 100%; box-sizing: border-box;">
+        <div style="display: flex; gap: 10px; width: 100%;">
+          <input type="text" value="12/30" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; flex: 1; text-align: center;">
+          <input type="text" value="482" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; flex: 1; text-align: center;">
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Processa o pagamento fictício e reconstrói a área do cliente como "Meus Pedidos"
 function processarPagamentoFicticio() {
   const btn = document.getElementById('btn-confirmar-pagamento');
-  if (btn) {
-    btn.disabled = true;
-    btn.innerText = "A PROCESSAR...";
+  const conteudo = document.getElementById('checkout-conteudo-pagamento');
+  
+  if (!btn || !conteudo) return;
+  
+  btn.disabled = true;
+  btn.style.opacity = "0.6";
+  btn.innerText = "CONECTANDO GATEWAY...";
+  
+  conteudo.innerHTML = `
+    <div style="padding: 20px 0;">
+      <div style="width: 30px; height: 30px; border: 2px solid rgba(42,132,208,0.1); border-top: 2px solid #2a84d0; border-radius: 50%; margin: 0 auto 15px; animation: forgeSpin 0.8s infinite linear;"></div>
+      <p style="color: #fff; font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.5px;">Autenticando transação segura...</p>
+    </div>
+  `;
+
+  if (!document.getElementById('forge-spin-animation')) {
+    const s = document.createElement('style');
+    s.id = 'forge-spin-animation';
+    s.innerHTML = "@keyframes forgeSpin { to { transform: rotate(360deg); } }";
+    document.head.appendChild(s);
   }
 
   setTimeout(() => {
-    // Fecha o ecrã de pagamento
-    const modal = document.getElementById('checkout-modal');
-    if (modal) modal.style.display = 'none';
-    
-    // Restaura o botão
-    if (btn) {
-      btn.disabled = false;
-      btn.innerText = "CONFIRMAR PAGAMENTO";
-    }
+    // Fecha o modal
+    document.getElementById('checkout-modal').style.display = 'none';
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.innerText = "CONFIRMAR PAGAMENTO";
 
-    alert("Pagamento aprovado com sucesso! Seu pedido entrou na esteira de produção da Forge.");
+    // Dispara a Notificação customizada da Forge!
+    dispararNotificacaoForge("Pagamento aprovado com sucesso! O seu pedido já entrou na esteira de produção da Forge.", "GATEWAY DE PAGAMENTO");
 
-    // Redireciona para o Dashboard do Cliente à força
+    // Redireciona para o Dashboard do Cliente
     if (typeof showSection === 'function') {
       showSection('cliente');
     }
 
-    // Injeta o ecrã de rastreio com o Stepper animado dentro do Dashboard
+    // Injeta a aba "Meus Pedidos" com o Stepper dinâmico
     const boxChamados = document.getElementById('box-chamados');
     if (boxChamados) {
       boxChamados.innerHTML = `
-        <h3 class="client-card-title">Situação do meu Pedido</h3>
+        <h3 class="client-card-title">Meus Pedidos</h3>
         <div style="background: rgba(0,0,0,0.18); border: 1px solid rgba(42,132,208,0.25); border-radius: 8px; padding: 20px;">
+          
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px;">
             <div>
-              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); display: block; margin-bottom: 4px;">ORDEM #FRG-9842 · HOJE</span>
-              <h4 style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--color-ash); margin: 0;">Workstation Forge Custom</h4>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); letter-spacing: 1.5px; display: block; margin-bottom: 4px;">PEDIDO #FRG-9842 · HOJE</span>
+              <h4 style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--color-ash); margin: 0; text-transform: uppercase;">Workstation Forge Custom</h4>
             </div>
             <span style="font-family: var(--font-mono); font-size: 9px; font-weight: 700; padding: 4px 10px; background: rgba(255,189,46,0.12); color: #ffbd2e; border: 0.5px solid rgba(255,189,46,0.3); border-radius: 2px;">EM MONTAGEM</span>
           </div>
@@ -3253,7 +3345,7 @@ function processarPagamentoFicticio() {
             
             <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
               <div style="width: 14px; height: 14px; border-radius: 50%; background: var(--color-blue);"></div>
-              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ash);">Pago</span>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ash);">Aprovado</span>
             </div>
             <div style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 3;">
               <div style="width: 14px; height: 14px; border-radius: 50%; background: #ffbd2e; box-shadow: 0 0 10px #ffbd2e;"></div>
@@ -3268,8 +3360,9 @@ function processarPagamentoFicticio() {
               <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-gray);">Envio</span>
             </div>
           </div>
+
         </div>
       `;
     }
-  }, 1500);
+  }, 1800);
 }
