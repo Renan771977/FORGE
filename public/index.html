@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=v3">
+  <link rel="stylesheet" href="style-a11y-remaster.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -17,47 +19,51 @@
 <header>
   <nav class="site-nav" aria-label="Navegação principal">
 
-    <!-- Logotipo -->
-    <a class="nav-logo" href="#" onclick="showSection('hero');return false" aria-label="FORGE — Página inicial">
-      <div class="nav-logo__icon" aria-hidden="true">
-        <svg width="28" height="33" viewBox="0 0 56 66" fill="none" focusable="false">
-          <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
-          <rect x="17" y="14" width="8"  height="31" fill="#0B0907"/>
-          <rect x="25" y="14" width="14" height="9"  fill="#0B0907"/>
-          <rect x="25" y="30" width="10" height="8"  fill="#0B0907"/>
-        </svg>
-      </div>
-      <span class="nav-logo__text">FORGE</span>
-    </a>
-
-    <!-- Links de navegação -->
-    <ul class="nav-links" role="list">
-      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('vendas')">Builds</a></li>
-      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('configurador')">Configurador</a></li>
-      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('benchmark')">Benchmark</a></li>
-      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('software')">Software</a></li>
-      <li><a class="nav-links__item" href="javascript:void(0)" onclick="showSection('consultoria')">Consultoria</a></li>
-    </ul>
-
-    <!-- Ação principal + avatar de usuário -->
-    <div class="nav-auth-container">
-  <button id="nav-cta-btn" class="btn-primary" onclick="showSection('cadastro')" style="display: block;">
-    Minha Conta
-  </button>
-
-  <div id="nav-user-area" class="nav-user-profile" style="display: none;" onclick="toggleMenuUsuario()">
-    <div class="avatar-circle">
-      <span id="nav-avatar-initials">U</span>
+  <a class="nav-logo" href="#" onclick="showSection('hero');return false" aria-label="FORGE — Página inicial">
+    <div class="nav-logo__icon" aria-hidden="true">
+      <svg width="28" height="33" viewBox="0 0 56 66" fill="none" focusable="false">
+        <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
+        <rect x="17" y="14" width="8"  height="31" fill="#0B0907"/>
+        <rect x="25" y="14" width="14" height="9"  fill="#0B0907"/>
+        <rect x="25" y="30" width="10" height="8"  fill="#0B0907"/>
+      </svg>
     </div>
-    <span class="avatar-name" id="client-name-display">Usuário</span>
+    <span class="nav-logo__text">FORGE</span>
+  </a>
+
+  <ul class="nav-links" role="list">
+    <div id="nav-link-cliente" style="display: none; align-items: center;">
+      <a href="#cliente" class="nav-links__item" onclick="showSection('cliente'); return false;">Dashboard</a>
+    </div>
+    <a class="nav-links__item" href="#" onclick="showSection('vendas'); return false;">Builds</a>
+    <a class="nav-links__item" href="#" onclick="showSection('configurador'); return false;">Configurador</a>
+    <a class="nav-links__item" href="#" onclick="showSection('benchmark'); return false;">Benchmark</a>
+    <a class="nav-links__item" href="#" onclick="showSection('software'); return false;">Software</a>
+    <a class="nav-links__item" href="#" onclick="showSection('consultoria'); return false;">Consultoria</a>
+  </ul>
+
+  <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
     
-    <div class="avatar-dropdown" id="avatar-dropdown-menu">
-      <button onclick="executarLogout()">Sair da Conta</button>
-    </div>
+
+    <button id="nav-cta-btn" class="btn-primary" onclick="showSection('cadastro')" style="display: block;">
+      Minha Conta
+    </button>
+
+    <div id="nav-user-area" class="nav-user-profile" style="position: relative; cursor: pointer;" onclick="toggleMenuUsuario(event)">
+  <div class="avatar-circle">
+    <span id="nav-avatar-initials">R</span>
+  </div>
+  <span class="avatar-name" id="client-name-display">Renan</span>
+  
+  <div id="avatar-dropdown-menu" style="display: none; position: absolute; top: 110%; right: 0; background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 10px 15px; border-radius: 4px; z-index: 9999; min-width: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+    <button onclick="doLogout()" style="background: none; border: none; color: #ff4d4d; width: 100%; text-align: left; cursor: pointer; font-family: var(--font-mono); font-size: 13px; font-weight: bold; padding: 5px 0;">
+      ✕ Sair da Conta
+    </button>
   </div>
 </div>
 
-  </nav>
+  </div>
+</nav>
 </header>
 
 
@@ -124,8 +130,7 @@
       <p class="sec-header__eyebrow">Loja Forge</p>
       <h2 id="vendas-heading" class="sec-header__title">Catálogo de <span>Builds</span></h2>
       <p class="sec-header__sub">
-        Clique em qualquer build para abrir as especificações técnicas,
-        peças e benchmarks reais em uma nova aba dedicada.
+        Clique em qualquer build para abrir as especificações técnicas.
       </p>
     </header>
 
@@ -246,6 +251,42 @@
   <section id="produto-detalhes" aria-labelledby="produto-heading">
     <div class="produto-container" id="produto-container">
       </div>
+  </section>
+
+  <section id="carrinho" aria-labelledby="carrinho-heading">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 40px 20px;">
+      
+      <header class="sec-header" style="text-align: left; border-bottom: 1px solid rgba(42, 132, 208, 0.2); padding-bottom: 20px;">
+        <h2 id="carrinho-heading" class="sec-header__title" style="font-size: 36px;">Meu <span>Carrinho</span></h2>
+      </header>
+
+      <div class="cart-layout-grid" style="display: grid; grid-template-columns: 1fr 350px; gap: 40px; margin-top: 40px; align-items: flex-start;">
+        
+        <div id="carrinho-lista" style="display: flex; flex-direction: column; gap: 20px;"></div>
+
+        <div class="ecom-buy-panel" style="margin-top: 0; padding: 30px;">
+          <h3 style="font-family: var(--font-display); font-size: 20px; text-transform: uppercase; color: var(--color-ash); margin-bottom: 20px;">Resumo do Pedido</h3>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--color-gray); font-size: 14px;">
+            <span>Subtotal</span>
+            <span id="carrinho-subtotal">R$ 0,00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 20px; color: #00a650; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
+            <span>Frete</span>
+            <span>Grátis</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 24px; color: var(--color-ash); font-size: 18px; font-weight: bold;">
+            <span>Total</span>
+            <span id="carrinho-total">R$ 0,00</span>
+          </div>
+
+          <button class="btn-primary" style="width: 100%;" onclick="showToast('Redirecionando para checkout seguro...', 'success')">
+            FINALIZAR COMPRA
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 
 
@@ -432,14 +473,12 @@
               <div class="result-score" id="result-scores"></div>
             </div>
 
-            <div id="quiz-builds-prontas-section" style="margin-top:40px;text-align:left">
               <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--color-blue);margin-bottom:15px;text-transform:uppercase;font-weight:bold">
                 ✦ Modelos Prontos Correspondentes:
               </p>
               <div class="builds-grid" id="quiz-builds-container" style="gap:20px;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))"></div>
             </div>
 
-            <div class="result-actions" style="margin-top:40px">
               <button class="btn-primary" onclick="openBuildModal('Workstation Customizada', 'Sob Consulta')">
                 Solicitar esta build
               </button>
@@ -718,7 +757,7 @@
           </a>
           <p class="software__cta-meta">
             Windows 10/11 · 64-bit · v1.0 · ~8MB
-            <span class="software__cta-privacy">Sem rastreamento. Nenhum dado pessoal coletado.</span>
+            <span class="software__cta-privacy">O software é exclusivamente para monitoramento de workstations.</span>
           </p>
         </div>
 
@@ -735,7 +774,7 @@
               <span class="app-window__dot app-window__dot--min"></span>
               <span class="app-window__dot app-window__dot--max"></span>
             </div>
-            <span class="app-window__title">FORGE Core · Dashboard</span>
+            <span class="app-window__title">FORGE Core</span>
             <span class="app-window__version">v1.0</span>
           </div>
 
@@ -882,6 +921,38 @@
      FIM: #software
      ============================================================ -->
 
+  <section id="carrinho" aria-labelledby="carrinho-heading">
+      
+      <header class="sec-header" style="text-align: left; border-bottom: 1px solid rgba(42, 132, 208, 0.2); padding-bottom: 20px;">
+        <h2 id="carrinho-heading" class="sec-header__title" style="font-size: 36px;">Meu <span>Carrinho</span></h2>
+      </header>
+
+      <div class="product-grid" style="grid-template-columns: 1fr 350px; gap: 40px; margin-top: 40px;">
+        <div id="carrinho-lista" style="display: flex; flex-direction: column; gap: 20px;"></div>
+
+          <h3 style="font-family: var(--font-display); font-size: 20px; text-transform: uppercase; color: var(--color-ash); margin-bottom: 20px;">Resumo do Pedido</h3>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--color-gray); font-size: 14px;">
+            <span>Subtotal</span>
+            <span id="carrinho-subtotal">R$ 0,00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 20px; color: #00a650; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
+            <span>Frete</span>
+            <span>Grátis</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 24px; color: var(--color-ash); font-size: 18px; font-weight: bold;">
+            <span>Total</span>
+            <span id="carrinho-total">R$ 0,00</span>
+          </div>
+
+          <button class="btn-primary" style="width: 100%;" onclick="showToast('Redirecionando para checkout seguro...', 'success')">
+            FINALIZAR COMPRA
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="cadastro" aria-labelledby="cadastro-heading">
     <div class="grid-bg" style="position:fixed;inset:0;pointer-events:none;z-index:0" aria-hidden="true"></div>
@@ -926,13 +997,41 @@
         <button class="auth-submit" onclick="doLogin()">Entrar na minha conta</button>
         
         <div class="auth-divider" aria-hidden="true">ou</div>
+
         
-        <button class="social-btn" onclick="doLogin()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-            <path d="M20.3 12.2c0-.7-.1-1.3-.2-2H12v3.8h4.7c-.2 1-1 3-4.7 3a5.5 5.5 0 010-11c1.6 0 2.6.7 3.2 1.2l2.2-2.1C15.9 3.5 14.1 2.8 12 2.8a9.2 9.2 0 000 18.4c5.3 0 8.8-3.7 8.8-8.9-.1-.4-.1-.7-.5-1.1z" fill="#4285F4"/>
-          </svg>
-          Continuar com Google
-        </button>
+        <div id="g_id_onload"
+     data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="handleGoogleLogin"
+     data-auto_prompt="false">
+</div>
+
+<div style="position: relative; width: 100%; height: 50px; overflow: hidden; margin-bottom: 20px; border-radius: 4px;">
+
+  <button type="button" class="btn-ghost" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-color: var(--color-blue); color: var(--color-blue); pointer-events: none; display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    ENTRAR COM O GOOGLE
+  </button>
+
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.01; z-index: 10; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="filled_black"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="center"
+         style="transform: scale(2); cursor: pointer;">
+    </div>
+  </div>
+
+</div>
         
         <p class="terms">
           Ao entrar você concorda com os
@@ -993,14 +1092,7 @@
     </div>
   </section>
 
-<section id="cliente" aria-labelledby="cliente-heading">
-    <header class="client-header">
-      <div>
-        <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--color-blue);margin-bottom:6px;opacity:.8">Área do cliente</p>
-        <h2 id="cliente-heading" class="client-welcome">Olá, <span id="client-name-display">Renan</span></h2>
-      </div>
-      <button class="logout-btn" onclick="doLogout()">Sair da conta</button>
-    </header>
+  <section id="cliente" aria-labelledby="cliente-heading">
 
     <div class="client-grid">
       <aside class="client-sidebar">
@@ -1021,7 +1113,6 @@
               <p class="build-status"><span class="status-dot"></span>Performance garantida</p>
             </div>
           </div>
-          <div class="mini-stat-grid" style="margin-top:16px">
             <div class="mini-stat"><p class="mini-stat-val">19.2K</p><p class="mini-stat-lbl">Cinebench</p></div>
             <div class="mini-stat"><p class="mini-stat-val">68°C</p><p class="mini-stat-lbl">Temp. máx.</p></div>
             <div class="mini-stat"><p class="mini-stat-val">9.1</p><p class="mini-stat-lbl">Eficiência</p></div>
@@ -1061,24 +1152,14 @@
           </div>
         </article>
 
-        <article class="client-card">
+        <article class="client-card" id="box-chamados">
           <h3 class="client-card-title">Suporte técnico</h3>
-          <div class="ticket-list">
-            <div class="ticket-item">
-              <div class="ticket-dot"></div>
-              <div>
-                <p class="ticket-title">Dúvida sobre OC da RAM para 6400MHz</p>
-                <p class="ticket-meta">#TKT-0041 · Aberto em 18/03/2025</p>
-                <p class="ticket-status status-open">Em atendimento</p>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:16px">
-            <button class="btn-ghost" style="font-size:13px;padding:10px 18px" onclick="showSection('consultoria')">Abrir novo chamado</button>
+            <div style="text-align: center; padding: 25px 20px; background: rgba(0,0,0,0.15); border: 1px dashed rgba(42,132,208,0.15); border-radius: 6px;">
+           <p style="color: var(--color-gray); font-size: 14px; margin-bottom: 14px; line-height: 1.6;">Carregando seus chamados...</p>
           </div>
         </article>
+        </div>
       </div>
-    </div>
   </section>
 
   <section id="consultoria" aria-labelledby="consultoria-heading">
@@ -1114,24 +1195,26 @@
         <div class="field"><label>Seu nome</label><input type="text" placeholder="Seu nome completo"></div>
         <div class="field"><label>E-mail ou WhatsApp</label><input type="text" placeholder="seu@email.com · (31) 9 9999-9999"></div>
         <div class="field">
-          <label>Assunto</label>
-          <select>
-            <option>Nova build — quero dimensionar</option>
-            <option>Upgrade do PC atual</option>
-            <option>Diagnóstico de performance</option>
-            <option>Dúvida técnica específica</option>
-          </select>
-        </div>
-        <div class="field"><label>Horários disponíveis</label></div>
-        <div class="time-slots">
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 09h</div>
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 14h</div>
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 10h</div>
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 16h</div>
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qua 09h</div>
-          <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qui 15h</div>
-        </div>
-        <button class="auth-submit" onclick="alert('Agendamento enviado! Entraremos em contato para confirmar.')">Confirmar agendamento</button>
+  <label>Assunto</label>
+  <select id="assunto-consultoria">
+    <option>Nova build — quero dimensionar</option>
+    <option>Upgrade do PC atual</option>
+    <option>Diagnóstico de performance</option>
+    <option>Dúvida técnica específica</option>
+  </select>
+</div>
+
+<div class="field"><label>Horários disponíveis</label></div>
+<div class="time-slots">
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 09h</div>
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Seg 14h</div>
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 10h</div>
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Ter 16h</div>
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qua 09h</div>
+  <div class="time-slot" onclick="this.classList.toggle('selected')" role="button" tabindex="0">Qui 15h</div>
+  </div>
+
+  <button class="auth-submit" onclick="enviarAgendamentoConsultoria(document.getElementById('assunto-consultoria').value)">Confirmar agendamento</button>
       </div>
     </div>
   </section>
@@ -1182,7 +1265,7 @@
 
   <div class="footer-bottom">
     <small class="footer-copy">© 2026 FORGE Performance Computing. Todos os direitos reservados.</small>
-    <p class="footer-tech">forge.build · v1.0 · Belo Horizonte, MG</p>
+    <p class="footer-tech">Forge Core · v1.0 · Belo Horizonte, MG</p>
   </div>
 </footer>
 
@@ -1238,5 +1321,8 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
+<script src="forge-visao-geral.js"></script>
+<script src="forge-chamados.js"></script>
+<script src="forge-chamados-api.js"></script>
 </body>
 </html>

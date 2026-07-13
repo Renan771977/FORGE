@@ -2,6 +2,7 @@
 //  FORGE — Performance Computing | server.js
 //  Back-end REST com Express — Esqueleto de produção para Railway
 // =============================================================================
+require('dotenv').config();
 
 'use strict';
 
@@ -71,6 +72,40 @@ app.get('/api/health', (req, res) => {
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Middleware para proteger as rotas do Cliente
+async function autenticarCliente(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ erro: 'Token de autenticação não fornecido.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decodificado = jwt.verify(token, JWT_SECRET);
+    req.usuario = decodificado; // Insere os dados do cliente na requisição
+    next();
+  } catch (err) {
+    return res.status(403).json({ erro: 'Sessão expirada ou Token inválido.' });
+  }
+}
+
+// CORREÇÃO NO BACKEND: Envelopar o array para o plugin do Claude conseguir ler
+app.get('/api/cliente/chamados', autenticarCliente, async (req, res, next) => {
+    try {
+        const [rows] = await pool.query(
+            'SELECT ticket_id, assunto, status, data_criacao FROM chamados WHERE cliente_email = ? ORDER BY data_criacao DESC',
+            [req.usuario.email]
+        );
+        
+        // Em vez de res.json(rows), envie assim:
+        res.json({ chamados: rows });
+        
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({erro: "Erro ao buscar chamados"});
+    }
 });
 
 // =============================================================================

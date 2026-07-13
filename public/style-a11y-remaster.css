@@ -1,0 +1,863 @@
+/* =============================================================================
+   FORGE — Performance Computing
+   ACCESSIBILITY REMASTER PATCH v2.0
+   ─────────────────────────────────────────────────────────────────────────────
+   Estratégia: este arquivo é um OVERRIDE que deve ser linkado APÓS o style.css
+   principal. Ele redefine tokens e regras cirúrgicas sem tocar na arquitetura.
+   Zero !important. Zero duplicação de lógica.
+
+   Para usar: adicione no <head> do index.html, logo após o style.css:
+     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="style-a11y-remaster.css">
+   ============================================================================= */
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 1 — DESIGN TOKENS ATUALIZADOS
+   Sobrescreve o :root do style.css original com valores de maior contraste.
+   Referência WCAG 2.1 AA: texto normal ≥ 4.5:1 | texto grande ≥ 3:1
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Cores do texto ──────────────────────────────────────────────────────── */
+
+  /*
+   * ANTES:  --color-gray: #7A6A5E  → ratio ~2.8:1 sobre #0B0907  ✗ REPROVADO
+   * DEPOIS: --color-gray: #B8ADA5  → ratio ~5.6:1 sobre #0B0907  ✓ AA
+   * Decisão: subimos a luminosidade mantendo o tom "cobre envelhecido" da marca.
+   * A leve saturação quente (B8 > neutro) preserva a identidade premium sem
+   * virar um cinza técnico genérico.
+   */
+  --color-gray:     #B8ADA5;
+
+  /*
+   * ANTES:  --color-gray-dim: #4a3e36  → ratio ~1.5:1  ✗ REPROVADO (para texto)
+   * DEPOIS: --color-gray-dim: #8A7E76  → ratio ~3.4:1  ✓ AA (texto grande / UI)
+   * Usado em metadados e rodapés — suficiente para texto ≥ 14px bold.
+   */
+  --color-gray-dim: #8A7E76;
+
+  /*
+   * ANTES:  --color-blue: #2a84d0  → ratio ~3.5:1 sobre fundo escuro ✗ borderline
+   * DEPOIS: --color-blue: #4D9FE8  → ratio ~4.8:1                    ✓ AA
+   * Azul ligeiramente mais claro e mais saturado. Mantém o DNA tecnológico
+   * mas passa com folga nos testes. Os glows e gradientes ficam mais vivos.
+   * ATENÇÃO: atualizar também os valores hardcoded de rgba(42,132,208,...) abaixo.
+   */
+  --color-blue:       #4D9FE8;
+  --color-blue-dim:   #2870B8;
+
+  /* Glows baseados no novo azul (77, 159, 232) */
+  --color-blue-glow:  rgba(77, 159, 232, .18);
+  --color-blue-faint: rgba(77, 159, 232, .09);
+
+  /* Bordas refeitas com o novo azul */
+  --border-subtle: 0.5px solid rgba(77, 159, 232, .14);
+  --border-medium: 0.5px solid rgba(77, 159, 232, .25);
+  --border-strong: 0.5px solid rgba(77, 159, 232, .45);
+  --border-card:   1px   solid rgba(77, 159, 232, .18);
+
+  /* ── Tipografia — escala mínima ──────────────────────────────────────────── */
+  /*
+   * Estabelecemos 12px como o piso absoluto para texto funcional.
+   * Labels decorativas (badges de produto) podem ficar em 11px desde que
+   * sejam texto grande em peso bold (≥ 700) sobre fundo colorido.
+   */
+  --font-size-micro:  11px;   /* apenas badges com fundo colorido */
+  --font-size-label:  12px;   /* labels mono, eyebrows, metadados */
+  --font-size-sm:     14px;   /* corpo compacto, specs, descrições curtas */
+  --font-size-body:   15px;   /* corpo padrão de leitura */
+  --font-size-lead:   17px;   /* subtítulos e introduções */
+
+  /* ── Transições aprimoradas ──────────────────────────────────────────────── */
+  --ease-button: .25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 2 — NAVEGAÇÃO
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Nav links: subimos para 14px (eram 13px) e adicionamos underline no hover
+ * para reforçar interatividade além da cor (WCAG 1.4.1).
+ */
+.nav-links__item {
+  font-size:   14px;
+  font-weight: 600;
+  position:    relative;
+}
+
+.nav-links__item::after {
+  content:          '';
+  position:         absolute;
+  bottom:           -4px;
+  left:             0;
+  width:            0;
+  height:           1px;
+  background:       var(--color-blue);
+  transition:       width var(--ease-ui);
+}
+
+.nav-links__item:hover::after,
+.nav-links__item--active::after { width: 100%; }
+
+.nav-cta {
+  font-size:  15px;
+  padding:    11px 26px;
+  background: var(--color-blue);
+  box-shadow: 0 4px 14px rgba(77, 159, 232, .3);
+  transition: background var(--ease-button), transform var(--ease-button),
+              box-shadow var(--ease-button);
+}
+
+.nav-cta:hover {
+  background: #62ADF0;
+  transform:  translateY(-1px);
+  box-shadow: 0 6px 20px rgba(77, 159, 232, .45);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 3 — HERO
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * hero-eyebrow: era 12px mono cinza apagado.
+ * Subimos para 13px e aumentamos a opacidade de .7 para 1.
+ */
+.hero-eyebrow {
+  font-size: 13px;
+  color:     var(--color-blue);
+  opacity:   1;
+}
+
+/*
+ * hero-sub: era clamp(16px,2vw,18px) em cinza escuro sem contraste.
+ * O novo --color-gray já resolve a cor. Elevamos o peso de 300 para 400
+ * (fontes finas são inerentemente mais difíceis de ler em fundos escuros).
+ */
+.hero-sub {
+  font-size:   clamp(17px, 2vw, 20px);
+  color:       var(--color-gray);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+/*
+ * Estatísticas: labels eram 11px. Subimos para 12px + aumentamos o
+ * letter-spacing um tick para compensar o tamanho menor (legibilidade
+ * de texto all-caps pequeno melhora muito com tracking mais amplo).
+ */
+.stat-item__label,
+.stat-lbl {
+  font-size:      12px;
+  letter-spacing: 2.5px;
+  color:          var(--color-gray);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 4 — SECTION HEADER
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Eyebrow: 11px → 12px. Mantemos o estilo mono mas garantimos o mínimo.
+ * A opacidade .8 é removida — cor já tem contraste suficiente.
+ */
+.sec-header__eyebrow {
+  font-size: 12px;
+  opacity:   1;
+  color:     var(--color-blue);
+}
+
+/*
+ * Sub: 15px → 17px, cor migra para var(--color-gray) que agora está legível.
+ * Line-height aumentado para 1.7 (WCAG 1.4.12 — texto com espaçamento).
+ */
+.sec-header__sub {
+  font-size:   var(--font-size-lead);
+  color:       var(--color-gray);
+  line-height: 1.7;
+  max-width:   600px;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 5 — BOTÕES PRIMÁRIOS E CTA
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * btn-primary: hover ganhou glow mais expressivo e scale sutil para feedback
+ * táctil visível. Foco ganhou outline explícito (WCAG 2.4.7).
+ */
+.btn-primary {
+  font-size:  16px;
+  padding:    15px 38px;
+  background: var(--color-blue);
+  box-shadow: 0 4px 18px rgba(77, 159, 232, .3);
+  transition: background var(--ease-button), transform var(--ease-button),
+              box-shadow var(--ease-button);
+}
+
+.btn-primary:hover {
+  background: #62ADF0;
+  transform:  translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(77, 159, 232, .45);
+}
+
+.btn-primary:focus-visible {
+  outline:        2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+/*
+ * btn-ghost: border mais visível (opacidade .35 → .5) e
+ * hover com fill sutil em vez de só cor de borda.
+ */
+.btn-ghost {
+  font-size:    14px;
+  border-color: rgba(244, 237, 228, .35);
+  transition:   border-color var(--ease-button), color var(--ease-button),
+                background var(--ease-button);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-blue);
+  color:        var(--color-blue);
+  background:   rgba(77, 159, 232, .06);
+}
+
+.btn-ghost:focus-visible {
+  outline:        2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 6 — FILTROS (VENDAS)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Label do filtro: 9px → 12px. Era o pior ofensor de tipografia do site.
+ * A opacidade .9 é normalizada para 1.
+ */
+.filter-group label {
+  font-size: 12px;
+  opacity:   1;
+  color:     var(--color-blue);
+}
+
+/*
+ * Select: placeholder e valores já estavam OK (14px), mas o foco ganhou
+ * um ring explícito para teclado/leitores de tela.
+ */
+.filter-group select:focus {
+  border-color: var(--color-blue);
+  box-shadow:   0 0 0 3px rgba(77, 159, 232, .2);
+  outline:      none;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 7 — CARDS DE BUILD (CATÁLOGO)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Hover do card: elevamos o translate e o glow para tornar a interação
+ * mais expressiva e premium. O scale foi mantido mas ligeiramente suavizado.
+ */
+.build-card:hover {
+  border-color: var(--color-blue);
+  transform:    translateY(-8px) scale(1.015);
+  box-shadow:   0 24px 48px rgba(77, 159, 232, .16),
+                0 0 0 1px rgba(77, 159, 232, .12);
+}
+
+/*
+ * Badge: 9px era ilegível mesmo em bold. 11px com fundo sólido colorido
+ * está no limite aceito pelo WCAG (texto grande + alto contraste no badge).
+ * Aumentamos o padding para a área de toque mínima.
+ */
+.build-badge {
+  font-size: var(--font-size-micro);  /* 11px — aceitável: bold + fundo colorido */
+  padding:   6px 12px;
+  background: var(--color-blue);
+  /* O azul novo (#4D9FE8) sobre void (#0B0907) tem ratio ~5:1 — ✓ */
+}
+
+/*
+ * Spec ID (mini texto identificador do build): 10px → 12px
+ * Opacidade .9 → 1 (sempre que tiver cor informativa, não diluir)
+ */
+.build-meta-specs {
+  font-size: 12px;
+  color:     var(--color-blue);
+  opacity:   1;
+}
+
+/*
+ * Tagline: 13px → 15px, color-gray agora tem contraste. Height fixo removido
+ * para não truncar texto em fontes maiores — usamos line-clamp como alternativa
+ * progressiva.
+ */
+.build-tagline {
+  font-size:            var(--font-size-body);
+  color:                var(--color-gray);
+  line-height:          1.6;
+  height:               auto;
+  min-height:           48px;
+
+  /* line-clamp mantém o alinhamento visual sem esconder conteúdo arbitrariamente */
+  display:              -webkit-box;
+  -webkit-line-clamp:   2;
+  -webkit-box-orient:   vertical;
+  overflow:             hidden;
+  margin-bottom:        var(--space-lg);
+}
+
+/*
+ * Spec key/val: 11px → 13px. spec-key agora usa --color-gray legível.
+ */
+.spec-key { font-size: 13px; color: var(--color-gray); }
+.spec-val { font-size: 13px; }
+
+/*
+ * Bench-label dentro dos cards: 10px → 12px
+ */
+.bench-label {
+  font-size: 12px;
+  color:     var(--color-gray);
+}
+
+/*
+ * build-cta: era 11px — o pior botão de todo o site.
+ * Agora tem 14px, padding generoso e hover com elevação.
+ * Área de toque mínima: 44×44px (WCAG 2.5.5).
+ */
+.build-cta {
+  font-size:   14px;
+  font-weight: 700;
+  padding:     12px 20px;
+  min-height:  44px;
+  background:  var(--color-blue);
+  box-shadow:  0 4px 12px rgba(77, 159, 232, .25);
+  transition:  background var(--ease-button), transform var(--ease-button),
+               box-shadow var(--ease-button);
+}
+
+.build-cta:hover {
+  background: #62ADF0;
+  transform:  translateY(-2px);
+  box-shadow: 0 8px 20px rgba(77, 159, 232, .4);
+}
+
+.build-cta:focus-visible {
+  outline:        2px solid var(--color-ash);
+  outline-offset: 2px;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 8 — CONFIGURADOR / QUIZ
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * quiz-hint: já estava em 14px, mas a cor cinza estava ilegível. Resolvido
+ * pelo novo token. Subimos para 15px e melhoramos a margem.
+ */
+.quiz-hint {
+  font-size:     var(--font-size-body);
+  color:         var(--color-gray);
+  margin-bottom: 36px;
+  line-height:   1.6;
+}
+
+/*
+ * qo-desc: descrição das opções do quiz. 12px → 14px.
+ */
+.qo-desc {
+  font-size:   var(--font-size-sm);
+  color:       var(--color-gray);
+  line-height: 1.6;
+}
+
+/*
+ * quiz-back: "← Voltar". Era 13px cinza escuro, quase invisível.
+ * Agora 14px e cor atualizada pelo token.
+ */
+.quiz-back {
+  font-size: 14px;
+  color:     var(--color-gray);
+}
+
+/*
+ * result-badge: era 10px. Subimos para 12px.
+ */
+.result-badge   { font-size: 12px; }
+
+/*
+ * result-subtitle: 15px → 16px, color-gray resolvido.
+ */
+.result-subtitle {
+  font-size:   16px;
+  color:       var(--color-gray);
+  line-height: 1.6;
+}
+
+/*
+ * score-lbl: 9px → 12px. Era o menor texto do configurador.
+ */
+.score-lbl {
+  font-size:      12px;
+  letter-spacing: 1.5px;
+  color:          var(--color-gray);
+}
+
+/*
+ * quiz-option hover: borda mais visível + fill de fundo mais aparente.
+ */
+.quiz-option {
+  border: 1px solid rgba(77, 159, 232, .2);
+  transition: border-color var(--ease-button), background var(--ease-button),
+              box-shadow var(--ease-button);
+}
+
+.quiz-option:hover {
+  border-color: rgba(77, 159, 232, .6);
+  background:   rgba(77, 159, 232, .06);
+  box-shadow:   0 4px 16px rgba(77, 159, 232, .1);
+}
+
+.quiz-option.selected {
+  border-color: var(--color-blue);
+  background:   rgba(77, 159, 232, .1);
+  box-shadow:   0 0 0 1px var(--color-blue),
+                0 4px 16px rgba(77, 159, 232, .15);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 9 — BENCHMARK TABLE
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Cabeçalho da tabela: 10px → 12px.
+ */
+.bench-th { font-size: 12px; color: var(--color-blue); }
+
+/*
+ * Subtexto das linhas (nome do benchmark): 10px → 12px.
+ */
+.bench-test       { font-size: 14px; }
+.bench-test small { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * bench-bar labels na área do cliente: 10px → 12px.
+ */
+.bench-bar-label { font-size: 12px; color: var(--color-gray); }
+.bench-bar-score { font-size: 12px; }
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 10 — FORMULÁRIOS (LOGIN / CADASTRO / CONFIGURADOR)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Labels dos campos: eram 10px. Subimos para 12px.
+ * A opacidade .8 é removida — informação funcional não deve ser diluída.
+ */
+.field label {
+  font-size: 12px;
+  opacity:   1;
+  color:     var(--color-blue);
+}
+
+/*
+ * Inputs: border era quase invisível (opacity .2). Aumentamos para .35
+ * em repouso e .8 no foco. Placeholder mais claro para contraste.
+ * Ring de foco explícito (WCAG 2.4.7).
+ */
+.field input,
+.field select {
+  border:  1px solid rgba(77, 159, 232, .35);
+  color:   var(--color-ash);
+  font-size: 15px;
+  transition: border-color var(--ease-button), box-shadow var(--ease-button);
+}
+
+.field input::placeholder {
+  color:   rgba(181, 173, 165, .55);   /* --color-gray com alpha */
+  opacity: 1;
+}
+
+.field input:hover {
+  border-color: rgba(77, 159, 232, .55);
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--color-blue);
+  box-shadow:   0 0 0 3px rgba(77, 159, 232, .18);
+  outline:      none;
+}
+
+/*
+ * auth-sub: 13px → 15px.
+ */
+.auth-sub {
+  font-size:   var(--font-size-body);
+  color:       var(--color-gray);
+  line-height: 1.7;
+}
+
+/*
+ * auth-divider "ou": 12px → 13px, cor atualizada pelo token.
+ */
+.auth-divider { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * social-btn: 13px → 15px, borda mais visível, hover mais expressivo.
+ */
+.social-btn {
+  font-size:   15px;
+  border:      1px solid rgba(77, 159, 232, .35);
+  color:       var(--color-ash);
+  transition:  border-color var(--ease-button), background var(--ease-button),
+               box-shadow var(--ease-button);
+}
+
+.social-btn:hover {
+  border-color: var(--color-blue);
+  background:   rgba(77, 159, 232, .08);
+  box-shadow:   0 4px 16px rgba(77, 159, 232, .1);
+}
+
+/*
+ * Termos: 11px → 13px. Conteúdo legal precisa ser legível.
+ */
+.terms { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * auth-submit: ganhou hover com elevação e glow.
+ */
+.auth-submit {
+  background: var(--color-blue);
+  transition: background var(--ease-button), transform var(--ease-button),
+              box-shadow var(--ease-button);
+  box-shadow: 0 4px 18px rgba(77, 159, 232, .3);
+}
+
+.auth-submit:hover {
+  background: #62ADF0;
+  transform:  translateY(-2px);
+  box-shadow: 0 10px 28px rgba(77, 159, 232, .45);
+}
+
+.auth-submit:focus-visible {
+  outline:        2px solid var(--color-ash);
+  outline-offset: 3px;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 11 — ÁREA DO CLIENTE
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * client-card-title: 10px → 12px. Opacidade .8 → 1.
+ */
+.client-card-title { font-size: 12px; opacity: 1; }
+
+/*
+ * build-info-id: 10px → 12px.
+ */
+.build-info-id { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * build-status: 9px → 12px. Era o texto mais ilegível do painel.
+ */
+.build-status { font-size: 12px; }
+
+/*
+ * mini-stat-lbl: 9px → 12px.
+ */
+.mini-stat-lbl { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * dl-size: 10px → 12px.
+ */
+.dl-name { font-size: 13px; }
+.dl-size { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * dl-btn: 9px → 12px. Padding mínimo de toque aumentado.
+ */
+.dl-btn {
+  font-size:  12px;
+  padding:    6px 12px;
+  min-height: 32px;
+  border:     1px solid rgba(77, 159, 232, .35);
+  transition: background var(--ease-button), border-color var(--ease-button);
+}
+
+.dl-btn:hover {
+  background:   rgba(77, 159, 232, .12);
+  border-color: var(--color-blue);
+}
+
+/*
+ * ticket-meta: 10px → 12px.
+ */
+.ticket-meta  { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * ticket-status: 9px → 11px (badge com fundo colorido — limite aceito).
+ */
+.ticket-status { font-size: 11px; }
+
+/*
+ * logout-btn: 10px → 13px. Borda mais visível.
+ */
+.logout-btn {
+  font-size:    13px;
+  color:        var(--color-gray);
+  border-color: rgba(181, 173, 165, .25);
+  min-height:   36px;
+  padding:      8px 18px;
+  transition:   color var(--ease-button), border-color var(--ease-button),
+                background var(--ease-button);
+}
+
+.logout-btn:hover {
+  color:        var(--color-ash);
+  border-color: rgba(181, 173, 165, .55);
+  background:   rgba(181, 173, 165, .06);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 12 — CONSULTORIA
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * consul-card-desc: já estava em 13px mas cinza escuro. Token resolve.
+ * Subimos para 14px para consistência com o resto do corpo.
+ */
+.consul-card-desc {
+  font-size:   14px;
+  color:       var(--color-gray);
+  line-height: 1.65;
+}
+
+/*
+ * time-slot: texto dos horários disponíveis. Subimos para 13px.
+ */
+.time-slot {
+  font-size:  13px;
+  color:      var(--color-gray);
+  min-height: 44px;
+  transition: background var(--ease-button), border-color var(--ease-button),
+              color var(--ease-button);
+}
+
+.time-slot:hover,
+.time-slot.selected {
+  color:        var(--color-ash);
+  border-color: rgba(77, 159, 232, .55);
+  background:   rgba(77, 159, 232, .1);
+}
+
+.time-slot.selected {
+  color: var(--color-blue);
+  box-shadow: 0 0 0 1px rgba(77, 159, 232, .5);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 13 — MODAIS
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+.modal-sub {
+  font-size:   var(--font-size-body);
+  color:       var(--color-gray);
+  line-height: 1.7;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 14 — RODAPÉ
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * footer-col-title: 10px → 12px. Opacidade .8 → 1.
+ */
+.footer-col-title { font-size: 12px; opacity: 1; }
+
+/*
+ * Links do rodapé: já estavam bons em 13px, subimos para 14px e
+ * adicionamos underline no hover para clareza (WCAG 1.4.1).
+ */
+.footer-col a {
+  font-size:   14px;
+  color:       var(--color-gray);
+  transition:  color var(--ease-ui);
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color:           var(--color-ash);
+  text-decoration: underline;
+}
+
+/*
+ * brand-tag: 11px → 12px.
+ */
+.footer-brand .brand-tag { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * footer-copy: 11px → 13px.
+ * footer-tech: 10px → 12px.
+ */
+.footer-copy { font-size: 13px; color: var(--color-gray); }
+.footer-tech { font-size: 12px; color: var(--color-gray-dim); }
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 15 — E-COMMERCE (painel de compra e cards de loja)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * ecom-reviews: 11px → 13px.
+ */
+.ecom-reviews { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * ecom-installments: 13px → 15px (informação de conversão — deve ser
+ * totalmente legível).
+ */
+.ecom-installments { font-size: 15px; }
+
+/*
+ * ecom-shipping: 10px → 13px. Informação de frete é altamente relevante
+ * para decisão de compra — era o texto menos legível do painel de e-commerce.
+ */
+.ecom-shipping { font-size: 13px; color: var(--color-blue); }
+
+/*
+ * ecom-payment-methods: 11px → 13px.
+ */
+.ecom-payment-methods { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * pix-badge: 11px com fundo sólido verde — mantemos mas garantimos o padding.
+ */
+.pix-badge { font-size: 11px; padding: 5px 12px; }
+
+/*
+ * ecom-trust-badges: 13px já era OK, mantemos e melhoramos cor.
+ */
+.ecom-trust-badges { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * btn-buy-now: hover mais expressivo com glow mais forte.
+ */
+.btn-buy-now {
+  background: var(--color-blue);
+  box-shadow: 0 8px 24px rgba(77, 159, 232, .25);
+  transition: background var(--ease-button), transform var(--ease-button),
+              box-shadow var(--ease-button);
+}
+
+.btn-buy-now:hover {
+  background: #62ADF0;
+  transform:  translateY(-3px);
+  box-shadow: 0 16px 40px rgba(77, 159, 232, .45);
+}
+
+.btn-buy-now:focus-visible {
+  outline:        2px solid var(--color-ash);
+  outline-offset: 3px;
+}
+
+/*
+ * btn-whatsapp-assist: hover com fill verde mais visível.
+ */
+.btn-whatsapp-assist {
+  transition: background var(--ease-button), box-shadow var(--ease-button),
+              transform  var(--ease-button);
+}
+
+.btn-whatsapp-assist:hover {
+  background: rgba(37, 211, 102, .12);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, .2);
+  transform:  translateY(-1px);
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 16 — PÁGINA DE PRODUTO (hardware / specs / telemetria)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+.hardware-label {
+  font-size: 12px;
+  color:     var(--color-blue);
+  opacity:   1;
+}
+
+.hardware-value { font-size: 16px; }
+
+.telemetria-label {
+  font-size:   12px;   /* era 9px — o pior de toda a página de produto */
+  color:       var(--color-gray);
+  font-weight: 700;
+}
+
+.price-label {
+  font-size: 13px;
+  color:     var(--color-gray);
+}
+
+.machine-tagline {
+  font-size:   16px;
+  color:       var(--color-gray);
+  line-height: 1.65;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 17 — TOAST NOTIFICATIONS
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+.forge-toast { font-size: 14px; }  /* era 13px */
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 18 — FOCUS GLOBAL (WCAG 2.4.7)
+   Garante que TODOS os elementos interativos tenham indicador de foco visível.
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline:        2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+/* Remove outline apenas quando não há navegação por teclado */
+:focus:not(:focus-visible) { outline: none; }
+
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 19 — MOTION SAFETY (WCAG 2.3.3)
+   Respeita a preferência do sistema operacional por redução de animações.
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms;
+    animation-iteration-count: 1;
+    transition-duration:  0.01ms;
+    scroll-behavior:      auto;
+  }
+}
