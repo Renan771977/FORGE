@@ -1792,7 +1792,7 @@ function doLogout() {
   showSection('vendas'); // Redireciona para o catálogo público
   
   // 4. Feedback elegante
-  showToast('Desconectado do servidor FORGE com sucesso.', 'success');
+  showToast('Desconectado com sucesso.', 'success');
 }
 
 function abrirCarrinho() {
@@ -3065,3 +3065,128 @@ document.addEventListener('click', function() {
     menu.style.display = 'none';
   }
 });
+
+// =============================================================================
+//  CONTROLE DO CHECKOUT E STATUS DE PEDIDO FICTÍCIO (PARA APRESENTAÇÃO)
+// =============================================================================
+
+function abrirCheckoutFicticio() {
+  const modal = document.getElementById('checkout-modal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function fecharCheckout() {
+  const modal = document.getElementById('checkout-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+// Altera o visual entre PIX e Cartão no modal
+function selecionarMetodoPagamento(metodo) {
+  const container = document.getElementById('checkout-conteudo-pagamento');
+  if (!container) return;
+  
+  if (metodo === 'pix') {
+    container.innerHTML = `
+      <p style="color: var(--color-ash); font-family: var(--font-mono); font-size: 12px; margin-bottom: 12px; letter-spacing: 1px;">QR CODE DE TESTE GERADO</p>
+      <div style="width: 140px; height: 140px; background: #fff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 11px; border-radius: 4px;">[ QR CODE FORGE ]</div>
+      <p style="color: var(--color-gray); font-size: 11px; line-height: 1.4;">Escaneamento simulado. Clique no botão abaixo para aprovar instantaneamente.</p>
+    `;
+  } else {
+    container.innerHTML = `
+      <p style="color: var(--color-ash); font-family: var(--font-mono); font-size: 12px; margin-bottom: 15px; letter-spacing: 1px;">CARTÃO DE CRÉDITO FICTÍCIO</p>
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto;">
+        <input type="text" value="4444 •••• •••• 4444" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 13px;">
+        <div style="display: flex; gap: 10px;">
+          <input type="text" value="12/29" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 13px; flex: 1; text-align: center;">
+          <input type="text" value="777" disabled style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 10px; color: #fff; border-radius: 4px; font-family: var(--font-mono); font-size: 13px; flex: 1; text-align: center;">
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Simula o processamento do pagamento e desenha a situação na tela do cliente
+function processarPagamentoFicticio() {
+  const btn = document.getElementById('btn-confirmar-pagamento');
+  const conteudo = document.getElementById('checkout-conteudo-pagamento');
+  
+  if (!btn || !conteudo) return;
+  
+  // Efeito visual de carregamento
+  btn.disabled = true;
+  btn.innerText = "PROCESSANDO TRANSACÃO...";
+  conteudo.innerHTML = `
+    <div style="padding: 30px 0;">
+      <div style="width: 35px; height: 35px; border: 3px solid rgba(42,132,208,0.1); border-top: 3px solid #2a84d0; border-radius: 50%; margin: 0 auto 15px; animation: spin 1s infinite linear;"></div>
+      <p style="color: var(--color-ash); font-size: 13px; font-family: var(--font-mono);">Conectando com o gateway de pagamento...</p>
+    </div>
+  `;
+  
+  // Adiciona a animação de girar dinamicamente caso o CSS não tenha
+  if (!document.getElementById('forge-spin-style')) {
+    const style = document.createElement('style');
+    style.id = 'forge-spin-style';
+    style.innerHTML = "@keyframes spin { to { transform: rotate(360deg); } }";
+    document.head.appendChild(style);
+  }
+
+  // Espera 2 segundos (tempo ideal para criar suspense na apresentação)
+  setTimeout(() => {
+    fecharCheckout();
+    
+    // Restaura o botão para o estado original caso usem de novo
+    btn.disabled = false;
+    btn.innerText = "CONFIRMAR PAGAMENTO";
+    
+    alert("💳 Sucesso! O pagamento simulado foi aprovado pela operadora. Seu pedido entrou na esteira de produção da Forge.");
+    
+    // Redireciona o cliente para o Dashboard principal
+    if (typeof showSection === 'function') {
+      showSection('cliente');
+    }
+    
+    // Altera a caixinha de chamados para virar a Tela de Rastreio com a linha do tempo (Stepper)
+    const boxChamados = document.getElementById('box-chamados');
+    if (boxChamados) {
+      boxChamados.innerHTML = `
+        <h3 class="client-card-title">Situação do meu Pedido</h3>
+        <div style="background: rgba(0,0,0,0.18); border: 1px solid rgba(42,132,208,0.25); border-radius: 8px; padding: 20px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); letter-spacing: 1.5px; display: block; margin-bottom: 4px;">ORDEM #FRG-9842 · HOJE</span>
+              <h4 style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--color-ash); text-transform: uppercase; margin: 0;">Workstation Customizada</h4>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 9px; font-weight: 700; padding: 4px 10px; background: rgba(255,189,46,0.12); color: #ffbd2e; border: 0.5px solid rgba(255,189,46,0.3); border-radius: 2px;">EM MONTAGEM</span>
+          </div>
+
+          <div style="position: relative; display: flex; justify-content: space-between; align-items: flex-start; width: 100%; padding: 0 7px; margin-top: 10px;">
+            <div style="position: absolute; top: 7px; left: 28px; right: 28px; height: 2px; background: rgba(255,255,255,0.05); z-index: 1;"></div>
+            <div style="position: absolute; top: 7px; left: 28px; width: 33%; height: 2px; background: var(--color-blue); z-index: 2; transition: width 0.5s ease;"></div>
+            
+            <div style="flex: 1; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: var(--color-blue); z-index: 3;"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-ash); text-transform: uppercase;">Pago</span>
+            </div>
+            
+            <div style="flex: 1; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: #ffbd2e; box-shadow: 0 0 10px #ffbd2e; z-index: 3;"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: #ffbd2e; font-weight: bold; text-transform: uppercase;">Montagem</span>
+            </div>
+            
+            <div style="flex: 1; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.08); z-index: 3;"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-gray); text-transform: uppercase;">Testes</span>
+            </div>
+            
+            <div style="flex: 1; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.08); z-index: 3;"></div>
+              <span style="font-family: var(--font-mono); font-size: 10px; color: var(--color-gray); text-transform: uppercase;">Envio</span>
+            </div>
+          </div>
+
+        </div>
+      `;
+    }
+  }, 2000);
+}
