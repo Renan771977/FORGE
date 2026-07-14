@@ -45,23 +45,31 @@
 
   <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
     
-
+    <a href="#carrinho" id="nav-cart-icon" onclick="showSection('carrinho'); if(typeof renderCarrinho === 'function') renderCarrinho(); return false;" style="color: var(--color-gray); display: flex; align-items: center; cursor: pointer; transition: color 0.3s;" aria-label="Meu Carrinho" onmouseover="this.style.color='var(--color-blue)'" onmouseout="this.style.color='var(--color-gray)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+    </a>
     <button id="nav-cta-btn" class="btn-primary" onclick="showSection('cadastro')" style="display: block;">
       Minha Conta
     </button>
 
     <div id="nav-user-area" class="nav-user-profile" style="position: relative; cursor: pointer;" onclick="toggleMenuUsuario(event)">
-  <div class="avatar-circle">
-    <span id="nav-avatar-initials">R</span>
+      <div class="avatar-circle">
+        <span id="nav-avatar-initials">R</span>
+      </div>
+      <span class="avatar-name" id="client-name-display">Renan</span>
+      
+      <div id="avatar-dropdown-menu" style="display: none; position: absolute; top: 110%; right: 0; background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 10px 15px; border-radius: 4px; z-index: 9999; min-width: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+        <button onclick="doLogout()" style="background: none; border: none; color: #ff4d4d; width: 100%; text-align: left; cursor: pointer; font-family: var(--font-mono); font-size: 13px; font-weight: bold; padding: 5px 0;">
+          Fazer logout
+        </button>
+      </div>
+    </div>
+
   </div>
-  <span class="avatar-name" id="client-name-display">Renan</span>
-  
-  <div id="avatar-dropdown-menu" style="display: none; position: absolute; top: 110%; right: 0; background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 10px 15px; border-radius: 4px; z-index: 9999; min-width: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
-    <button onclick="doLogout()" style="background: none; border: none; color: #ff4d4d; width: 100%; text-align: left; cursor: pointer; font-family: var(--font-mono); font-size: 13px; font-weight: bold; padding: 5px 0;">
-      Fazer logout
-    </button>
-  </div>
-</div>
 
   </div>
 </nav>
@@ -282,7 +290,7 @@
             <span id="carrinho-total">R$ 0,00</span>
           </div>
 
-          <button class="btn-primary" style="width: 100%;" onclick="showToast('Redirecionando para checkout seguro...', 'success')">
+          <button class="btn-primary" style="width: 100%;" onclick="abrirCheckoutFicticio()">
             FINALIZAR COMPRA
           </button>
         </div>
@@ -922,39 +930,6 @@
      FIM: #software
      ============================================================ -->
 
-  <section id="carrinho" aria-labelledby="carrinho-heading">
-      
-      <header class="sec-header" style="text-align: left; border-bottom: 1px solid rgba(42, 132, 208, 0.2); padding-bottom: 20px;">
-        <h2 id="carrinho-heading" class="sec-header__title" style="font-size: 36px;">Meu <span>Carrinho</span></h2>
-      </header>
-
-      <div class="product-grid" style="grid-template-columns: 1fr 350px; gap: 40px; margin-top: 40px;">
-        <div id="carrinho-lista" style="display: flex; flex-direction: column; gap: 20px;"></div>
-
-          <h3 style="font-family: var(--font-display); font-size: 20px; text-transform: uppercase; color: var(--color-ash); margin-bottom: 20px;">Resumo do Pedido</h3>
-          
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--color-gray); font-size: 14px;">
-            <span>Subtotal</span>
-            <span id="carrinho-subtotal">R$ 0,00</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 20px; color: #00a650; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
-            <span>Frete</span>
-            <span>Grátis</span>
-          </div>
-          
-          <div style="display: flex; justify-content: space-between; margin-bottom: 24px; color: var(--color-ash); font-size: 18px; font-weight: bold;">
-            <span>Total</span>
-            <span id="carrinho-total">R$ 0,00</span>
-          </div>
-
-          <button class="btn-primary" style="width: 100%;" onclick="abrirCheckoutFicticio()">
-            FINALIZAR COMPRA
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="cadastro" aria-labelledby="cadastro-heading">
     <div class="grid-bg" style="position:fixed;inset:0;pointer-events:none;z-index:0" aria-hidden="true"></div>
 
@@ -1261,26 +1236,70 @@
 <script src="forge-chamados.js"></script>
 <script src="forge-chamados-api.js"></script>
 
-<div id="checkout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-  <div style="background: #0B0907; border: 1px solid #2a84d0; padding: 30px; border-radius: 8px; max-width: 440px; width: 100%; position: relative; box-shadow: 0 0 20px rgba(42, 132, 208, 0.2);">
-    <button onclick="document.getElementById('checkout-modal').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">✕</button>
+<div id="checkout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+  <div style="background: var(--color-iron); border: 1px solid var(--color-blue-dim); border-radius: 8px; width: 100%; max-width: 600px; display: flex; flex-direction: column; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(42, 132, 208, 0.15); overflow: hidden;">
     
-    <h2 style="font-family: var(--font-display); font-size: 24px; text-transform: uppercase; color: #fff; margin: 0 0 5px 0; letter-spacing: 1px;">Checkout <span style="color:#2a84d0">Seguro</span></h2>
-    <p style="color: #666; font-size: 13px; margin: 0 0 20px 0;">Demonstração de workload de pagamento da FORGE.</p>
-    
-    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-      <button id="tab-pix" onclick="selecionarMetodoPagamento('pix')" style="flex: 1; background: rgba(42, 132, 208, 0.15); border: 1px solid #2a84d0; color: #fff; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">❖ Método: PIX</button>
-      <button id="tab-cartao" onclick="selecionarMetodoPagamento('cartao')" style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">💳 Cartão de Crédito</button>
+    <div style="background: rgba(0,0,0,0.4); padding: 20px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-family: var(--font-display); font-size: 20px; text-transform: uppercase; color: #fff; margin: 0; letter-spacing: 1px;">Checkout <span style="color:var(--color-blue)">Seguro</span></h2>
+      <button onclick="fecharCheckout()" style="background: none; border: none; color: var(--color-gray); cursor: pointer; font-size: 24px; line-height: 1; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--color-gray)'">&times;</button>
     </div>
 
-    <div id="checkout-conteudo-pagamento" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 4px; text-align: center; margin-bottom: 20px; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
+    <div style="display: flex; background: #0B0907; border-bottom: 1px solid rgba(255,255,255,0.05);">
+      <div id="step-1-tab" style="flex: 1; text-align: center; padding: 15px 10px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--color-blue); border-bottom: 2px solid var(--color-blue); transition: all 0.3s;">
+        1. Endereço de Entrega
+      </div>
+      <div id="step-2-tab" style="flex: 1; text-align: center; padding: 15px 10px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--color-gray); border-bottom: 2px solid transparent; transition: all 0.3s;">
+        2. Pagamento
+      </div>
+    </div>
+
+    <div style="padding: 30px; min-height: 380px; position: relative;">
+
+      <div id="checkout-step-1" style="display: block; animation: fadeIn 0.4s;">
+        <p style="color: var(--color-gray); font-size: 13px; margin-bottom: 20px;">Onde você quer receber sua FORGE Workstation?</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div style="grid-column: span 2;">
+            <label style="color: var(--color-ash); font-size: 12px; margin-bottom: 6px; display: block;">CEP</label>
+            <input type="text" placeholder="00000-000" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 4px; font-family: var(--font-mono); outline: none;" onfocus="this.style.borderColor='var(--color-blue)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+          </div>
+          <div style="grid-column: span 2;">
+            <label style="color: var(--color-ash); font-size: 12px; margin-bottom: 6px; display: block;">Rua / Avenida</label>
+            <input type="text" placeholder="Ex: Av. Afonso Pena" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 4px; outline: none;" onfocus="this.style.borderColor='var(--color-blue)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+          </div>
+          <div>
+            <label style="color: var(--color-ash); font-size: 12px; margin-bottom: 6px; display: block;">Número</label>
+            <input type="text" placeholder="1000" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 4px; outline: none;" onfocus="this.style.borderColor='var(--color-blue)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+          </div>
+          <div>
+            <label style="color: var(--color-ash); font-size: 12px; margin-bottom: 6px; display: block;">Complemento</label>
+            <input type="text" placeholder="Apto 101" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 4px; outline: none;" onfocus="this.style.borderColor='var(--color-blue)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+          </div>
+        </div>
+        
+        <button onclick="irParaPagamento()" style="width: 100%; background: var(--color-blue); color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; border-radius: 4px; margin-top: 25px; transition: background 0.3s; box-shadow: 0 4px 15px rgba(42, 132, 208, 0.4);" onmouseover="this.style.background='var(--color-blue-dim)'" onmouseout="this.style.background='var(--color-blue)'">Ir para Pagamento →</button>
       </div>
 
-    <button id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #2a84d0; color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; border-radius: 4px; box-shadow: 0 4px 12px rgba(42,132,208,0.3);">CONFIRMAR PAGAMENTO</button>
+      <div id="checkout-step-2" style="display: none; animation: fadeIn 0.4s;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <button onclick="voltarParaEndereco()" style="background: none; border: none; color: var(--color-gray); font-size: 12px; cursor: pointer; text-decoration: underline;">← Voltar para endereço</button>
+          <span style="font-size: 12px; color: #00a650; font-weight: bold;">Ambiente Seguro</span>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+          <button id="tab-cartao" onclick="selecionarMetodoPagamento('cartao')" style="flex: 1; background: rgba(42, 132, 208, 0.15); border: 1px solid var(--color-blue); color: #fff; padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">💳 Cartão</button>
+          <button id="tab-pix" onclick="selecionarMetodoPagamento('pix')" style="flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--color-gray); padding: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: all 0.3s;">❖ PIX</button>
+        </div>
+
+        <div id="checkout-conteudo-pagamento" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 4px; min-height: 220px;">
+          </div>
+
+        <button id="btn-confirmar-pagamento" onclick="processarPagamentoFicticio()" style="width: 100%; background: #00a650; color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; border-radius: 4px; margin-top: 20px; transition: opacity 0.3s; box-shadow: 0 4px 15px rgba(0, 166, 80, 0.3);">CONFIRMAR COMPRA</button>
+      </div>
+
+    </div>
   </div>
 </div>
-
-<div id="forge-toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 11000; display: flex; flex-direction: column; gap: 10px;"></div>
 
 </body>
 </html>
