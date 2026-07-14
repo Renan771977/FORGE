@@ -489,7 +489,7 @@ async function doLogin() {
   btnSubmit.style.opacity = "0.7";
 
   try {
-    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
@@ -526,7 +526,7 @@ async function doLogin() {
 window.handleGoogleLogin = async function(response) {
   // O Google devolveu a credencial! Vamos enviá-la para o nosso Back-end.
   try {
-    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ credential: response.credential })
@@ -868,7 +868,7 @@ async function agDoLogin() {
   btn.disabled = true;
 
   try {
-    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
+    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/auth/login', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email, senha }),
@@ -928,7 +928,7 @@ async function agDoRegister() {
   btn.disabled = true;
 
   try {
-    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
+    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/auth/register', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ nome, sobrenome, email, telefone: tel, senha }),
@@ -1740,7 +1740,7 @@ async function doRegister() {
 
   try {
     // 2. Envia os dados para a nossa rota real no Node.js
-    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
+    const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, sobrenome, email, whatsapp, perfil_uso, senha })
