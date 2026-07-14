@@ -900,6 +900,55 @@ async function agDoLogin() {
   }
 }
 
+// Substitua e adicione este bloco no seu script.js
+
+async function doRegister() {
+  const nome      = document.getElementById('reg-nome')?.value.trim();
+  const sobrenome = document.getElementById('reg-sobrenome')?.value.trim();
+  const email     = document.getElementById('reg-email')?.value.trim();
+  const tel       = document.getElementById('reg-tel')?.value.trim();
+  const perfil    = document.getElementById('reg-perfil')?.value;
+  const senha     = document.getElementById('reg-senha')?.value.trim();
+
+  if (!nome || !email || !senha) {
+    showToast('Preencha os campos obrigatórios.', 'error');
+    return;
+  }
+
+  const btn = document.querySelector('#form-register .auth-submit');
+  const original = btn.textContent;
+  btn.textContent = 'CRIANDO CONTA...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://forge-production-bb99.up.railway.app/api/auth/register', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ nome, sobrenome, email, whatsapp: tel, perfil_uso: perfil, senha }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      isLoggedIn = true;
+      localStorage.setItem('forge_token', data.token || 'mock-token');
+      localStorage.setItem('forge_user',  JSON.stringify(data.usuario));
+      updateNav();
+      showToast(`Conta criada! Bem-vindo(a), ${nome}!`, 'success');
+      
+      carregarDashboardDoCliente(data.usuario);
+      setTimeout(() => showSection("cliente"), 500);
+    } else {
+      showToast(data.message || 'Erro ao criar conta.', 'error');
+    }
+  } catch (error) {
+    console.error('[FORGE] Erro no cadastro:', error);
+    showToast('Falha de conexão. Tente novamente.', 'error');
+  } finally {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+}
+
 async function agDoRegister() {
   const nome      = document.getElementById('ag-reg-nome')?.value.trim();
   const sobrenome = document.getElementById('ag-reg-sobrenome')?.value.trim();
@@ -907,20 +956,8 @@ async function agDoRegister() {
   const tel       = document.getElementById('ag-reg-tel')?.value.trim();
   const senha     = document.getElementById('ag-reg-senha')?.value.trim();
 
-  if (!nome || !email || !senha) {
-    showToast('Preencha nome, e-mail e senha.', 'error');
-    return;
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showToast('E-mail inválido.', 'error');
-    return;
-  }
-
-  if (senha.length < 8) {
-    showToast('A senha deve ter no mínimo 8 caracteres.', 'error');
-    return;
-  }
+  if (!nome || !email || !senha) return showToast('Preencha nome, e-mail e senha.', 'error');
+  if (senha.length < 8) return showToast('A senha deve ter no mínimo 8 caracteres.', 'error');
 
   const btn = document.getElementById('ag-btn-register');
   const original = btn.textContent;
@@ -928,11 +965,20 @@ async function agDoRegister() {
   btn.disabled = true;
 
   try {
-    const res  = await fetch('https://forge-production-bb99.up.railway.app/api/auth/register', {
+    // BUG 1 CORRIGIDO: Padronização do payload para o backend oficial
+    const res = await fetch('https://forge-production-bb99.up.railway.app/api/auth/register', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ nome, sobrenome, email, telefone: tel, senha }),
+      body:    JSON.stringify({ 
+        nome, 
+        sobrenome, 
+        email, 
+        whatsapp: tel, 
+        perfil_uso: 'Entusiasta', 
+        senha 
+      }),
     });
+    
     const data = await res.json();
 
     if (res.ok) {
@@ -948,13 +994,13 @@ async function agDoRegister() {
       _resumePendingAction();
     } else {
       showToast(data.message || 'Erro ao criar conta.', 'error');
-      btn.textContent = original;
-      btn.disabled    = false;
     }
-  } catch {
+  } catch (error) {
+    console.error('[FORGE] Erro no AuthGuard Register:', error);
     showToast('Falha de conexão. Tente novamente.', 'error');
+  } finally {
     btn.textContent = original;
-    btn.disabled    = false;
+    btn.disabled = false;
   }
 }
 
@@ -1590,7 +1636,7 @@ window.voltarParaEndereco         = voltarParaEndereco;
 // =============================================================================
 
 window.carregarDashboardDoCliente = async function() {
-  console.log('[FORGE Lab] Iniciando carregamento do dashboard...');
+  console.log('[FORGE Lab] Inicializando fluxo de dados do dashboard...');
   const container = document.getElementById('cliente');
   
   if (container) {
@@ -1603,12 +1649,14 @@ window.carregarDashboardDoCliente = async function() {
 
   const token = localStorage.getItem('forge_token');
   if (!token) {
-    console.warn('[FORGE Lab] Sem token de autenticação ativo.');
+    console.warn('[FORGE Lab] Acesso negado. Token ausente.');
     return;
   }
 
+  // Fallback default
   let usuarioAtivo = { nome: 'Cliente VIP', perfil_uso: 'Entusiasta', id: 'FRG-2026' };
 
+  // Tenta restaurar do cache local primeiro
   try {
     const usuarioSalvo = localStorage.getItem('forge_user');
     if (usuarioSalvo) {
@@ -1616,9 +1664,10 @@ window.carregarDashboardDoCliente = async function() {
       if (parsed && parsed.nome) usuarioAtivo = parsed;
     }
   } catch (e) {
-    console.warn('[FORGE Lab] Cache de usuário vazio.');
+    console.warn('[FORGE Lab] Falha ao ler cache local.');
   }
 
+  // Sincroniza com a API de forma síncrona aguardando a Promise
   try {
     const resposta = await fetch('https://forge-production-bb99.up.railway.app/api/catalogo', {
       method: 'GET',
@@ -1630,19 +1679,19 @@ window.carregarDashboardDoCliente = async function() {
       if (dados && dados.cliente) usuarioAtivo = dados.cliente;
     }
   } catch (error) {
-    console.error('[FORGE Lab] Instabilidade na rede. Usando dados do cache local.', error);
+    console.warn('[FORGE Lab] Instabilidade de rede. Mantendo dados cacheados.', error);
   }
   
-  setTimeout(() => {
-    try {
-      renderDashboardVIP(usuarioAtivo);
-    } catch(err) {
-      console.error("[FORGE Lab] Erro Crítico ao renderizar Dashboard: ", err);
-      if (container) {
-         container.innerHTML = `<div style="color: #ff4d4d; text-align: center; padding: 50px; font-family: var(--font-mono);">[ERRO CRÍTICO] Falha ao injetar módulos do laboratório. Atualize a página e tente novamente.</div>`;
-      }
+  // Renderização final encapsulada em try/catch SEM setTimeouts desnecessários
+  try {
+    renderDashboardVIP(usuarioAtivo);
+    console.log('[FORGE Lab] Dashboard renderizado com sucesso.');
+  } catch(err) {
+    console.error("[FORGE Lab] Erro Crítico ao injetar o DOM do Dashboard: ", err);
+    if (container) {
+       container.innerHTML = `<div style="color: #ff4d4d; text-align: center; padding: 50px; font-family: var(--font-mono);">[ERRO CRÍTICO] Falha ao processar módulos do laboratório. Por favor, atualize a página.</div>`;
     }
-  }, 500); 
+  }
 };
 
 function renderDashboardVIP(usuario) {
@@ -1893,9 +1942,14 @@ function iniciarCarrosselMini() {
   const dotsContainer = document.getElementById('mini-carousel-dots');
   if (!container) return;
 
+  // BUG 8 CORRIGIDO: Previne leaks de memória limpando timers antigos imediatamente
+  if (window.carrosselInterval) {
+    clearInterval(window.carrosselInterval);
+  }
+
   const idsBanco = typeof BANCO_DE_HARDWARE !== 'undefined' ? Object.keys(BANCO_DE_HARDWARE) : [];
   if (idsBanco.length === 0) {
-    container.innerHTML = '<p style="color:var(--color-gray); font-size:12px;">Carregando vitrine...</p>';
+    container.innerHTML = '<p style="color:var(--color-gray); font-size:12px;">Vitrine indisponível no momento.</p>';
     return;
   }
 
@@ -1910,7 +1964,7 @@ function iniciarCarrosselMini() {
     setTimeout(() => {
       container.innerHTML = `
         <div style="width: 100%; height: 120px; display: flex; justify-content: center; margin-bottom: 15px; position: relative;">
-          <img src="${pc.img}" style="max-height: 100%; object-fit: contain; position: relative; z-index: 2;">
+          <img src="${pc.img}" style="max-height: 100%; object-fit: contain; position: relative; z-index: 2;" alt="${pc.name}">
         </div>
         <div style="font-family: var(--font-display); font-size: 18px; color: var(--color-ash); text-transform: uppercase; text-align: center;">${pc.name}</div>
         <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); margin-top: 6px;">${pc.badge}</div>
@@ -1926,8 +1980,7 @@ function iniciarCarrosselMini() {
   }
 
   renderizarSlide();
-  clearInterval(carrosselInterval);
-  carrosselInterval = setInterval(() => {
+  window.carrosselInterval = setInterval(() => {
     indexAtual = (indexAtual + 1) % destaques.length;
     renderizarSlide();
   }, 5000);
