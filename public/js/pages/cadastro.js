@@ -62,3 +62,13 @@ window.doRegister = async function() {
     btn.textContent = 'CRIAR MINHA CONTA FORGE'; btn.disabled = false;
   }
 };
+
+/* Mostra o motivo de uma expulsão vinda do /cliente (sessão expirada, token
+   inválido...). O cliente.js grava em sessionStorage antes de redirecionar. */
+document.addEventListener('DOMContentLoaded', () => {
+  const aviso = sessionStorage.getItem('forge_aviso');
+  if (aviso) {
+    sessionStorage.removeItem('forge_aviso');
+    if (typeof window.showToast === 'function') window.showToast(aviso, 'error');
+  }
+});

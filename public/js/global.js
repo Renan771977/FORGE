@@ -137,10 +137,134 @@ window.forgeCorDaBuild = function (pc) {
 };
 
 /* -----------------------------------------------------------------------------
+   CARRINHO — núcleo de estado
+   -----------------------------------------------------------------------------
+   Persistência ISOLADA nas funções lerCarrinho/gravarCarrinho. Hoje é
+   localStorage; para migrar depois para POST /api/cliente/pedidos, só essas
+   duas mudam — o resto do site chama a API pública abaixo e não sabe de nada.
+
+   ATENÇÃO: em localStorage o carrinho vive só NESTE navegador. Trocar de
+   aparelho, limpar cache ou abrir anônimo = carrinho vazio. E a FORGE não
+   enxerga nada disso.
+
+   Formato: array de ids repetidos. ['g1-frost','g1-frost'] = 2 unidades.
+   Era assim no script.js original; mantido por compatibilidade.
+   -------------------------------------------------------------------------- */
+const CHAVE_CARRINHO = 'forge_cart';
+
+function lerCarrinho() {
+  try {
+    const bruto = JSON.parse(localStorage.getItem(CHAVE_CARRINHO) || '[]');
+    return Array.isArray(bruto) ? bruto : [];
+  } catch {
+    console.warn('[FORGE] Carrinho corrompido no localStorage. Zerando.');
+    localStorage.removeItem(CHAVE_CARRINHO);
+    return [];
+  }
+}
+
+function gravarCarrinho(itens) {
+  localStorage.setItem(CHAVE_CARRINHO, JSON.stringify(itens));
+  window.carrinho = itens;
+  window.atualizarBadgeCarrinho();
+  document.dispatchEvent(new CustomEvent('forge:carrinho-mudou', { detail: itens }));
+}
+
+/* API pública */
+window.getCarrinho = lerCarrinho;
+
+window.getCarrinhoAgrupado = function () {
+  const contagem = {};
+  lerCarrinho().forEach(id => { contagem[id] = (contagem[id] || 0) + 1; });
+  return Object.entries(contagem).map(([id, qtd]) => ({ id, qtd }));
+};
+
+window.getTotalCarrinho = function () {
+  return lerCarrinho().reduce((soma, id) => {
+    const pc = window.BANCO_DE_HARDWARE[id];
+    return soma + (pc ? window.forgePrecoParaNumero(pc.price) : 0);
+  }, 0);
+};
+
+window.adicionarAoCarrinho = function (id) {
+  // Guard do original: carrinho exige conta. A checagem de verdade acontece
+  // no fechamento do pedido, contra o servidor — isto aqui é só UX.
+  if (!window.isLoggedIn) {
+    window.showToast('Crie uma conta ou faça login para montar seu carrinho.', 'error');
+    setTimeout(() => { window.location.href = '/cadastro'; }, 1200);
+    return false;
+  }
+
+  const pc = window.BANCO_DE_HARDWARE[id];
+  if (!pc) {
+    console.error(`[FORGE] Build "${id}" não existe no catálogo.`);
+    return false;
+  }
+
+  if (pc.estoque <= 0) {
+    window.showToast(`${pc.name} está fora de estoque.`, 'error');
+    return false;
+  }
+
+  const itens = lerCarrinho();
+  const jaTem = itens.filter(x => x === id).length;
+  if (jaTem >= pc.estoque) {
+    window.showToast(`Só temos ${pc.estoque} unidade(s) de ${pc.name} em estoque.`, 'error');
+    return false;
+  }
+
+  itens.push(id);
+  gravarCarrinho(itens);
+  window.showToast(`${pc.name} foi guardada no seu carrinho.`, 'success');
+  return true;
+};
+
+/* Remove UMA unidade */
+window.removerDoCarrinho = function (id) {
+  const itens = lerCarrinho();
+  const i = itens.indexOf(id);
+  if (i === -1) return;
+  itens.splice(i, 1);
+  gravarCarrinho(itens);
+};
+
+/* Remove TODAS as unidades de uma build */
+window.removerLinhaDoCarrinho = function (id) {
+  gravarCarrinho(lerCarrinho().filter(x => x !== id));
+};
+
+window.limparCarrinho = function () {
+  gravarCarrinho([]);
+};
+
+window.abrirCarrinho = function () {
+  window.location.href = '/carrinho';
+};
+
+window.atualizarBadgeCarrinho = function () {
+  const badge = document.getElementById('cart-badge');
+  if (!badge) return;
+  const total = lerCarrinho().length;
+  badge.textContent = total;
+  badge.style.display = total > 0 ? 'inline-flex' : 'none';
+};
+
+// Carrinho aberto em duas abas: mantém as duas em sincronia
+window.addEventListener('storage', (e) => {
+  if (e.key === CHAVE_CARRINHO) {
+    window.carrinho = lerCarrinho();
+    window.atualizarBadgeCarrinho();
+    document.dispatchEvent(new CustomEvent('forge:carrinho-mudou', { detail: window.carrinho }));
+  }
+});
+
+/* -----------------------------------------------------------------------------
    SESSÃO E NAVEGAÇÃO
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   verificarSessaoExistente();
+  window.carrinho = lerCarrinho();
+  window.atualizarBadgeCarrinho();
 });
 
 function verificarSessaoExistente() {

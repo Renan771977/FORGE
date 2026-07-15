@@ -75,7 +75,16 @@ window.apiGetCatalogo = async function () {
   return dados.builds;
 };
 
-// Helper para rotas protegidas (usa o token salvo no localStorage)
+/* -----------------------------------------------------------------------------
+   ROTAS PROTEGIDAS
+   Devolve { ok, status, data }. O `status` é essencial: o middleware/auth.js
+   distingue 401 (token ausente) de 403 (token inválido/expirado), e o front
+   precisa tratar os dois. `status: 0` significa que o servidor nem respondeu.
+
+   IMPORTANTE: use SEMPRE este helper em vez de fetch('/api/...'). Com o front
+   desacoplado do back, caminho relativo bate no servidor de telas — que não
+   tem rota de API nenhuma e devolve 404.
+   -------------------------------------------------------------------------- */
 window.apiAuthFetch = async function (endpoint, options = {}) {
   const token = localStorage.getItem('forge_token');
   try {
@@ -87,9 +96,13 @@ window.apiAuthFetch = async function (endpoint, options = {}) {
         ...(options.headers || {})
       }
     });
-    return { ok: res.ok, data: await res.json() };
+
+    let data = null;
+    try { data = await res.json(); } catch { /* corpo vazio ou não-JSON */ }
+
+    return { ok: res.ok, status: res.status, data };
   } catch (error) {
-    console.error('[FORGE API] Erro na requisição autenticada:', error);
-    return { ok: false, data: { message: 'Falha de conexão com o servidor.' } };
+    console.error(`[FORGE API] Servidor inacessível em ${API_BASE_URL}${endpoint}`, error);
+    return { ok: false, status: 0, data: { message: 'Falha de conexão com o servidor.' } };
   }
 };

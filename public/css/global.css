@@ -2570,3 +2570,34 @@ footer {
     scroll-behavior:      auto;
   }
 }
+
+
+/* =============================================================================
+   ANEXE ESTE BLOCO NO FINAL DE public/css/global.css
+   -----------------------------------------------------------------------------
+   Precisa estar no global porque o contador do carrinho aparece na nav de TODAS
+   as páginas. Se ficasse no carrinho.css, o badge só teria estilo dentro do
+   próprio carrinho — nas outras seria um "3" solto ao lado do ícone.
+   ============================================================================= */
+
+/* ---------- Badge do ícone na nav ---------- */
+#nav-cart-icon { position: relative; }
+
+#cart-badge {
+  position:        absolute;
+  top:             -6px;
+  right:           -8px;
+  min-width:       17px;
+  height:          17px;
+  padding:         0 4px;
+  border-radius:   9px;
+  background:      var(--color-blue);
+  color:           var(--color-void);
+  font-family:     var(--font-mono);
+  font-size:       10px;
+  font-weight:     700;
+  align-items:     center;
+  justify-content: center;
+  display:         none;   /* o JS liga quando há itens */
+  line-height:     1;
+}

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORGE — Meu Laboratório VIP</title>
+  <title>FORGE — Meu Carrinho</title>
   <link rel="icon" type="image/png" href="/img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/pages/cliente.css">
+  <link rel="stylesheet" href="/css/pages/carrinho.css">
 </head>
 <body>
 
@@ -32,7 +32,7 @@
 
     <ul class="nav-links" role="list">
       <div id="nav-link-cliente" style="display: none; align-items: center;">
-        <a class="nav-links__item active" href="/cliente">Dashboard</a>
+        <a class="nav-links__item" href="/cliente">Dashboard</a>
       </div>
       <a class="nav-links__item" href="/vendas">Builds</a>
       <a class="nav-links__item" href="/configurador">Configurador</a>
@@ -48,26 +48,25 @@
         </svg>
         <span id="cart-badge" aria-label="Itens no carrinho">0</span>
       </a>
-
-      <div id="nav-user-area" class="nav-user-profile" style="position: relative; cursor: pointer; display: flex;" onclick="toggleMenuUsuario(event)">
-        <div class="avatar-circle">
-          <span id="nav-avatar-initials">--</span>
-        </div>
-        <span class="avatar-name" id="client-name-display">Carregando...</span>
-
-        <div id="avatar-dropdown-menu" style="display: none; position: absolute; top: 110%; right: 0; background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 10px 15px; border-radius: 4px; z-index: 9999; min-width: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
-          <button onclick="doLogout()" style="background: none; border: none; color: #ff4d4d; width: 100%; text-align: left; cursor: pointer; font-family: var(--font-mono); font-size: 13px; font-weight: bold; padding: 5px 0;">Fazer logout</button>
-        </div>
-      </div>
+      <button id="nav-cta-btn" class="btn-primary" onclick="window.location.href='/cadastro'">Minha Conta</button>
     </div>
   </nav>
 </header>
 
 <main id="main-content">
-  <section id="cliente" class="active" aria-labelledby="cliente-heading" style="display: block;">
-    <div style="padding: 100px 20px; text-align: center; color: var(--color-blue); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 2px;">
-      <div style="width: 40px; height: 40px; border: 3px solid rgba(42,132,208,0.2); border-top: 3px solid var(--color-blue); border-radius: 50%; margin: 0 auto 20px; animation: spin 1s infinite linear;"></div>
-      Acessando Laboratório VIP...
+  <section id="carrinho" class="active" aria-labelledby="carrinho-heading" style="display:block">
+    <div class="cart-wrap">
+      <header class="sec-header">
+        <p class="sec-header__eyebrow">Meu Carrinho</p>
+        <h2 id="carrinho-heading" class="sec-header__title">Projetos <span>Selecionados</span></h2>
+      </header>
+
+      <div id="cart-conteudo" aria-live="polite">
+        <div style="padding:60px 20px;text-align:center;color:var(--color-blue);font-family:var(--font-mono);letter-spacing:2px;text-transform:uppercase">
+          <div style="width:36px;height:36px;border:3px solid rgba(42,132,208,.15);border-top:3px solid var(--color-blue);border-radius:50%;margin:0 auto 18px;animation:spin 1s infinite linear"></div>
+          Carregando carrinho...
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -81,9 +80,12 @@
   </div>
 </footer>
 
+
+
+<!-- ORDEM CORRETA: api → global (busca o catálogo) → script da página -->
 <script src="/js/api.js"></script>
 <script src="/js/global.js"></script>
-<script src="/js/pages/cliente.js"></script>
+<script src="/js/pages/carrinho.js"></script>
 
 </body>
 </html>
