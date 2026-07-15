@@ -39,7 +39,7 @@ function renderDashboardVIP(usuario) {
   container.innerHTML = `
     <header class="sec-header" style="text-align: left; padding-top: 40px;">
       <p class="sec-header__eyebrow">Laboratório de Testes</p>
-      <h2 class="sec-header__title">Bem-vindo, <span style="color:var(--color-blue)">${nome}</span>.</h2>
+      <h2 class="sec-header__title">Bem-vindo(a), <span style="color:var(--color-blue)">${nome}</span>.</h2>
       <p class="sec-header__sub">ID de Cliente: ${idCliente}</p>
     </header>
 

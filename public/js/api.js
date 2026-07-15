@@ -3,7 +3,9 @@
    ============================================================================= */
 'use strict';
 
-const API_BASE_URL = '/api';
+// Deteta automaticamente onde o front está rodando para apontar para a API certa
+// Aponta FIXO para a nuvem. O front local vai puxar dados reais!
+const API_BASE_URL = 'https://forge-production-bb99.up.railway.app/api';
 
 window.apiLogin = async function (email, senha) {
   try {
