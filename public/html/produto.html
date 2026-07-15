@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORGE — Detalhes da Build</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Todo o CSS do detalhamento (product-grid, specs-panel, ecom-buy-panel,
+       hardware-list, telemetria-card...) já vive no vendas.css. -->
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/pages/vendas.css">
+</head>
+<body>
+
+<div class="global-grid-bg" aria-hidden="true"></div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header>
+  <nav class="site-nav" aria-label="Navegação principal">
+    <a class="nav-logo" href="/" aria-label="FORGE — Página inicial">
+      <div class="nav-logo__icon" aria-hidden="true">
+        <svg width="28" height="33" viewBox="0 0 56 66" fill="none" focusable="false">
+          <polygon points="28,3 51,16 51,50 28,63 5,50 5,16" fill="#2a84d0"/>
+          <rect x="17" y="14" width="8"  height="31" fill="#0B0907"/>
+          <rect x="25" y="14" width="14" height="9"  fill="#0B0907"/>
+          <rect x="25" y="30" width="10" height="8"  fill="#0B0907"/>
+        </svg>
+      </div>
+      <span class="nav-logo__text">FORGE</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <div id="nav-link-cliente" style="display: none; align-items: center;">
+        <a href="/cliente" class="nav-links__item">Dashboard</a>
+      </div>
+      <a class="nav-links__item active" href="/vendas">Builds</a>
+      <a class="nav-links__item" href="/configurador">Configurador</a>
+      <a class="nav-links__item" href="/benchmark">Benchmark</a>
+      <a class="nav-links__item" href="/software">Software</a>
+    </ul>
+
+    <!-- O TERCEIRO BLOCO. Sem ele, o justify-content:space-between da .site-nav
+         joga os links para a extremidade direita. -->
+    <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
+      <a href="#carrinho" id="nav-cart-icon" onclick="abrirCarrinho(); return false;" style="color: var(--color-gray); display: flex; align-items: center; cursor: pointer; transition: color 0.3s;" aria-label="Meu Carrinho">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </a>
+
+      <button id="nav-cta-btn" class="btn-primary" onclick="window.location.href='/cadastro'" style="display: block;">
+        Minha Conta
+      </button>
+
+      <div id="nav-user-area" class="nav-user-profile" style="position: relative; cursor: pointer; display: none;" onclick="toggleMenuUsuario(event)">
+        <div class="avatar-circle"><span id="nav-avatar-initials">R</span></div>
+        <span class="avatar-name" id="client-name-display">Cliente</span>
+        <div id="avatar-dropdown-menu" style="display: none; position: absolute; top: 110%; right: 0; background: #0B0907; border: 1px solid rgba(42, 132, 208, 0.4); padding: 10px 15px; border-radius: 4px; z-index: 9999; min-width: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+          <button onclick="doLogout()" style="background: none; border: none; color: #ff4d4d; width: 100%; text-align: left; cursor: pointer; font-family: var(--font-mono); font-size: 13px; font-weight: bold; padding: 5px 0;">Fazer logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="main-content">
+  <section id="produto-detalhes" class="active" aria-labelledby="produto-heading" style="display: block;">
+    <div class="produto-container" id="produto-container">
+      <div style="padding: 120px 20px; text-align: center; color: var(--color-blue); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 2px;">
+        <div style="width: 40px; height: 40px; border: 3px solid rgba(42,132,208,0.2); border-top: 3px solid var(--color-blue); border-radius: 50%; margin: 0 auto 20px; animation: spin 1s infinite linear;"></div>
+        Carregando especificações...
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="main-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <p class="brand-name">FORGE</p>
+      <p class="brand-tag">Performance Computing · Belo Horizonte, MG</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/global.js"></script>
+<script src="/js/pages/produto.js"></script>
+
+</body>
+</html>

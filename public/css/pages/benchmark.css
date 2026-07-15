@@ -1,0 +1,134 @@
+/* === 13. SECTION — BENCHMARK (#benchmark) === */
+/* =============================================================================
+   13. SECTION — BENCHMARK (#benchmark)
+   ============================================================================= */
+
+.bench-table {
+  background:    var(--color-iron);
+  border:        var(--border-subtle);
+  border-radius: 4px;
+  overflow:      hidden;
+  margin-bottom: var(--space-xl);
+}
+
+.bench-thead {
+  display:               grid;
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+  padding:               14px 20px;
+  background:            var(--color-steel-dark);
+  border-bottom:         var(--border-medium);
+}
+
+.bench-th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-blue); }
+
+.bench-row {
+  display:               grid;
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+  padding:               14px 20px;
+  border-bottom:         0.5px solid rgba(255, 255, 255, .03);
+  align-items:           center;
+  transition:            background var(--ease-ui);
+}
+
+.bench-row:last-child { border-bottom: none; }
+.bench-row:hover      { background: rgba(42, 132, 208, .04); }
+
+.bench-test       { font-size: 13px; font-weight: 500; color: var(--color-ash); }
+.bench-test small { display: block; font-size: 10px; color: var(--color-gray); font-family: var(--font-mono); margin-top: 2px; }
+.bench-cell       { display: flex; flex-direction: column; gap: 4px; }
+.bench-num        { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--color-ash); }
+.bench-num--top   { color: var(--color-blue); }
+.bench-num.top    { color: var(--color-blue); } /* legacy */
+
+.bench-mini-bar  { height: 3px; background: rgba(42, 132, 208, .1); border-radius: 1px; margin-top: 3px; }
+.bench-mini-fill { height: 3px; background: var(--color-blue); border-radius: 1px; }
+.bench-mini-fill.dim { background: var(--color-gray-dim); }
+
+
+
+/* === 26. SECTION — COMPARADOR INTERATIVO (FORGE LAB) === */
+/* =============================================================================
+   26. SECTION — COMPARADOR INTERATIVO (FORGE LAB)
+   ============================================================================= */
+.compare-dashboard { max-width: 960px; margin: 0 auto; width: 100%; }
+
+.compare-selectors {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: rgba(26, 22, 18, 0.45); border: var(--border-card); padding: 24px 40px;
+  border-radius: 6px; backdrop-filter: blur(12px); margin-bottom: 32px;
+}
+
+.compare-select-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.compare-select-box label { font-family: var(--font-mono); font-size: 10px; color: var(--color-blue); letter-spacing: 2px; }
+.compare-select-box select {
+  appearance: none; background-color: rgba(11, 9, 7, 0.9);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232a84d0' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; background-size: 11px;
+  border: var(--border-medium); border-radius: 4px; color: var(--color-ash);
+  padding: 12px 40px 12px 16px; font-family: var(--font-body); font-size: 14px; font-weight: 600;
+  cursor: pointer; outline: none; transition: var(--ease-ui);
+}
+.compare-select-box select:focus { border-color: var(--color-blue); }
+
+.compare-vs {
+  font-family: var(--font-display); font-size: 24px; font-weight: 900; color: var(--color-gray-dim);
+  padding: 24px 10px 0 10px;
+}
+
+.compare-results { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+
+.compare-metric-card { background: var(--color-iron); border: var(--border-subtle); border-radius: 6px; padding: 24px; }
+.metric-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: 1px; color: var(--color-ash); text-transform: uppercase; }
+.metric-title small { font-family: var(--font-mono); font-size: 11px; color: var(--color-blue); margin-left: 10px; text-transform: none; letter-spacing: 0; }
+.metric-desc { font-size: 13px; color: var(--color-gray); margin-top: 4px; margin-bottom: 20px; line-height: 1.5; }
+
+.metric-bars { display: flex; flex-direction: column; gap: 12px; }
+.metric-bar-row { display: flex; align-items: center; gap: 16px; }
+.machine-label-name { font-size: 12px; color: var(--color-ash); font-weight: 600; min-width: 140px; white-space: nowrap; overflow: hidden; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
+.machine-bar-val { font-family: var(--font-mono); font-size: 13px; font-weight: 700; min-width: 80px; text-align: right; }
+
+.bar-track { flex: 1; height: 6px; background: rgba(255, 255, 255, 0.03); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; width: 0%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.bar-fill.fill-a { background: linear-gradient(90deg, #1d4ed8, var(--color-blue)); }
+.bar-fill.fill-b { background: linear-gradient(90deg, var(--color-blue-dim), #60a5fa); }
+
+/* Card de Veredito Técnico */
+.compare-verdict {
+  display: flex; gap: 20px; background: rgba(42, 132, 208, 0.03); border-left: 3px solid var(--color-blue);
+  padding: 24px; border-radius: 0 4px 4px 0;
+}
+.verdict-icon { font-size: 24px; color: var(--color-blue); line-height: 1; animation: blink 2s infinite; }
+.verdict-title { font-family: var(--font-mono); font-size: 11px; color: var(--color-blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.verdict-text { font-size: 14px; color: var(--color-gray); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .compare-selectors { flex-direction: column; padding: 24px; align-items: stretch; }
+  .compare-vs { text-align: center; padding: 5px; }
+  .metric-bar-row { flex-wrap: wrap; }
+  .machine-label-name { min-width: 100%; margin-bottom: 4px; }
+  .machine-bar-val { min-width: auto; margin-left: auto; }
+}
+
+
+/* === A11Y REMASTER: BLOCO 9 — BENCHMARK TABLE === */
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 9 — BENCHMARK TABLE
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Cabeçalho da tabela: 10px → 12px.
+ */
+.bench-th { font-size: 12px; color: var(--color-blue); }
+
+/*
+ * Subtexto das linhas (nome do benchmark): 10px → 12px.
+ */
+.bench-test       { font-size: 14px; }
+.bench-test small { font-size: 12px; color: var(--color-gray); }
+
+/*
+ * bench-bar labels na área do cliente: 10px → 12px.
+ */
+.bench-bar-label { font-size: 12px; color: var(--color-gray); }
+.bench-bar-score { font-size: 12px; }
+

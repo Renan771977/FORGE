@@ -1,0 +1,180 @@
+/* === 10. SECTION — HERO (#hero) === */
+/* =============================================================================
+   10. SECTION — HERO (#hero)
+   ============================================================================= */
+
+/* Background decorators */
+.hero-bg   { position: absolute; inset: 0; }
+
+.hero-grid {
+  position:         absolute;
+  inset:            0;
+  pointer-events:   none;
+  background-image: linear-gradient(rgba(42, 132, 208, .04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(42, 132, 208, .04) 1px, transparent 1px);
+  background-size:  48px 48px;
+}
+
+.hero-accent {
+  position:   absolute;
+  right:      -100px;
+  top:        50%;
+  transform:  translateY(-50%);
+  width:      600px;
+  height:     600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42, 132, 208, .07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hex-pattern {
+  position:       absolute;
+  right:          0;
+  top:            0;
+  bottom:         0;
+  width:          45%;
+  opacity:        .04;
+  pointer-events: none;
+}
+
+/* Content */
+.hero-content {
+  position: relative;
+  z-index:  1;
+  max-width: 800px;
+  padding:  0 clamp(24px, 5vw, 80px);
+}
+
+.hero-eyebrow {
+  font-family:    var(--font-mono);
+  font-size:      12px;
+  letter-spacing: 3px;
+  color:          rgba(42, 132, 208, .7);
+  text-transform: uppercase;
+  margin-bottom:  20px;
+  display:        flex;
+  align-items:    center;
+  gap:            10px;
+  position: relative;
+  margin-top: calc(var(--nav-height) + -25px);
+}
+
+p.hero-eyebrow .fade-up {
+  animation: fadeUp .6s ease both;
+  animation-delay: .1s;
+  margin: 0px 0px 10px 0px;
+  position: relative;
+  top: calc(var(--nav-height) + 20px);
+}
+
+.hero-eyebrow::before {
+  content:    '';
+  width:      32px;
+  height:     1px;
+  background: var(--color-blue);
+}
+
+.hero-h1 {
+  font-family:    var(--font-display);
+  font-size:      clamp(60px, 9vw, 120px);
+  font-weight:    900;
+  letter-spacing: -1px;
+  line-height:    .9;
+  text-transform: uppercase;
+  margin-bottom:  24px;
+}
+
+.hero-h1 span { color: var(--color-blue); }
+
+.hero-sub {
+  font-size:     clamp(16px, 2vw, 18px);
+  color:         var(--color-gray);
+  line-height:   1.7;
+  max-width:     520px;
+  margin-bottom: var(--space-xl);
+  font-weight:   300;
+}
+
+.hero-sub strong { color: var(--color-ash); font-weight: 500; }
+
+.hero-actions {
+  display:     flex;
+  gap:         var(--space-md);
+  align-items: center;
+  flex-wrap:   wrap;
+}
+
+/* Stats strip */
+.hero-stats {
+  display:        flex;
+  gap:            48px;
+  flex-wrap:      wrap;
+  margin-top:     var(--space-2xl);
+  padding-top:    var(--space-xl);
+  border-top:     0.5px solid rgba(42, 132, 208, .15);
+}
+
+.stat-item__value {
+  font-family: var(--font-mono);
+  font-size:   32px;
+  font-weight: 700;
+  color:       var(--color-ash);
+  line-height: 1;
+}
+
+.stat-item__value span { color: var(--color-blue); }
+
+.stat-item__label {
+  font-size:      11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color:          var(--color-gray);
+  margin-top:     4px;
+}
+
+/* Legacy classes forwarded (HTML uses .stat-val / .stat-lbl) */
+.stat-val { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--color-ash); line-height: 1; }
+.stat-val span { color: var(--color-blue); }
+.stat-lbl { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-gray); margin-top: 4px; }
+
+
+
+/* === A11Y REMASTER: BLOCO 3 — HERO === */
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 3 — HERO
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * hero-eyebrow: era 12px mono cinza apagado.
+ * Subimos para 13px e aumentamos a opacidade de .7 para 1.
+ */
+.hero-eyebrow {
+  font-size: 13px;
+  color:     var(--color-blue);
+  opacity:   1;
+}
+
+/*
+ * hero-sub: era clamp(16px,2vw,18px) em cinza escuro sem contraste.
+ * O novo --color-gray já resolve a cor. Elevamos o peso de 300 para 400
+ * (fontes finas são inerentemente mais difíceis de ler em fundos escuros).
+ */
+.hero-sub {
+  font-size:   clamp(17px, 2vw, 20px);
+  color:       var(--color-gray);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+/*
+ * Estatísticas: labels eram 11px. Subimos para 12px + aumentamos o
+ * letter-spacing um tick para compensar o tamanho menor (legibilidade
+ * de texto all-caps pequeno melhora muito com tracking mais amplo).
+ */
+.stat-item__label,
+.stat-lbl {
+  font-size:      12px;
+  letter-spacing: 2.5px;
+  color:          var(--color-gray);
+}
+

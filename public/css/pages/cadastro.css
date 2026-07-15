@@ -1,0 +1,158 @@
+/* === 14. SECTION — CADASTRO / AUTH (#cadastro) === */
+/* =============================================================================
+   14. SECTION — CADASTRO / AUTH (#cadastro)
+   ============================================================================= */
+
+
+/* === 10. ÁREA DO CLIENTE & AUTH (Layout de Login Premium) === */
+/* =============================================================================
+   10. ÁREA DO CLIENTE & AUTH (Layout de Login Premium)
+   ============================================================================= */
+#cadastro.active {
+  display: flex !important; /* Sobrescreve o block da section padrão para centralizar */
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 0; 
+}
+
+.auth-wrap { 
+  width: 100%; 
+  max-width: 460px; /* Mais enxuto e elegante */
+  margin: 0 auto; 
+  background: var(--color-iron); 
+  border: 1px solid rgba(42, 132, 208, 0.2); 
+  border-radius: 8px; 
+  padding: 40px; 
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); 
+}
+
+.auth-tabs { 
+  display: flex; 
+  border-bottom: 1px solid rgba(42, 132, 208, 0.2); 
+  margin-bottom: 32px; 
+}
+
+.auth-tab { 
+  flex: 1; /* Faz as duas abas ocuparem 50% do espaço e centraliza o texto */
+  text-align: center; 
+  font-family: var(--font-display); 
+  font-size: 15px; 
+  font-weight: 700; 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  padding: 12px 10px; 
+  cursor: pointer; 
+  color: var(--color-gray); 
+  background: none; 
+  border: none; 
+  border-bottom: 2px solid transparent; 
+  transition: var(--ease-ui); 
+}
+
+.auth-tab.active { 
+  color: var(--color-ash); 
+  border-bottom-color: var(--color-blue); 
+}
+
+.auth-form { display: none; }
+.auth-form.active { display: block; animation: sectionFadeIn 0.4s ease-out; }
+
+.auth-sub { font-size: 13px; color: var(--color-gray); margin-bottom: 28px; line-height: 1.6; }
+
+.field { margin-bottom: 18px; }
+.field label { 
+  display: block; 
+  font-family: var(--font-mono); 
+  font-size: 10px; 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  color: var(--color-blue); 
+  margin-bottom: 8px; 
+  opacity: 0.8; 
+}
+
+.field input, .field select { 
+  width: 100%; 
+  background: #0d0a08; /* Input ligeiramente mais escuro que o card para contraste */
+  border: 1px solid rgba(42, 132, 208, 0.2); 
+  border-radius: 4px; 
+  padding: 14px 16px; 
+  font-family: var(--font-body); 
+  font-size: 14px; 
+  color: var(--color-ash); 
+  outline: none; 
+  transition: var(--ease-ui); 
+}
+
+.field input:focus, .field select:focus { 
+  border-color: var(--color-blue); 
+  box-shadow: 0 0 10px rgba(42, 132, 208, 0.1); 
+}
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.auth-submit { 
+  width: 100%; 
+  font-family: var(--font-display); 
+  font-size: 16px; 
+  font-weight: 800; 
+  letter-spacing: 3px; 
+  text-transform: uppercase; 
+  padding: 16px; 
+  background: var(--color-blue); 
+  color: var(--color-void); 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  margin-top: 12px; 
+  transition: var(--ease-ui); 
+}
+
+.auth-submit:hover { 
+  background: #3a94e0; 
+  box-shadow: 0 4px 15px rgba(42, 132, 208, 0.3); 
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  color: var(--color-gray);
+  font-size: 12px;
+}
+
+.auth-divider::before, .auth-divider::after { 
+  content: ''; 
+  flex: 1; 
+  height: 1px; 
+  background: rgba(42, 132, 208, 0.15); 
+}
+
+.social-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid rgba(42, 132, 208, 0.3);
+  border-radius: 4px;
+  color: var(--color-ash);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--ease-ui);
+}
+
+.social-btn:hover { 
+  border-color: var(--color-blue); 
+  background: rgba(42, 132, 208, 0.05); 
+}
+
+.terms { font-size: 11px; color: var(--color-gray); text-align: center; margin-top: 24px; line-height: 1.6; }
+.terms a { color: var(--color-blue); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+.terms a:hover { border-color: var(--color-blue); }
+

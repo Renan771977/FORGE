@@ -1,0 +1,335 @@
+/* === 12. SECTION — CONFIGURADOR / QUIZ (#configurador) === */
+/* =============================================================================
+   12. SECTION — CONFIGURADOR / QUIZ (#configurador)
+   ============================================================================= */
+.configurator-intro {
+  max-width: 600px;
+  margin: 0 auto var(--space-2xl);
+  text-align: center;
+}
+
+.configurador-session {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 480px;
+  margin: 100px auto 0 auto;
+  position: relative;
+}
+
+.quiz-wrap    { max-width: 760px; margin: 0 auto; }
+.quiz-step    { display: none; }
+.quiz-step.active { display: block; }
+
+.quiz-progress { display: flex; gap: 6px; margin-bottom: var(--space-xl); }
+.quiz-dot      { height: 2px; flex: 1; background: rgba(42, 132, 208, .15); border-radius: 1px; transition: background .3s; }
+.quiz-dot.done { background: var(--color-blue); }
+
+.quiz-question {
+  font-family:    var(--font-display);
+  font-size:      clamp(24px, 4vw, 40px);
+  font-weight:    800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height:    1.1;
+  margin-bottom:  8px;
+}
+
+.quiz-hint    { font-size: 14px; color: var(--color-gray); margin-bottom: 32px; }
+
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.quiz-option {
+  background:    var(--color-iron);
+  border:        var(--border-medium);
+  border-radius: 4px;
+  padding:       20px;
+  cursor:        pointer;
+  text-align:    left;
+  transition:    border-color var(--ease-ui), background var(--ease-ui);
+}
+
+.quiz-option:hover    { border-color: rgba(42, 132, 208, .5); background: #1e1a16; }
+.quiz-option.selected { border-color: var(--color-blue); background: var(--color-blue-faint); }
+
+.qo-icon {
+  width:         36px;
+  height:        36px;
+  border-radius: 4px;
+  background:    rgba(42, 132, 208, .1);
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.qo-title {
+  font-family:    var(--font-display);
+  font-size:      17px;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom:  4px;
+}
+
+.qo-desc { font-size: 12px; color: var(--color-gray); line-height: 1.5; }
+
+.quiz-nav {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-top:      32px;
+}
+
+.quiz-back {
+  font-size:      13px;
+  color:          var(--color-gray);
+  cursor:         pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight:    500;
+  transition:     color var(--ease-ui);
+}
+.quiz-back:hover { color: var(--color-ash); }
+
+/* Quiz result */
+.quiz-result   { text-align: center; padding: 40px 0; }
+.result-badge  {
+  display:        inline-block;
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding:        6px 16px;
+  background:     rgba(42, 132, 208, .1);
+  color:          var(--color-blue);
+  border:         0.5px solid rgba(42, 132, 208, .3);
+  border-radius:  2px;
+  margin-bottom:  20px;
+}
+
+.result-title {
+  font-family:    var(--font-display);
+  font-size:      clamp(32px, 5vw, 56px);
+  font-weight:    900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom:  8px;
+}
+
+.result-subtitle { font-size: 15px; color: var(--color-gray); margin-bottom: 36px; }
+
+.result-build-card {
+  background:    var(--color-iron);
+  border:        0.5px solid rgba(42, 132, 208, .3);
+  border-radius: 4px;
+  padding:       28px;
+  max-width:     480px;
+  margin:        0 auto 32px;
+  text-align:    left;
+}
+
+.result-specs  { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+
+.result-score {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   10px;
+  margin-top:            20px;
+}
+
+.score-item {
+  background:    var(--color-steel-dark);
+  border-radius: 3px;
+  padding:       12px;
+  text-align:    center;
+}
+
+.score-val { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--color-blue); display: block; }
+.score-lbl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-gray); margin-top: 2px; display: block; }
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+
+
+/* === A11Y REMASTER: BLOCO 8 — CONFIGURADOR / QUIZ === */
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 8 — CONFIGURADOR / QUIZ
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * quiz-hint: já estava em 14px, mas a cor cinza estava ilegível. Resolvido
+ * pelo novo token. Subimos para 15px e melhoramos a margem.
+ */
+.quiz-hint {
+  font-size:     var(--font-size-body);
+  color:         var(--color-gray);
+  margin-bottom: 36px;
+  line-height:   1.6;
+}
+
+/*
+ * qo-desc: descrição das opções do quiz. 12px → 14px.
+ */
+.qo-desc {
+  font-size:   var(--font-size-sm);
+  color:       var(--color-gray);
+  line-height: 1.6;
+}
+
+/*
+ * quiz-back: "← Voltar". Era 13px cinza escuro, quase invisível.
+ * Agora 14px e cor atualizada pelo token.
+ */
+.quiz-back {
+  font-size: 14px;
+  color:     var(--color-gray);
+}
+
+/*
+ * result-badge: era 10px. Subimos para 12px.
+ */
+.result-badge   { font-size: 12px; }
+
+/*
+ * result-subtitle: 15px → 16px, color-gray resolvido.
+ */
+.result-subtitle {
+  font-size:   16px;
+  color:       var(--color-gray);
+  line-height: 1.6;
+}
+
+/*
+ * score-lbl: 9px → 12px. Era o menor texto do configurador.
+ */
+.score-lbl {
+  font-size:      12px;
+  letter-spacing: 1.5px;
+  color:          var(--color-gray);
+}
+
+/*
+ * quiz-option hover: borda mais visível + fill de fundo mais aparente.
+ */
+.quiz-option {
+  border: 1px solid rgba(77, 159, 232, .2);
+  transition: border-color var(--ease-button), background var(--ease-button),
+              box-shadow var(--ease-button);
+}
+
+.quiz-option:hover {
+  border-color: rgba(77, 159, 232, .6);
+  background:   rgba(77, 159, 232, .06);
+  box-shadow:   0 4px 16px rgba(77, 159, 232, .1);
+}
+
+.quiz-option.selected {
+  border-color: var(--color-blue);
+  background:   rgba(77, 159, 232, .1);
+  box-shadow:   0 0 0 1px var(--color-blue),
+                0 4px 16px rgba(77, 159, 232, .15);
+}
+
+
+
+/* === A11Y REMASTER: BLOCO 10 — FORMULÁRIOS (LOGIN / CADASTRO / CONFIGURADOR) === */
+/* ═════════════════════════════════════════════════════════════════════════════
+   BLOCO 10 — FORMULÁRIOS (LOGIN / CADASTRO / CONFIGURADOR)
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Labels dos campos: eram 10px. Subimos para 12px.
+ * A opacidade .8 é removida — informação funcional não deve ser diluída.
+ */
+.field label {
+  font-size: 12px;
+  opacity:   1;
+  color:     var(--color-blue);
+}
+
+/*
+ * Inputs: border era quase invisível (opacity .2). Aumentamos para .35
+ * em repouso e .8 no foco. Placeholder mais claro para contraste.
+ * Ring de foco explícito (WCAG 2.4.7).
+ */
+.field input,
+.field select {
+  border:  1px solid rgba(77, 159, 232, .35);
+  color:   var(--color-ash);
+  font-size: 15px;
+  transition: border-color var(--ease-button), box-shadow var(--ease-button);
+}
+
+.field input::placeholder {
+  color:   rgba(181, 173, 165, .55);   /* --color-gray com alpha */
+  opacity: 1;
+}
+
+.field input:hover {
+  border-color: rgba(77, 159, 232, .55);
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--color-blue);
+  box-shadow:   0 0 0 3px rgba(77, 159, 232, .18);
+  outline:      none;
+}
+
+/*
+ * auth-sub: 13px → 15px.
+ */
+.auth-sub {
+  font-size:   var(--font-size-body);
+  color:       var(--color-gray);
+  line-height: 1.7;
+}
+
+/*
+ * auth-divider "ou": 12px → 13px, cor atualizada pelo token.
+ */
+.auth-divider { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * social-btn: 13px → 15px, borda mais visível, hover mais expressivo.
+ */
+.social-btn {
+  font-size:   15px;
+  border:      1px solid rgba(77, 159, 232, .35);
+  color:       var(--color-ash);
+  transition:  border-color var(--ease-button), background var(--ease-button),
+               box-shadow var(--ease-button);
+}
+
+.social-btn:hover {
+  border-color: var(--color-blue);
+  background:   rgba(77, 159, 232, .08);
+  box-shadow:   0 4px 16px rgba(77, 159, 232, .1);
+}
+
+/*
+ * Termos: 11px → 13px. Conteúdo legal precisa ser legível.
+ */
+.terms { font-size: 13px; color: var(--color-gray); }
+
+/*
+ * auth-submit: ganhou hover com elevação e glow.
+ */
+.auth-submit {
+  background: var(--color-blue);
+  transition: background var(--ease-button), transform var(--ease-button),
+              box-shadow var(--ease-button);
+  box-shadow: 0 4px 18px rgba(77, 159, 232, .3);
+}
+
+.auth-submit:hover {
+  background: #62ADF0;
+  transform:  translateY(-2px);
+  box-shadow: 0 10px 28px rgba(77, 159, 232, .45);
+}
+
+.auth-submit:focus-visible {
+  outline:        2px solid var(--color-ash);
+  outline-offset: 3px;
+}
+
