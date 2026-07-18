@@ -8,9 +8,9 @@ require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 
-const authRoutes     = require('./routes/auth');
-const catalogoRoutes = require('./routes/catalogo');
-const clienteRoutes  = require('./routes/cliente');
+const authRoutes     = require('./backend/js/auth');
+const catalogoRoutes = require('./backend/js/catalogo');
+const clienteRoutes  = require('./backend/js/cliente');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
