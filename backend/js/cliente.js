@@ -6,8 +6,8 @@
 
 const express = require('express');
 const router  = express.Router();
-const db      = require('../db'); // Pool do MySQL no Railway
-const verificarToken = require('../middleware/auth'); // Middleware de segurança
+const db      = require('../../db'); // Pool do MySQL no Railway
+const verificarToken = require('../../middleware/auth'); // Middleware de segurança
 
 // 1. GET /api/cliente/dashboard (Sua rota original protegida)
 router.get('/dashboard', verificarToken, async (req, res, next) => {

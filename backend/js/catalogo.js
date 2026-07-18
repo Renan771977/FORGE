@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const db      = require('../db'); // Importa o pool do banco de dados
+const db      = require('../../db'); // Importa o pool do banco de dados
 
 // =============================================================================
 //  GET /api/catalogo

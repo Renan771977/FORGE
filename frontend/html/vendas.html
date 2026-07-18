@@ -7,10 +7,8 @@
   <link rel="icon" type="image/png" href="/img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- ORDEM CORRETA: global primeiro, página depois (a página sobrescreve o global) -->
   <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/pages/vendas.css">
+  <link rel="stylesheet" href="/css/vendas.css">
 </head>
 <body>
 
@@ -38,6 +36,7 @@
       <a class="nav-links__item active" href="/vendas">Builds</a>
       <a class="nav-links__item" href="/configurador">Configurador</a>
       <a class="nav-links__item" href="/benchmark">Benchmark</a>
+      <a class="nav-links__item" href="/software">Software</a>
     </ul>
 
     <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
@@ -124,11 +123,9 @@
     </div>
   </div>
 </div>
-
-<!-- ORDEM CORRETA: api → global (busca o catálogo) → script da página -->
 <script src="/js/api.js"></script>
 <script src="/js/global.js"></script>
-<script src="/js/pages/vendas.js"></script>
+<script src="/js/vendas.js"></script>
 
 </body>
 </html>

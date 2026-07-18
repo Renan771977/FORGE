@@ -10,12 +10,8 @@
 
   <!-- ORDEM: global -> compartilhado -> específico da página -->
   <link rel="stylesheet" href="/css/global.css">
-  <!-- Os cards do resultado usam .build-card / .builds-grid / .pc-photo, que
-       moram no vendas.css. Sem esta linha o resultado sai sem estilo nenhum.
-       Conferido: vendas.css e configurador.css não têm nenhum seletor em comum,
-       e o vendas.css não tem regras presas a #vendas. -->
-  <link rel="stylesheet" href="/css/pages/vendas.css">
-  <link rel="stylesheet" href="/css/pages/configurador.css">
+  <link rel="stylesheet" href="/css/vendas.css">
+  <link rel="stylesheet" href="/css/configurador.css">
 </head>
 <body>
 
@@ -43,6 +39,7 @@
       <a class="nav-links__item" href="/vendas">Builds</a>
       <a class="nav-links__item active" href="/configurador">Configurador</a>
       <a class="nav-links__item" href="/benchmark">Benchmark</a>
+      <a class="nav-links__item" href="/software">Software</a>
     </ul>
 
     <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
@@ -304,10 +301,6 @@
         <p class="sec-header__eyebrow">Configurador Inteligente</p>
         <h2 id="resultado-heading" class="sec-header__title">Modelos <span>Selecionados</span></h2>
       </header>
-      <!-- auto-FIT (e não auto-fill) + max-width: com apenas 3 resultados, o
-           auto-fill do .builds-grid criava trilhas vazias e jogava os cards
-           para a esquerda. Override local: a regra global segue intacta
-           para o catálogo, que tem 34 cards e precisa do auto-fill. -->
       <div class="builds-grid" id="resultado-configurador-container"
            style="position:relative;z-index:1;max-width:1080px;margin-inline:auto;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"></div>
       <div style="text-align:center;margin-top:50px;position:relative;z-index:1">
@@ -328,7 +321,7 @@
 
 <script src="/js/api.js"></script>
 <script src="/js/global.js"></script>
-<script src="/js/pages/configurador.js"></script>
+<script src="/js/configurador.js"></script>
 
 </body>
 </html>
