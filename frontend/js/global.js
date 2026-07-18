@@ -259,6 +259,97 @@ window.addEventListener('storage', (e) => {
 });
 
 /* -----------------------------------------------------------------------------
+   PEDIDOS — modelo e persistência
+   -----------------------------------------------------------------------------
+   Mesma estratégia do carrinho: persistência isolada em lerPedidos/gravarPedidos.
+   Hoje localStorage; para ligar na tabela `pedidos` (que já existe no MySQL:
+   id, usuario_id, maquina_id, valor, status, criado_em), só essas duas mudam.
+
+   LIMITAÇÃO REAL: em localStorage o pedido existe só neste navegador e a FORGE
+   nunca fica sabendo da venda. Isso é uma demonstração de checkout, não uma loja.
+
+   As ETAPAS refletem o processo real da FORGE — inclusive o Benchmark, que é o
+   diferencial da marca e por isso aparece como etapa própria do pedido.
+   -------------------------------------------------------------------------- */
+const CHAVE_PEDIDOS = 'forge_pedidos';
+
+window.ETAPAS_PEDIDO = ['Pagamento', 'Triagem', 'Montagem', 'Benchmark', 'Entrega'];
+
+window.STATUS_PEDIDO = {
+  aguardando_pagamento: { rotulo: 'Aguardando pagamento',  etapa: 0, badge: 'lab-status--amber',
+                          nota: 'Assim que o pagamento cair, seu pedido entra na fila de triagem.' },
+  em_triagem:           { rotulo: 'Em triagem',            etapa: 1, badge: 'lab-status--blue',
+                          nota: 'Separando e conferindo cada componente do seu build.' },
+  em_montagem:          { rotulo: 'Em montagem',           etapa: 2, badge: 'lab-status--blue',
+                          nota: 'Sua máquina está na bancada, sendo montada por um engenheiro FORGE.' },
+  em_benchmark:         { rotulo: 'Em testes de benchmark',etapa: 3, badge: 'lab-status--blue',
+                          nota: 'Rodando Cinebench, TimeSpy e teste térmico sob carga sustentada.' },
+  enviado:              { rotulo: 'Enviado',               etapa: 4, badge: 'lab-status--blue',
+                          nota: 'A caminho, em transporte blindado com seguro total.' },
+  entregue:             { rotulo: 'Entregue',              etapa: 5, badge: 'lab-status--green',
+                          nota: 'Pedido concluído. Garantia FORGE de 3 anos ativa.' },
+  cancelado:            { rotulo: 'Cancelado',             etapa: -1, badge: 'lab-status--red',
+                          nota: 'Este pedido foi cancelado.' },
+};
+
+function lerPedidos() {
+  try {
+    const bruto = JSON.parse(localStorage.getItem(CHAVE_PEDIDOS) || '[]');
+    return Array.isArray(bruto) ? bruto : [];
+  } catch {
+    console.warn('[FORGE] Pedidos corrompidos no localStorage. Zerando.');
+    localStorage.removeItem(CHAVE_PEDIDOS);
+    return [];
+  }
+}
+
+function gravarPedidos(lista) {
+  localStorage.setItem(CHAVE_PEDIDOS, JSON.stringify(lista));
+}
+
+/* Mais recentes primeiro */
+window.getPedidos = function () {
+  return lerPedidos().sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em));
+};
+
+/* Cria o pedido a partir do carrinho + dados do checkout.
+   Devolve o pedido criado. Quem chama é o checkout.js. */
+window.criarPedido = function ({ itens, entrega, pagamento, subtotal, total }) {
+  const lista = lerPedidos();
+
+  // Cartão "aprova na hora"; PIX e boleto ficam aguardando compensação.
+  const status = pagamento.metodo === 'cartao' ? 'em_triagem' : 'aguardando_pagamento';
+
+  const pedido = {
+    id:         gerarIdPedido(),
+    usuario_id: window.usuarioAtivo?.id ?? null,
+    criado_em:  new Date().toISOString(),
+    status,
+    itens,        // [{ id, nome, qtd, unitario, img }]
+    entrega,      // { cep, logradouro, numero, complemento, bairro, cidade, uf }
+    pagamento,    // { metodo, parcelas, bandeira, final }
+    subtotal,
+    total,
+  };
+
+  lista.push(pedido);
+  gravarPedidos(lista);
+  return pedido;
+};
+
+window.getPedido = function (id) {
+  return lerPedidos().find(p => p.id === id) || null;
+};
+
+/* FRG-AB12CD — legível ao telefone, sem 0/O/1/I para não confundir */
+function gerarIdPedido() {
+  const alfabeto = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let sufixo = '';
+  for (let i = 0; i < 6; i++) sufixo += alfabeto[Math.floor(Math.random() * alfabeto.length)];
+  return `FRG-${sufixo}`;
+}
+
+/* -----------------------------------------------------------------------------
    SESSÃO E NAVEGAÇÃO
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {

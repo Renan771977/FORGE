@@ -94,8 +94,8 @@ function renderDashboard(container, cliente) {
         <div class="lab__header-left">
           <div class="lab__avatar" aria-hidden="true">${iniciais}</div>
           <div class="lab__header-info">
-            <p class="lab__eyebrow">Dashboard</p>
-            <h1 class="lab__title">Bem-vindo(a), <span class="lab__title-accent">${primeiro}</span></h1>
+            <p class="lab__eyebrow">Meu Laboratório VIP</p>
+            <h1 class="lab__title">Bem-vindo, <span class="lab__title-accent">${primeiro}</span></h1>
             <div class="lab__meta-row">
               <span class="lab__badge lab__badge--profile">${perfil}</span>
               <!-- O ID interno do cliente foi removido da tela a pedido.
@@ -246,6 +246,7 @@ function cardDadosDaConta(c) {
         </div>
         <div>
           <h3 class="lab__card-title">Dados da Conta</h3>
+          <p class="lab__card-sub">Sincronizado com o servidor</p>
         </div>
       </div>
       <div class="lab-tickets__lista" style="margin-top:18px">
@@ -378,24 +379,69 @@ function cardNavRapida() {
 
 /* -----------------------------------------------------------------------------
    ABA MEUS PEDIDOS
-   A tabela `pedidos` está VAZIA. O dashboard antigo mostrava "Pedido #FRG-9024
-   — Workstation High-End" hardcoded no JS. Mostrar pedido falso para um cliente
-   real é pior do que não mostrar nada, então: estado vazio honesto.
+   Lê os pedidos do global.js (hoje localStorage). Usa a timeline .lab-pedido__*
+   que já existia no cliente.css e nunca tinha sido usada por JS nenhum.
    -------------------------------------------------------------------------- */
+const brlPedido = (v) => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
 function abaPedidos() {
-  return `
-    <div class="lab-panel-blank">
-      <div class="lab-wishlist__vazia" style="text-align:center">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-gray)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/>
-        </svg>
-        <h3 class="lab__card-title" style="margin-bottom:8px">Nenhum pedido ainda</h3>
-        <p class="lab__card-desc" style="max-width:420px;margin:0 auto 24px">
-          Quando você fechar sua primeira Forge, o acompanhamento de montagem e envio aparece aqui em tempo real.
-        </p>
-        <a class="btn-primary" href="/vendas">Ver catálogo de builds</a>
-      </div>
+  const pedidos = window.getPedidos();
+
+  if (pedidos.length === 0) {
+    return `
+      <div class="lab-panel-blank">
+        <div class="lab-wishlist__vazia" style="text-align:center">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-gray)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <h3 class="lab__card-title" style="margin-bottom:8px">Nenhum pedido ainda</h3>
+          <p class="lab__card-desc" style="max-width:420px;margin:0 auto 24px">
+            Quando você fechar sua primeira Forge, o acompanhamento — da triagem ao benchmark — aparece aqui.
+          </p>
+          <a class="btn-primary" href="/vendas">Ver catálogo de builds</a>
+        </div>
+      </div>`;
+  }
+
+  return `<div class="lab-pedidos__lista">${pedidos.map(htmlPedido).join('')}</div>`;
+}
+
+function htmlPedido(p) {
+  const st = window.STATUS_PEDIDO[p.status] || window.STATUS_PEDIDO.em_triagem;
+  const data = new Date(p.criado_em).toLocaleDateString('pt-BR', {
+    day: '2-digit', month: 'long', year: 'numeric'
+  });
+
+  const nomes = p.itens.map(i => `${i.qtd > 1 ? i.qtd + '× ' : ''}${i.nome}`).join(' + ');
+
+  // Pedido cancelado não mostra timeline — não há progresso a exibir.
+  const timeline = p.status === 'cancelado' ? '' : `
+    <div class="lab-pedido__timeline">
+      ${window.ETAPAS_PEDIDO.map((etapa, i) => {
+        const concluida = i < st.etapa;
+        const atual     = i === st.etapa;
+        return `
+          <div class="lab-pedido__etapa ${concluida ? 'lab-pedido__etapa--done' : ''}"
+               ${atual ? 'aria-current="step"' : ''}>
+            <span class="lab-pedido__etapa-dot">${concluida ? '✓' : ''}</span>
+            <span class="lab-pedido__etapa-label">${etapa}</span>
+          </div>`;
+      }).join('')}
     </div>`;
+
+  return `
+    <article class="lab-pedido">
+      <div class="lab-pedido__header">
+        <div>
+          <span class="lab-pedido__id">${p.id}</span>
+          <p class="lab-pedido__nome">${nomes}</p>
+          <p class="lab-pedido__data">${data} · ${brlPedido(p.total)}</p>
+        </div>
+        <span class="lab-status ${st.badge}">${st.rotulo}</span>
+      </div>
+      ${timeline}
+      <p class="lab__card-desc" style="margin-top:16px">${st.nota}</p>
+    </article>`;
 }
 
 /* -----------------------------------------------------------------------------
