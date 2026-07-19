@@ -1,0 +1,16 @@
+{
+  "name": "forge-frontend",
+  "version": "1.0.0",
+  "description": "FORGE Performance Computing — Front-end (telas estáticas)",
+  "private": true,
+  "scripts": {
+    "start": "serve",
+    "dev": "serve -l 3000"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

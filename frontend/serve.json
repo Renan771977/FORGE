@@ -2,5 +2,8 @@
   "rewrites": [
     { "source": "/", "destination": "/html/index.html" },
     { "source": "/:page", "destination": "/html/:page.html" }
-  ]
+  ],
+  "directoryListing": false,
+  "cleanUrls": false,
+  "trailingSlash": false
 }
